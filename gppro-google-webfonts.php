@@ -172,6 +172,9 @@ class GP_Pro_Google_Webfonts
 		// cast into array
 		$fontarr	= (array) $fonts;
 
+		// grab total fonts in use for pagespeed alert
+		$fontnum	= count( $fontarr );
+
 		// implode into string with divider
 		$string		= implode( '|', $fontarr );
 
