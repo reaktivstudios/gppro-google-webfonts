@@ -243,7 +243,7 @@ class GP_Pro_Google_Webfonts
 				'css'	=> '"Lato", sans-serif',
 				'src'	=> 'web',
 				'val'	=> '400,700',
-				'size'	=> '100'
+				'size'	=> '100',
 			),
 
 			'quattrocento'	=> array(
@@ -251,7 +251,7 @@ class GP_Pro_Google_Webfonts
 				'css'	=> '"Quattrocento", serif',
 				'src'	=> 'web',
 				'val'	=> '400,700',
-				'size'	=> '54'
+				'size'	=> '54',
 			),
 
 			'quattrocento-sans'	=> array(
@@ -259,8 +259,7 @@ class GP_Pro_Google_Webfonts
 				'css'	=> '"Quattrocento Sans", sans-serif',
 				'src'	=> 'web',
 				'val'	=> '400,400italic,700,700italic',
-				'size'	=> '76'
-
+				'size'	=> '76',
 			),
 
 		);
