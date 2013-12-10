@@ -242,21 +242,25 @@ class GP_Pro_Google_Webfonts
 				'label'	=> __( 'Lato', 'gpgwf' ),
 				'css'	=> '"Lato", sans-serif',
 				'src'	=> 'web',
-				'val'	=> '400,700'
+				'val'	=> '400,700',
+				'size'	=> '100'
 			),
 
 			'quattrocento'	=> array(
 				'label'	=> __( 'Quattrocento', 'gpgwf' ),
 				'css'	=> '"Quattrocento", serif',
 				'src'	=> 'web',
-				'val'	=> '400,700'
+				'val'	=> '400,700',
+				'size'	=> '54'
 			),
 
 			'quattrocento-sans'	=> array(
 				'label'	=> __( 'Quattrocento Sans', 'gpgwf' ),
 				'css'	=> '"Quattrocento Sans", sans-serif',
 				'src'	=> 'web',
-				'val'	=> '400,400italic,700,700italic'
+				'val'	=> '400,400italic,700,700italic',
+				'size'	=> '76'
+
 			),
 
 		);
