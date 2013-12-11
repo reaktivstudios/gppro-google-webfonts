@@ -296,6 +296,13 @@ class GP_Pro_Google_Webfonts
 		$webfonts	= array(
 
 			// serif fonts
+			'arvo'	=> array(
+				'label'	=> __( 'Arvo', 'gpgwf' ),
+				'css'	=> '"Arvo", serif',
+				'src'	=> 'web',
+				'val'	=> 'Arvo:400,700,400italic,700italic',
+				'size'	=> '104',
+			),
 
 			'bree-serif'	=> array(
 				'label'	=> __( 'Bree Serif', 'gpgwf' ),
@@ -359,6 +366,14 @@ class GP_Pro_Google_Webfonts
 				'src'	=> 'web',
 				'val'	=> 'Podkova:400,700',
 				'size'	=> '72',
+			),
+
+			'pt-serif'	=> array(
+				'label'	=> __( 'PT Serif', 'gpgwf' ),
+				'css'	=> '"PT Serif", serif',
+				'src'	=> 'web',
+				'val'	=> 'PT+Serif:400,700',
+				'size'	=> '88',
 			),
 
 			'roboto-slab'	=> array(
