@@ -52,6 +52,7 @@ class GP_Pro_Google_Webfonts
 		// general backend
 		add_action			(	'plugins_loaded',					array(	$this,	'textdomain'				)			);
 		add_action			(	'admin_notices',					array(	$this,	'gppro_active_check'		),	10		);
+		add_action			(	'admin_notices',					array(	$this,	'pagespeed_alert'			),	10		);
 
 		// front end
 		add_action			(	'wp_enqueue_scripts',				array(	$this,	'font_scripts'				)			);
@@ -112,6 +113,55 @@ class GP_Pro_Google_Webfonts
 	}
 
 	/**
+	 * check for high font number
+	 *
+	 * @return
+	 */
+
+	public function pagespeed_alert() {
+
+		$screen = get_current_screen();
+
+		if ( $screen->base !== 'genesis_page_genesis-palette-pro' )
+			return;
+
+		// check out pagespeed alert
+		$alert	= get_option( 'gppro-webfont-alert' );
+
+
+		if ( !isset( $alert ) || empty( $alert ) || $alert == 0 )
+			return;
+
+		// check child theme, display warning
+		echo '<div id="message" class="error fade below-h2 gppro-admin-warning"><p>';
+		echo '<strong>'.__( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gpgwf' ).'</strong>';
+		echo '<span class="webfont-ignore">'.__( 'Ignore this message', 'gpgwf' ).'</span>';
+		echo '</p></div>';
+
+	}
+
+
+
+	/**
+	 * register alert for pagespeed test
+	 *
+	 * @return
+	 */
+
+	static function pagespeed_check( $fontsize ) {
+
+		$totals	= array_sum( $fontsize );
+
+		// set alert flag for over 200
+		if ( $totals >= 200 )
+			update_option( 'gppro-webfont-alert', true );
+
+		if ( $totals < 200 )
+			delete_option( 'gppro-webfont-alert' );
+
+	}
+
+	/**
 	 * call webfont CSS files
 	 *
 	 * @return
@@ -146,6 +196,7 @@ class GP_Pro_Google_Webfonts
 		$fonts	= false;
 
 		foreach ( $actives as $active ) :
+
 			// get individual font data
 			$data	= self::single_font_fetch( $active );
 
@@ -153,27 +204,21 @@ class GP_Pro_Google_Webfonts
 			if ( $data['src'] == 'native' )
 				continue;
 
-			// get items from data
-			$name	= urlencode( $data['label'] );
-			$val	= $data['val'];
-
-			// create string
-			$setup	= $name.':'.$val;
-
 			// pass it into array and go forth
-			$fonts[]	= $setup;
+			$fontvals[]	= $data['val'];
+			$fontsize[]	= $data['size'];
 
 		endforeach;
 
 		// bail if nothing is there
-		if ( ! $fonts )
+		if ( ! $fontvals )
 			return false;
 
 		// cast into array
-		$fontarr	= (array) $fonts;
+		$fontarr	= (array) $fontvals;
 
-		// grab total fonts in use for pagespeed alert
-		$fontnum	= count( $fontarr );
+		// run font weight check for pagespeed alert
+		$pagespeed	= self::pagespeed_check( $fontsize );
 
 		// implode into string with divider
 		$string		= implode( '|', $fontarr );
@@ -197,6 +242,9 @@ class GP_Pro_Google_Webfonts
 
 		// grab our settings
 		$settings	= get_option( 'gppro-settings' );
+
+		if ( ! $settings )
+			return false;
 
 		$choices	= array();
 
@@ -242,15 +290,23 @@ class GP_Pro_Google_Webfonts
 				'label'	=> __( 'Lato', 'gpgwf' ),
 				'css'	=> '"Lato", sans-serif',
 				'src'	=> 'web',
-				'val'	=> '400,700',
+				'val'	=> 'Lato:400,700',
 				'size'	=> '100',
+			),
+
+			'oswald'	=> array(
+				'label'	=> __( 'Oswald', 'gpgwf' ),
+				'css'	=> '"Oswald", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Oswald:400,700',
+				'size'	=> '26',
 			),
 
 			'quattrocento'	=> array(
 				'label'	=> __( 'Quattrocento', 'gpgwf' ),
 				'css'	=> '"Quattrocento", serif',
 				'src'	=> 'web',
-				'val'	=> '400,700',
+				'val'	=> 'Quattrocento:400,700',
 				'size'	=> '54',
 			),
 
@@ -258,8 +314,16 @@ class GP_Pro_Google_Webfonts
 				'label'	=> __( 'Quattrocento Sans', 'gpgwf' ),
 				'css'	=> '"Quattrocento Sans", sans-serif',
 				'src'	=> 'web',
-				'val'	=> '400,400italic,700,700italic',
+				'val'	=> 'Quattrocento+Sans:400,400italic,700,700italic',
 				'size'	=> '76',
+			),
+
+			'raleway'	=> array(
+				'label'	=> __( 'Raleway', 'gpgwf' ),
+				'css'	=> '"Raleway", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Raleway:400,500,900',
+				'size'	=> '177',
 			),
 
 		);
@@ -285,6 +349,10 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $stacks['sans']['lato'] ) )
 			$stacks['sans']['lato'] = $stacklist['lato'];
 
+		// add Oswald
+		if ( ! isset( $stacks['sans']['oswald'] ) )
+			$stacks['sans']['oswald'] = $stacklist['oswald'];
+
 		// add Quattrocento
 		if ( ! isset( $stacks['serif']['quattrocento'] ) )
 			$stacks['serif']['quattrocento'] = $stacklist['quattrocento'];
@@ -292,6 +360,10 @@ class GP_Pro_Google_Webfonts
 		// add Quattrocento Sans
 		if ( ! isset( $stacks['sans']['quattrocento-sans'] ) )
 			$stacks['sans']['quattrocento-sans'] = $stacklist['quattrocento-sans'];
+
+		// add Raleway
+		if ( ! isset( $stacks['sans']['raleway'] ) )
+			$stacks['sans']['raleway'] = $stacklist['raleway'];
 
 
 		return $stacks;
