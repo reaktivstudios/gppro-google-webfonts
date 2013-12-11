@@ -129,7 +129,7 @@ class GP_Pro_Google_Webfonts
 		$alert	= get_option( 'gppro-webfont-alert' );
 
 
-		if ( !isset( $alert ) || empty( $alert ) || $alert == 0 )
+		if ( !isset( $alert ) || empty( $alert ) || $alert == 'ignore' )
 			return;
 
 		// check child theme, display warning
@@ -149,6 +149,11 @@ class GP_Pro_Google_Webfonts
 	 */
 
 	static function pagespeed_check( $fontsize ) {
+
+		$alert	= get_option( 'gppro-webfont-alert' );
+
+		if ( ! empty( $alert ) && $alert == 'ignore' )
+			return;
 
 		$totals	= array_sum( $fontsize );
 
