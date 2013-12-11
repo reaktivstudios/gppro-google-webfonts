@@ -152,17 +152,21 @@ class GP_Pro_Google_Webfonts
 
 		$alert	= get_option( 'gppro-webfont-alert' );
 
+		$totals	= array_sum( $fontsize );
+
+		$filter	= apply_filters( 'gppro_webfont_alert', 250 );
+
+		// delete the alert if less than alert amount
+		if ( $totals < absint( $filter ) )
+			delete_option( 'gppro-webfont-alert' );
+
+		// check my alert status before moving on
 		if ( ! empty( $alert ) && $alert == 'ignore' )
 			return;
 
-		$totals	= array_sum( $fontsize );
-
-		// set alert flag for over 200
-		if ( $totals >= 200 )
+		// set alert flag for over alert amount
+		if ( $totals >= absint( $filter ) )
 			update_option( 'gppro-webfont-alert', true );
-
-		if ( $totals < 200 )
-			delete_option( 'gppro-webfont-alert' );
 
 	}
 
@@ -291,20 +295,78 @@ class GP_Pro_Google_Webfonts
 
 		$webfonts	= array(
 
-			'lato'	=> array(
-				'label'	=> __( 'Lato', 'gpgwf' ),
-				'css'	=> '"Lato", sans-serif',
+			// serif fonts
+
+			'bree-serif'	=> array(
+				'label'	=> __( 'Bree Serif', 'gpgwf' ),
+				'css'	=> '"Bree Serif", serif',
 				'src'	=> 'web',
-				'val'	=> 'Lato:400,700',
-				'size'	=> '100',
+				'val'	=> 'Bree+Serif',
+				'size'	=> '11',
 			),
 
-			'oswald'	=> array(
-				'label'	=> __( 'Oswald', 'gpgwf' ),
-				'css'	=> '"Oswald", sans-serif',
+			'crimson-text'	=> array(
+				'label'	=> __( 'Crimson Text', 'gpgwf' ),
+				'css'	=> '"Crimson Text", serif',
 				'src'	=> 'web',
-				'val'	=> 'Oswald:400,700',
-				'size'	=> '26',
+				'val'	=> 'Crimson+Text:400,700',
+				'size'	=> '186',
+			),
+
+			'lora'	=> array(
+				'label'	=> __( 'Lora', 'gpgwf' ),
+				'css'	=> '"Lora", serif',
+				'src'	=> 'web',
+				'val'	=> 'Lora:400,700,400italic,700italic',
+				'size'	=> '112',
+			),
+
+			'josefin-slab'	=> array(
+				'label'	=> __( 'Josefin Slab', 'gpgwf' ),
+				'css'	=> '"Josefin Slab", serif',
+				'src'	=> 'web',
+				'val'	=> 'Josefin+Slab:400,700',
+				'size'	=> '102',
+			),
+
+			'merriweather'	=> array(
+				'label'	=> __( 'Merriweather', 'gpgwf' ),
+				'css'	=> '"Merriweather", serif',
+				'src'	=> 'web',
+				'val'	=> 'Merriweather:400,700,400italic,700italic',
+				'size'	=> '44',
+			),
+
+			'old-standard-tt'	=> array(
+				'label'	=> __( 'Old Standard TT', 'gpgwf' ),
+				'css'	=> '"Old Standard TT", serif',
+				'src'	=> 'web',
+				'val'	=> 'Old+Standard+TT:400,700,400italic',
+				'size'	=> '93',
+			),
+
+			'playfair-display'	=> array(
+				'label'	=> __( 'Playfair Display', 'gpgwf' ),
+				'css'	=> '"Playfair Display", serif',
+				'src'	=> 'web',
+				'val'	=> 'Playfair+Display:400,700,400italic',
+				'size'	=> '78',
+			),
+
+			'podkova'	=> array(
+				'label'	=> __( 'Podkova', 'gpgwf' ),
+				'css'	=> '"Podkova", serif',
+				'src'	=> 'web',
+				'val'	=> 'Podkova:400,700',
+				'size'	=> '72',
+			),
+
+			'roboto-slab'	=> array(
+				'label'	=> __( 'Roboto Slab', 'gpgwf' ),
+				'css'	=> '"Roboto Slab", serif',
+				'src'	=> 'web',
+				'val'	=> 'Roboto+Slab:300,400,700',
+				'size'	=> '36',
 			),
 
 			'quattrocento'	=> array(
@@ -315,11 +377,85 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '54',
 			),
 
+			// sans serif fonts
+
+			'abel'	=> array(
+				'label'	=> __( 'Abel', 'gpgwf' ),
+				'css'	=> '"Abel", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Abel',
+				'size'	=> '16',
+			),
+
+			'archivo-narrow'	=> array(
+				'label'	=> __( 'Archivo Narrow', 'gpgwf' ),
+				'css'	=> '"Archivo Narrow", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Archivo+Narrow:400,700,400italic,700italic',
+				'size'	=> '100',
+			),
+
+			'cabin'	=> array(
+				'label'	=> __( 'Cabin', 'gpgwf' ),
+				'css'	=> '"Cabin", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Cabin:400,700',
+				'size'	=> '166',
+			),
+
+			'dosis'	=> array(
+				'label'	=> __( 'Dosis', 'gpgwf' ),
+				'css'	=> '"Dosis", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Dosis:300,400,700',
+				'size'	=> '96',
+			),
+
+			'josefin-sans'	=> array(
+				'label'	=> __( 'Josefin Sans', 'gpgwf' ),
+				'css'	=> '"Josefin Sans", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Josefin+Sans:400,700',
+				'size'	=> '38',
+			),
+
+			'lato'	=> array(
+				'label'	=> __( 'Lato', 'gpgwf' ),
+				'css'	=> '"Lato", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Lato:400,700',
+				'size'	=> '100',
+			),
+
+			'open-sans'	=> array(
+				'label'	=> __( 'Open Sans', 'gpgwf' ),
+				'css'	=> '"Open Sans", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Open+Sans:300,400,700,300italic,400italic,700italic',
+				'size'	=> '90',
+			),
+
+			'oswald'	=> array(
+				'label'	=> __( 'Oswald', 'gpgwf' ),
+				'css'	=> '"Oswald", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Oswald:400,700',
+				'size'	=> '26',
+			),
+
+			'oxygen'	=> array(
+				'label'	=> __( 'Oxygen', 'gpgwf' ),
+				'css'	=> '"Oxygen", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Oxygen:300,400,700',
+				'size'	=> '51',
+			),
+
 			'quattrocento-sans'	=> array(
 				'label'	=> __( 'Quattrocento Sans', 'gpgwf' ),
 				'css'	=> '"Quattrocento Sans", sans-serif',
 				'src'	=> 'web',
-				'val'	=> 'Quattrocento+Sans:400,400italic,700,700italic',
+				'val'	=> 'Quattrocento+Sans:400,700,400italic,700italic',
 				'size'	=> '76',
 			),
 
@@ -329,6 +465,14 @@ class GP_Pro_Google_Webfonts
 				'src'	=> 'web',
 				'val'	=> 'Raleway:400,500,900',
 				'size'	=> '177',
+			),
+
+			'roboto'	=> array(
+				'label'	=> __( 'Roboto', 'gpgwf' ),
+				'css'	=> '"Roboto", serif',
+				'src'	=> 'web',
+				'val'	=> 'Roboto:400,700,400italic,700italic',
+				'size'	=> '40',
 			),
 
 		);
@@ -350,26 +494,76 @@ class GP_Pro_Google_Webfonts
 		// fetch our list of stacks
 		$stacklist	= self::google_stacks();
 
-		// add Lato
-		if ( ! isset( $stacks['sans']['lato'] ) )
-			$stacks['sans']['lato'] = $stacklist['lato'];
+		// serif fonts
 
-		// add Oswald
-		if ( ! isset( $stacks['sans']['oswald'] ) )
-			$stacks['sans']['oswald'] = $stacklist['oswald'];
+		if ( ! isset( $stacks['serif']['bree-serif'] ) )
+			$stacks['serif']['bree-serif'] = $stacklist['bree-serif'];
 
-		// add Quattrocento
+		if ( ! isset( $stacks['serif']['crimson-text'] ) )
+			$stacks['serif']['crimson-text'] = $stacklist['crimson-text'];
+
+		if ( ! isset( $stacks['serif']['lora'] ) )
+			$stacks['serif']['lora'] = $stacklist['lora'];
+
+		if ( ! isset( $stacks['serif']['josefin-slab'] ) )
+			$stacks['serif']['josefin-slab'] = $stacklist['josefin-slab'];
+
+		if ( ! isset( $stacks['serif']['merriweather'] ) )
+			$stacks['serif']['merriweather'] = $stacklist['merriweather'];
+
+		if ( ! isset( $stacks['serif']['old-standard-tt'] ) )
+			$stacks['serif']['old-standard-tt'] = $stacklist['old-standard-tt'];
+
+		if ( ! isset( $stacks['serif']['playfair-display'] ) )
+			$stacks['serif']['playfair-display'] = $stacklist['playfair-display'];
+
+		if ( ! isset( $stacks['serif']['podkova'] ) )
+			$stacks['serif']['podkova'] = $stacklist['podkova'];
+
+		if ( ! isset( $stacks['serif']['roboto-slab'] ) )
+			$stacks['serif']['roboto-slab'] = $stacklist['roboto-slab'];
+
 		if ( ! isset( $stacks['serif']['quattrocento'] ) )
 			$stacks['serif']['quattrocento'] = $stacklist['quattrocento'];
 
-		// add Quattrocento Sans
+
+		// sans-serif fonts
+
+		if ( ! isset( $stacks['sans']['abel'] ) )
+			$stacks['sans']['abel'] = $stacklist['abel'];
+
+		if ( ! isset( $stacks['sans']['archivo-narrow'] ) )
+			$stacks['sans']['archivo-narrow'] = $stacklist['archivo-narrow'];
+
+		if ( ! isset( $stacks['sans']['cabin'] ) )
+			$stacks['sans']['cabin'] = $stacklist['cabin'];
+
+		if ( ! isset( $stacks['sans']['dosis'] ) )
+			$stacks['sans']['dosis'] = $stacklist['dosis'];
+
+		if ( ! isset( $stacks['sans']['josefin-sans'] ) )
+			$stacks['sans']['josefin-sans'] = $stacklist['josefin-sans'];
+
+		if ( ! isset( $stacks['sans']['lato'] ) )
+			$stacks['sans']['lato'] = $stacklist['lato'];
+
+		if ( ! isset( $stacks['sans']['open-sans'] ) )
+			$stacks['sans']['open-sans'] = $stacklist['open-sans'];
+
+		if ( ! isset( $stacks['sans']['oswald'] ) )
+			$stacks['sans']['oswald'] = $stacklist['oswald'];
+
+		if ( ! isset( $stacks['sans']['oxygen'] ) )
+			$stacks['sans']['oxygen'] = $stacklist['oxygen'];
+
 		if ( ! isset( $stacks['sans']['quattrocento-sans'] ) )
 			$stacks['sans']['quattrocento-sans'] = $stacklist['quattrocento-sans'];
 
-		// add Raleway
 		if ( ! isset( $stacks['sans']['raleway'] ) )
 			$stacks['sans']['raleway'] = $stacklist['raleway'];
 
+		if ( ! isset( $stacks['sans']['roboto'] ) )
+			$stacks['sans']['roboto'] = $stacklist['roboto'];
 
 		return $stacks;
 
