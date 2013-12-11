@@ -511,6 +511,9 @@ class GP_Pro_Google_Webfonts
 
 		// serif fonts
 
+		if ( ! isset( $stacks['serif']['arvo'] ) )
+			$stacks['serif']['arvo'] = $stacklist['arvo'];
+
 		if ( ! isset( $stacks['serif']['bree-serif'] ) )
 			$stacks['serif']['bree-serif'] = $stacklist['bree-serif'];
 
@@ -534,6 +537,9 @@ class GP_Pro_Google_Webfonts
 
 		if ( ! isset( $stacks['serif']['podkova'] ) )
 			$stacks['serif']['podkova'] = $stacklist['podkova'];
+
+		if ( ! isset( $stacks['serif']['pt-serif'] ) )
+			$stacks['serif']['pt-serif'] = $stacklist['pt-serif'];
 
 		if ( ! isset( $stacks['serif']['roboto-slab'] ) )
 			$stacks['serif']['roboto-slab'] = $stacklist['roboto-slab'];
@@ -580,6 +586,8 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $stacks['sans']['roboto'] ) )
 			$stacks['sans']['roboto'] = $stacklist['roboto'];
 
+
+		// send back stacks
 		return $stacks;
 
 	}
