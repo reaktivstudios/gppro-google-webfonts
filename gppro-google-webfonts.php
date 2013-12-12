@@ -201,8 +201,9 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $actives ) || isset( $actives ) && empty( $actives ) )
 			return false;
 
-		// set fonts to false
-		$fonts	= false;
+		// set value arrays to false
+		$fontarr	= false;
+		$fontsize	= false;
 
 		foreach ( $actives as $active ) :
 
@@ -214,20 +215,22 @@ class GP_Pro_Google_Webfonts
 				continue;
 
 			// pass it into array and go forth
-			$fontvals[]	= $data['val'];
+			$fontarr[]	= $data['val'];
 			$fontsize[]	= $data['size'];
 
 		endforeach;
 
 		// bail if nothing is there
-		if ( ! $fontvals )
+		if ( ! $fontarr )
 			return false;
 
 		// cast into array
-		$fontarr	= (array) $fontvals;
+		$fontarr	= (array) $fontarr;
+		$fontsize	= (array) $fontsize;
 
 		// run font weight check for pagespeed alert
-		$pagespeed	= self::pagespeed_check( $fontsize );
+		if ( $fontsize )
+			$pagespeed	= self::pagespeed_check( $fontsize );
 
 		// implode into string with divider
 		$string		= implode( '|', $fontarr );
