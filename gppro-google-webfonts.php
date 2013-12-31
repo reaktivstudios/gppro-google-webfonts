@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Genesis Design Palette Pro - Google Webfonts
-Plugin URI: http://andrewnorcross.com/plugins/
+Plugin URI: http://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
-Author: Andrew Norcross
-Version: 0.0.1.0
+Author: Reaktiv Studios
+Version: 1.0.0.0
 Requires at least: 3.5
 Author URI: http://andrewnorcross.com
 */
@@ -31,7 +31,7 @@ if( !defined( 'GPGWF_DIR' ) )
 	define( 'GPGWF_DIR', dirname( __FILE__ ) );
 
 if( !defined( 'GPGWF_VER' ) )
-	define( 'GPGWF_VER', '0.0.1.0' );
+	define( 'GPGWF_VER', '1.0.0.0' );
 
 class GP_Pro_Google_Webfonts
 {
