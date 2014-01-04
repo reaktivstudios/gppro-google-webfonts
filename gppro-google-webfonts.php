@@ -4,8 +4,8 @@ Plugin Name: Genesis Design Palette Pro - Google Webfonts
 Plugin URI: http://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
-Version: 1.0.0.0
-Requires at least: 3.5
+Version: 1.0.0
+Requires at least: 3.7
 Author URI: http://andrewnorcross.com
 */
 /*  Copyright 2013 Andrew Norcross
@@ -31,7 +31,7 @@ if( !defined( 'GPGWF_DIR' ) )
 	define( 'GPGWF_DIR', dirname( __FILE__ ) );
 
 if( !defined( 'GPGWF_VER' ) )
-	define( 'GPGWF_VER', '1.0.0.0' );
+	define( 'GPGWF_VER', '1.0.0' );
 
 class GP_Pro_Google_Webfonts
 {
@@ -82,7 +82,7 @@ class GP_Pro_Google_Webfonts
 
 	public function textdomain() {
 
-		load_plugin_textdomain( 'gpgwf', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'gppro-google-webfonts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	}
 
@@ -101,7 +101,7 @@ class GP_Pro_Google_Webfonts
 
 		if ( !is_plugin_active( 'genesis-palette-pro/genesis-palette-pro.php' ) ) :
 
-			echo '<div id="message" class="error fade below-h2"><p><strong>'.__( 'This plugin requires Genesis Design Palette Pro to function.', 'gpgwf' ).'</strong></p></div>';
+			echo '<div id="message" class="error fade below-h2"><p><strong>'.__( 'This plugin requires Genesis Design Palette Pro to function.', 'gppro-google-webfonts' ).'</strong></p></div>';
 
 			// hide activation method
 			unset( $_GET['activate'] );
@@ -134,8 +134,8 @@ class GP_Pro_Google_Webfonts
 
 		// check child theme, display warning
 		echo '<div id="message" class="error fade below-h2 gppro-admin-warning"><p>';
-		echo '<strong>'.__( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gpgwf' ).'</strong>';
-		echo '<span class="webfont-ignore">'.__( 'Ignore this message', 'gpgwf' ).'</span>';
+		echo '<strong>'.__( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gppro-google-webfonts' ).'</strong>';
+		echo '<span class="webfont-ignore">'.__( 'Ignore this message', 'gppro-google-webfonts' ).'</span>';
 		echo '</p></div>';
 
 	}
@@ -300,7 +300,7 @@ class GP_Pro_Google_Webfonts
 
 			// serif fonts
 			'arvo'	=> array(
-				'label'	=> __( 'Arvo', 'gpgwf' ),
+				'label'	=> __( 'Arvo', 'gppro-google-webfonts' ),
 				'css'	=> '"Arvo", serif',
 				'src'	=> 'web',
 				'val'	=> 'Arvo:400,700,400italic,700italic',
@@ -308,7 +308,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'bree-serif'	=> array(
-				'label'	=> __( 'Bree Serif', 'gpgwf' ),
+				'label'	=> __( 'Bree Serif', 'gppro-google-webfonts' ),
 				'css'	=> '"Bree Serif", serif',
 				'src'	=> 'web',
 				'val'	=> 'Bree+Serif',
@@ -316,7 +316,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'crimson-text'	=> array(
-				'label'	=> __( 'Crimson Text', 'gpgwf' ),
+				'label'	=> __( 'Crimson Text', 'gppro-google-webfonts' ),
 				'css'	=> '"Crimson Text", serif',
 				'src'	=> 'web',
 				'val'	=> 'Crimson+Text:400,700',
@@ -324,7 +324,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'lora'	=> array(
-				'label'	=> __( 'Lora', 'gpgwf' ),
+				'label'	=> __( 'Lora', 'gppro-google-webfonts' ),
 				'css'	=> '"Lora", serif',
 				'src'	=> 'web',
 				'val'	=> 'Lora:400,700,400italic,700italic',
@@ -332,7 +332,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'josefin-slab'	=> array(
-				'label'	=> __( 'Josefin Slab', 'gpgwf' ),
+				'label'	=> __( 'Josefin Slab', 'gppro-google-webfonts' ),
 				'css'	=> '"Josefin Slab", serif',
 				'src'	=> 'web',
 				'val'	=> 'Josefin+Slab:400,700',
@@ -340,7 +340,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'merriweather'	=> array(
-				'label'	=> __( 'Merriweather', 'gpgwf' ),
+				'label'	=> __( 'Merriweather', 'gppro-google-webfonts' ),
 				'css'	=> '"Merriweather", serif',
 				'src'	=> 'web',
 				'val'	=> 'Merriweather:400,700,400italic,700italic',
@@ -348,7 +348,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'old-standard-tt'	=> array(
-				'label'	=> __( 'Old Standard TT', 'gpgwf' ),
+				'label'	=> __( 'Old Standard TT', 'gppro-google-webfonts' ),
 				'css'	=> '"Old Standard TT", serif',
 				'src'	=> 'web',
 				'val'	=> 'Old+Standard+TT:400,700,400italic',
@@ -356,7 +356,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'playfair-display'	=> array(
-				'label'	=> __( 'Playfair Display', 'gpgwf' ),
+				'label'	=> __( 'Playfair Display', 'gppro-google-webfonts' ),
 				'css'	=> '"Playfair Display", serif',
 				'src'	=> 'web',
 				'val'	=> 'Playfair+Display:400,700,400italic',
@@ -364,7 +364,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'podkova'	=> array(
-				'label'	=> __( 'Podkova', 'gpgwf' ),
+				'label'	=> __( 'Podkova', 'gppro-google-webfonts' ),
 				'css'	=> '"Podkova", serif',
 				'src'	=> 'web',
 				'val'	=> 'Podkova:400,700',
@@ -372,7 +372,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'pt-serif'	=> array(
-				'label'	=> __( 'PT Serif', 'gpgwf' ),
+				'label'	=> __( 'PT Serif', 'gppro-google-webfonts' ),
 				'css'	=> '"PT Serif", serif',
 				'src'	=> 'web',
 				'val'	=> 'PT+Serif:400,700',
@@ -380,7 +380,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'roboto-slab'	=> array(
-				'label'	=> __( 'Roboto Slab', 'gpgwf' ),
+				'label'	=> __( 'Roboto Slab', 'gppro-google-webfonts' ),
 				'css'	=> '"Roboto Slab", serif',
 				'src'	=> 'web',
 				'val'	=> 'Roboto+Slab:300,400,700',
@@ -388,7 +388,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'quattrocento'	=> array(
-				'label'	=> __( 'Quattrocento', 'gpgwf' ),
+				'label'	=> __( 'Quattrocento', 'gppro-google-webfonts' ),
 				'css'	=> '"Quattrocento", serif',
 				'src'	=> 'web',
 				'val'	=> 'Quattrocento:400,700',
@@ -398,7 +398,7 @@ class GP_Pro_Google_Webfonts
 			// sans serif fonts
 
 			'abel'	=> array(
-				'label'	=> __( 'Abel', 'gpgwf' ),
+				'label'	=> __( 'Abel', 'gppro-google-webfonts' ),
 				'css'	=> '"Abel", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Abel',
@@ -406,7 +406,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'archivo-narrow'	=> array(
-				'label'	=> __( 'Archivo Narrow', 'gpgwf' ),
+				'label'	=> __( 'Archivo Narrow', 'gppro-google-webfonts' ),
 				'css'	=> '"Archivo Narrow", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Archivo+Narrow:400,700,400italic,700italic',
@@ -414,7 +414,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'cabin'	=> array(
-				'label'	=> __( 'Cabin', 'gpgwf' ),
+				'label'	=> __( 'Cabin', 'gppro-google-webfonts' ),
 				'css'	=> '"Cabin", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Cabin:400,700',
@@ -422,7 +422,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'dosis'	=> array(
-				'label'	=> __( 'Dosis', 'gpgwf' ),
+				'label'	=> __( 'Dosis', 'gppro-google-webfonts' ),
 				'css'	=> '"Dosis", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Dosis:300,400,700',
@@ -430,7 +430,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'josefin-sans'	=> array(
-				'label'	=> __( 'Josefin Sans', 'gpgwf' ),
+				'label'	=> __( 'Josefin Sans', 'gppro-google-webfonts' ),
 				'css'	=> '"Josefin Sans", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Josefin+Sans:400,700',
@@ -438,7 +438,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'lato'	=> array(
-				'label'	=> __( 'Lato', 'gpgwf' ),
+				'label'	=> __( 'Lato', 'gppro-google-webfonts' ),
 				'css'	=> '"Lato", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Lato:400,700',
@@ -446,7 +446,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'open-sans'	=> array(
-				'label'	=> __( 'Open Sans', 'gpgwf' ),
+				'label'	=> __( 'Open Sans', 'gppro-google-webfonts' ),
 				'css'	=> '"Open Sans", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Open+Sans:300,400,700,300italic,400italic,700italic',
@@ -454,7 +454,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'oswald'	=> array(
-				'label'	=> __( 'Oswald', 'gpgwf' ),
+				'label'	=> __( 'Oswald', 'gppro-google-webfonts' ),
 				'css'	=> '"Oswald", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Oswald:400,700',
@@ -462,7 +462,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'oxygen'	=> array(
-				'label'	=> __( 'Oxygen', 'gpgwf' ),
+				'label'	=> __( 'Oxygen', 'gppro-google-webfonts' ),
 				'css'	=> '"Oxygen", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Oxygen:300,400,700',
@@ -470,7 +470,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'quattrocento-sans'	=> array(
-				'label'	=> __( 'Quattrocento Sans', 'gpgwf' ),
+				'label'	=> __( 'Quattrocento Sans', 'gppro-google-webfonts' ),
 				'css'	=> '"Quattrocento Sans", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Quattrocento+Sans:400,700,400italic,700italic',
@@ -478,7 +478,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'raleway'	=> array(
-				'label'	=> __( 'Raleway', 'gpgwf' ),
+				'label'	=> __( 'Raleway', 'gppro-google-webfonts' ),
 				'css'	=> '"Raleway", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Raleway:400,500,900',
@@ -486,7 +486,7 @@ class GP_Pro_Google_Webfonts
 			),
 
 			'roboto'	=> array(
-				'label'	=> __( 'Roboto', 'gpgwf' ),
+				'label'	=> __( 'Roboto', 'gppro-google-webfonts' ),
 				'css'	=> '"Roboto", serif',
 				'src'	=> 'web',
 				'val'	=> 'Roboto:400,700,400italic,700italic',

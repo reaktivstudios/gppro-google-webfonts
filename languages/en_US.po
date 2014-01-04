@@ -1,0 +1,127 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gppro-google-webfonts\n"
+"POT-Creation-Date: 2014-01-03 20:14-0500\n"
+"PO-Revision-Date: 2014-01-03 20:14-0500\n"
+"Last-Translator: Andrew Norcross <andrew@andrewnorcross.com>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _;__;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: gppro-google-webfonts.php:104
+msgid "This plugin requires Genesis Design Palette Pro to function."
+msgstr ""
+
+#: gppro-google-webfonts.php:137
+msgid ""
+"Warning: You have selected multiple webfonts which could have a severe "
+"impact on site performance."
+msgstr ""
+
+#: gppro-google-webfonts.php:138
+msgid "Ignore this message"
+msgstr ""
+
+#: gppro-google-webfonts.php:303
+msgid "Arvo"
+msgstr ""
+
+#: gppro-google-webfonts.php:311
+msgid "Bree Serif"
+msgstr ""
+
+#: gppro-google-webfonts.php:319
+msgid "Crimson Text"
+msgstr ""
+
+#: gppro-google-webfonts.php:327
+msgid "Lora"
+msgstr ""
+
+#: gppro-google-webfonts.php:335
+msgid "Josefin Slab"
+msgstr ""
+
+#: gppro-google-webfonts.php:343
+msgid "Merriweather"
+msgstr ""
+
+#: gppro-google-webfonts.php:351
+msgid "Old Standard TT"
+msgstr ""
+
+#: gppro-google-webfonts.php:359
+msgid "Playfair Display"
+msgstr ""
+
+#: gppro-google-webfonts.php:367
+msgid "Podkova"
+msgstr ""
+
+#: gppro-google-webfonts.php:375
+msgid "PT Serif"
+msgstr ""
+
+#: gppro-google-webfonts.php:383
+msgid "Roboto Slab"
+msgstr ""
+
+#: gppro-google-webfonts.php:391
+msgid "Quattrocento"
+msgstr ""
+
+#: gppro-google-webfonts.php:401
+msgid "Abel"
+msgstr ""
+
+#: gppro-google-webfonts.php:409
+msgid "Archivo Narrow"
+msgstr ""
+
+#: gppro-google-webfonts.php:417
+msgid "Cabin"
+msgstr ""
+
+#: gppro-google-webfonts.php:425
+msgid "Dosis"
+msgstr ""
+
+#: gppro-google-webfonts.php:433
+msgid "Josefin Sans"
+msgstr ""
+
+#: gppro-google-webfonts.php:441
+msgid "Lato"
+msgstr ""
+
+#: gppro-google-webfonts.php:449
+msgid "Open Sans"
+msgstr ""
+
+#: gppro-google-webfonts.php:457
+msgid "Oswald"
+msgstr ""
+
+#: gppro-google-webfonts.php:465
+msgid "Oxygen"
+msgstr ""
+
+#: gppro-google-webfonts.php:473
+msgid "Quattrocento Sans"
+msgstr ""
+
+#: gppro-google-webfonts.php:481
+msgid "Raleway"
+msgstr ""
+
+#: gppro-google-webfonts.php:489
+msgid "Roboto"
+msgstr ""
