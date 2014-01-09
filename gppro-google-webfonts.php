@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: Genesis Design Palette Pro - Google Webfonts
-Plugin URI: http://genesisdesignpro.com/
+Plugin URI: https://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
-Version: 1.0.0
+Version: 1.0.1
 Requires at least: 3.7
 Author URI: http://andrewnorcross.com
 */
@@ -31,7 +31,7 @@ if( !defined( 'GPGWF_DIR' ) )
 	define( 'GPGWF_DIR', dirname( __FILE__ ) );
 
 if( !defined( 'GPGWF_VER' ) )
-	define( 'GPGWF_VER', '1.0.0' );
+	define( 'GPGWF_VER', '1.0.1' );
 
 class GP_Pro_Google_Webfonts
 {
@@ -99,16 +99,23 @@ class GP_Pro_Google_Webfonts
 		if ( $screen->parent_file !== 'plugins.php' )
 			return;
 
-		if ( !is_plugin_active( 'genesis-palette-pro/genesis-palette-pro.php' ) ) :
+		// look for our flag
+		$coreactive	= get_option( 'gppro_core_active' );
 
-			echo '<div id="message" class="error fade below-h2"><p><strong>'.__( 'This plugin requires Genesis Design Palette Pro to function.', 'gppro-google-webfonts' ).'</strong></p></div>';
+		// not active. show message
+		if ( ! $coreactive ) :
+
+			echo '<div id="message" class="error fade below-h2"><p><strong>'.__( 'This plugin requires Genesis Design Palette Pro to function and cannot be activated.', 'gppro-google-webfonts' ).'</strong></p></div>';
 
 			// hide activation method
 			unset( $_GET['activate'] );
 
+			// deactivate YOURSELF
 			deactivate_plugins( plugin_basename( __FILE__ ) );
 
 		endif;
+
+		return;
 
 	}
 
