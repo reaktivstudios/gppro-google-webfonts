@@ -59,6 +59,7 @@ class GP_Pro_Google_Webfonts
 
 		// GP Pro specific
 		add_filter			(	'gppro_font_stacks',				array(	$this,	'google_stack_list'			),	99		);
+
 	}
 
 	/**
@@ -296,6 +297,35 @@ class GP_Pro_Google_Webfonts
 	}
 
 	/**
+	 * this is really an admin-level thing but might be used in the future.
+	 * basically lists all the fonts in a table
+	 *
+	 * @return [type] [description]
+	 */
+	public function showfonts() {
+				// fetch our list of stacks
+		$stacklist	= self::google_stacks();
+
+		echo '<table>';
+
+		foreach ( $stacklist as $stack ) {
+
+			$type	= strpos( $stack['css'], 'sans-serif' ) !== false ? 'sans-serif' : 'serif';
+
+			echo '<tr>';
+
+			echo '<td>'.$stack['label'].'</td>';
+			echo '<td>'.$type.'</td>';
+
+			echo '</tr>';
+
+		}
+
+		echo '</table>';
+
+	}
+
+	/**
 	 * create list of stacks to use in various locations
 	 *
 	 * @return
@@ -314,6 +344,14 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '104',
 			),
 
+			'bitter'	=> array(
+				'label'	=> __( 'Bitter', 'gppro-google-webfonts' ),
+				'css'	=> '"Bitter", serif',
+				'src'	=> 'web',
+				'val'	=> 'Bitter:400,700,400italic',
+				'size'	=> '66',
+			),
+
 			'bree-serif'	=> array(
 				'label'	=> __( 'Bree Serif', 'gppro-google-webfonts' ),
 				'css'	=> '"Bree Serif", serif',
@@ -328,6 +366,22 @@ class GP_Pro_Google_Webfonts
 				'src'	=> 'web',
 				'val'	=> 'Crimson+Text:400,700',
 				'size'	=> '186',
+			),
+
+			'enriqueta'	=> array(
+				'label'	=> __( 'Enriqueta', 'gppro-google-webfonts' ),
+				'css'	=> '"Enriqueta", serif',
+				'src'	=> 'web',
+				'val'	=> 'Enriqueta:400,700',
+				'size'	=> '22',
+			),
+
+			'fenix'		=> array(
+				'label'	=> __( 'Fenix', 'gppro-google-webfonts' ),
+				'css'	=> '"Fenix", serif',
+				'src'	=> 'web',
+				'val'	=> 'Fenix',
+				'size'	=> '8',
 			),
 
 			'lora'	=> array(
@@ -352,6 +406,14 @@ class GP_Pro_Google_Webfonts
 				'src'	=> 'web',
 				'val'	=> 'Merriweather:400,700,400italic,700italic',
 				'size'	=> '44',
+			),
+
+			'nixie-one'	=> array(
+				'label'	=> __( 'Nixie One', 'gppro-google-webfonts' ),
+				'css'	=> '"Nixie One", serif',
+				'src'	=> 'web',
+				'val'	=> 'Nixie+One',
+				'size'	=> '39',
 			),
 
 			'old-standard-tt'	=> array(
@@ -436,6 +498,14 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '96',
 			),
 
+			'inder'	=> array(
+				'label'	=> __( 'Inder', 'gppro-google-webfonts' ),
+				'css'	=> '"Inder", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Inder',
+				'size'	=> '9',
+			),
+
 			'josefin-sans'	=> array(
 				'label'	=> __( 'Josefin Sans', 'gppro-google-webfonts' ),
 				'css'	=> '"Josefin Sans", sans-serif',
@@ -458,6 +528,22 @@ class GP_Pro_Google_Webfonts
 				'src'	=> 'web',
 				'val'	=> 'Open+Sans:300,400,700,300italic,400italic,700italic',
 				'size'	=> '90',
+			),
+
+			'open-sans-condensed'	=> array(
+				'label'	=> __( 'Open Sans Condensed', 'gppro-google-webfonts' ),
+				'css'	=> '"Open Sans Condensed", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Open+Sans+Condensed:300,700,300italic',
+				'size'	=> '51',
+			),
+
+			'orienta'	=> array(
+				'label'	=> __( 'Orienta', 'gppro-google-webfonts' ),
+				'css'	=> '"Orienta", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Orienta',
+				'size'	=> '13',
 			),
 
 			'oswald'	=> array(
@@ -494,10 +580,18 @@ class GP_Pro_Google_Webfonts
 
 			'roboto'	=> array(
 				'label'	=> __( 'Roboto', 'gppro-google-webfonts' ),
-				'css'	=> '"Roboto", serif',
+				'css'	=> '"Roboto", sans-serif',
 				'src'	=> 'web',
 				'val'	=> 'Roboto:400,700,400italic,700italic',
 				'size'	=> '40',
+			),
+
+			'signika'	=> array(
+				'label'	=> __( 'Signika', 'gppro-google-webfonts' ),
+				'css'	=> '"Signika", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Signika:300,400,600,700',
+				'size'	=> '148',
 			),
 
 		);
@@ -524,11 +618,20 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $stacks['serif']['arvo'] ) )
 			$stacks['serif']['arvo'] = $stacklist['arvo'];
 
+		if ( ! isset( $stacks['serif']['bitter'] ) )
+			$stacks['serif']['bitter'] = $stacklist['bitter'];
+
 		if ( ! isset( $stacks['serif']['bree-serif'] ) )
 			$stacks['serif']['bree-serif'] = $stacklist['bree-serif'];
 
 		if ( ! isset( $stacks['serif']['crimson-text'] ) )
 			$stacks['serif']['crimson-text'] = $stacklist['crimson-text'];
+
+		if ( ! isset( $stacks['serif']['enriqueta'] ) )
+			$stacks['serif']['enriqueta'] = $stacklist['enriqueta'];
+
+		if ( ! isset( $stacks['serif']['fenix'] ) )
+			$stacks['serif']['fenix'] = $stacklist['fenix'];
 
 		if ( ! isset( $stacks['serif']['lora'] ) )
 			$stacks['serif']['lora'] = $stacklist['lora'];
@@ -538,6 +641,9 @@ class GP_Pro_Google_Webfonts
 
 		if ( ! isset( $stacks['serif']['merriweather'] ) )
 			$stacks['serif']['merriweather'] = $stacklist['merriweather'];
+
+		if ( ! isset( $stacks['serif']['nixie-one'] ) )
+			$stacks['serif']['nixie-one'] = $stacklist['nixie-one'];
 
 		if ( ! isset( $stacks['serif']['old-standard-tt'] ) )
 			$stacks['serif']['old-standard-tt'] = $stacklist['old-standard-tt'];
@@ -572,14 +678,23 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $stacks['sans']['dosis'] ) )
 			$stacks['sans']['dosis'] = $stacklist['dosis'];
 
+		if ( ! isset( $stacks['sans']['inder'] ) )
+			$stacks['sans']['inder'] = $stacklist['inder'];
+
 		if ( ! isset( $stacks['sans']['josefin-sans'] ) )
 			$stacks['sans']['josefin-sans'] = $stacklist['josefin-sans'];
 
 		if ( ! isset( $stacks['sans']['lato'] ) )
 			$stacks['sans']['lato'] = $stacklist['lato'];
 
+		if ( ! isset( $stacks['sans']['orienta'] ) )
+			$stacks['sans']['orienta'] = $stacklist['orienta'];
+
 		if ( ! isset( $stacks['sans']['open-sans'] ) )
 			$stacks['sans']['open-sans'] = $stacklist['open-sans'];
+
+		if ( ! isset( $stacks['sans']['open-sans-condensed'] ) )
+			$stacks['sans']['open-sans-condensed'] = $stacklist['open-sans-condensed'];
 
 		if ( ! isset( $stacks['sans']['oswald'] ) )
 			$stacks['sans']['oswald'] = $stacklist['oswald'];
@@ -596,6 +711,8 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $stacks['sans']['roboto'] ) )
 			$stacks['sans']['roboto'] = $stacklist['roboto'];
 
+		if ( ! isset( $stacks['sans']['signika'] ) )
+			$stacks['sans']['signika'] = $stacklist['signika'];
 
 		// send back stacks
 		return $stacks;
