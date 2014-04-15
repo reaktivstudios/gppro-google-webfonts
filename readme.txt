@@ -1,8 +1,8 @@
 === Genesis Design Palette Pro - Google Webfonts ===
 Contributors: norcross, jjeaton, reaktivstudios
 Requires at least: 3.7
-Tested up to: 3.8
-Stable tag: 1.0.1
+Tested up to: 3.9
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: design palette pro, genesis design, google webfonts
@@ -72,6 +72,9 @@ Here is a list
 
 
 == Changelog ==
+
+= 1.0.2 =
+* Updated core plugin verification
 
 = 1.0.1 =
 * Added new fonts

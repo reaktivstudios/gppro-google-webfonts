@@ -4,11 +4,11 @@ Plugin Name: Genesis Design Palette Pro - Google Webfonts
 Plugin URI: https://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
-Version: 1.0.1
+Version: 1.0.2
 Requires at least: 3.7
 Author URI: http://andrewnorcross.com
 */
-/*  Copyright 2013 Andrew Norcross
+/*  Copyright 2014 Andrew Norcross
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -24,14 +24,17 @@ Author URI: http://andrewnorcross.com
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-if( !defined( 'GPGWF_BASE' ) )
+if( ! defined( 'GPGWF_BASE' ) ) {
 	define( 'GPGWF_BASE', plugin_basename(__FILE__) );
+}
 
-if( !defined( 'GPGWF_DIR' ) )
+if( ! defined( 'GPGWF_DIR' ) ) {
 	define( 'GPGWF_DIR', dirname( __FILE__ ) );
+}
 
-if( !defined( 'GPGWF_VER' ) )
-	define( 'GPGWF_VER', '1.0.1' );
+if( ! defined( 'GPGWF_VER' ) ) {
+	define( 'GPGWF_VER', '1.0.2' );
+}
 
 class GP_Pro_Google_Webfonts
 {
@@ -70,8 +73,11 @@ class GP_Pro_Google_Webfonts
 	 */
 
 	public static function getInstance() {
-		if ( !self::$instance )
+
+		if ( !self::$instance ) {
 			self::$instance = new self;
+		}
+
 		return self::$instance;
 	}
 
@@ -97,11 +103,12 @@ class GP_Pro_Google_Webfonts
 
 		$screen = get_current_screen();
 
-		if ( $screen->parent_file !== 'plugins.php' )
+		if ( $screen->parent_file !== 'plugins.php' ) {
 			return;
+		}
 
 		// look for our flag
-		$coreactive	= get_option( 'gppro_core_active' );
+		$coreactive	= Genesis_Palette_Pro::check_active();
 
 		// not active. show message
 		if ( ! $coreactive ) :
@@ -130,12 +137,12 @@ class GP_Pro_Google_Webfonts
 
 		$screen = get_current_screen();
 
-		if ( $screen->base !== 'genesis_page_genesis-palette-pro' )
+		if ( $screen->base !== 'genesis_page_genesis-palette-pro' ) {
 			return;
+		}
 
 		// check out pagespeed alert
 		$alert	= get_option( 'gppro-webfont-alert' );
-
 
 		if ( !isset( $alert ) || empty( $alert ) || $alert == 'ignore' )
 			return;
@@ -165,16 +172,19 @@ class GP_Pro_Google_Webfonts
 		$filter	= apply_filters( 'gppro_webfont_alert', 250 );
 
 		// delete the alert if less than alert amount
-		if ( $totals < absint( $filter ) )
+		if ( $totals < absint( $filter ) ) {
 			delete_option( 'gppro-webfont-alert' );
+		}
 
 		// check my alert status before moving on
-		if ( ! empty( $alert ) && $alert == 'ignore' )
+		if ( ! empty( $alert ) && $alert == 'ignore' ) {
 			return;
+		}
 
 		// set alert flag for over alert amount
-		if ( $totals >= absint( $filter ) )
+		if ( $totals >= absint( $filter ) ) {
 			update_option( 'gppro-webfont-alert', true );
+		}
 
 	}
 
@@ -188,8 +198,9 @@ class GP_Pro_Google_Webfonts
 
 		$string		= self::font_choice_string();
 
-		if ( ! $string )
+		if ( ! $string ) {
 			return;
+		}
 
 		wp_enqueue_style( 'gppro-webfonts', '//fonts.googleapis.com/css?family='.$string, array(), GPGWF_VER );
 
@@ -206,8 +217,9 @@ class GP_Pro_Google_Webfonts
 		// fetch list of active fonts
 		$actives	= self::font_choice_active();
 
-		if ( ! isset( $actives ) || isset( $actives ) && empty( $actives ) )
+		if ( ! isset( $actives ) || isset( $actives ) && empty( $actives ) ) {
 			return false;
+		}
 
 		// set value arrays to false
 		$fontarr	= false;
@@ -219,8 +231,9 @@ class GP_Pro_Google_Webfonts
 			$data	= self::single_font_fetch( $active );
 
 			// bail if it came back native (i.e. already loaded )
-			if ( $data['src'] == 'native' )
+			if ( $data['src'] == 'native' ) {
 				continue;
+			}
 
 			// pass it into array and go forth
 			$fontarr[]	= $data['val'];
@@ -229,16 +242,18 @@ class GP_Pro_Google_Webfonts
 		endforeach;
 
 		// bail if nothing is there
-		if ( ! $fontarr )
+		if ( ! $fontarr ) {
 			return false;
+		}
 
 		// cast into array
 		$fontarr	= (array) $fontarr;
 		$fontsize	= (array) $fontsize;
 
 		// run font weight check for pagespeed alert
-		if ( $fontsize )
+		if ( $fontsize ) {
 			$pagespeed	= self::pagespeed_check( $fontsize );
+		}
 
 		// implode into string with divider
 		$string		= implode( '|', $fontarr );
@@ -263,16 +278,18 @@ class GP_Pro_Google_Webfonts
 		// grab our settings
 		$settings	= get_option( 'gppro-settings' );
 
-		if ( ! $settings )
+		if ( ! $settings ) {
 			return false;
+		}
 
 		$choices	= array();
 
 		// filter through and run comparison
 		foreach ( $settings as $key => $value ):
 
-			if ( in_array( $value, $stackkeys ) )
+			if ( in_array( $value, $stackkeys ) ) {
 				$choices[]	= $value;
+			}
 
 		endforeach;
 
@@ -724,4 +741,3 @@ class GP_Pro_Google_Webfonts
 
 // Instantiate our class
 $GP_Pro_Google_Webfonts = GP_Pro_Google_Webfonts::getInstance();
-
