@@ -107,8 +107,8 @@ class GP_Pro_Google_Webfonts
 			return;
 		}
 
-		// look for our flag
-		$coreactive	= Genesis_Palette_Pro::check_active();
+		// run the active check
+		$coreactive	= class_exists( 'Genesis_Palette_Pro' ) ? Genesis_Palette_Pro::check_active() : false;
 
 		// not active. show message
 		if ( ! $coreactive ) :
