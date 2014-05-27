@@ -4,7 +4,7 @@ Plugin Name: Genesis Design Palette Pro - Google Webfonts
 Plugin URI: https://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
-Version: 1.0.2
+Version: 1.0.3
 Requires at least: 3.7
 Author URI: http://andrewnorcross.com
 */
@@ -33,7 +33,7 @@ if( ! defined( 'GPGWF_DIR' ) ) {
 }
 
 if( ! defined( 'GPGWF_VER' ) ) {
-	define( 'GPGWF_VER', '1.0.2' );
+	define( 'GPGWF_VER', '1.0.3' );
 }
 
 class GP_Pro_Google_Webfonts
@@ -353,6 +353,14 @@ class GP_Pro_Google_Webfonts
 		$webfonts	= array(
 
 			// serif fonts
+			'abril-fatface'	=> array(
+				'label'	=> __( 'Abril Fatface', 'gppro-google-webfonts' ),
+				'css'	=> '"Abril Fatface", serif',
+				'src'	=> 'web',
+				'val'	=> 'Abril+Fatface',
+				'size'	=> '14',
+			),
+
 			'arvo'	=> array(
 				'label'	=> __( 'Arvo', 'gppro-google-webfonts' ),
 				'css'	=> '"Arvo", serif',
@@ -481,6 +489,14 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '54',
 			),
 
+			'vollkorn'	=> array(
+				'label'	=> __( 'Vollkorn', 'gppro-google-webfonts' ),
+				'css'	=> '"Vollkorn", serif',
+				'src'	=> 'web',
+				'val'	=> 'Vollkorn:400,700,400italic,700italic',
+				'size'	=> '124',
+			),
+
 			// sans serif fonts
 
 			'abel'	=> array(
@@ -535,8 +551,16 @@ class GP_Pro_Google_Webfonts
 				'label'	=> __( 'Lato', 'gppro-google-webfonts' ),
 				'css'	=> '"Lato", sans-serif',
 				'src'	=> 'web',
-				'val'	=> 'Lato:400,700',
-				'size'	=> '100',
+				'val'	=> 'Lato:300,400,700',
+				'size'	=> '150',
+			),
+
+			'montserrat'	=> array(
+				'label'	=> __( 'Montserrat', 'gppro-google-webfonts' ),
+				'css'	=> '"Montserrat", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Montserrat:400,700',
+				'size'	=> '28',
 			),
 
 			'open-sans'	=> array(
@@ -611,6 +635,14 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '148',
 			),
 
+			'source-sans-pro'	=> array(
+				'label'	=> __( 'Source Sans Pro', 'gppro-google-webfonts' ),
+				'css'	=> '"Source Sans Pro", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Source+Sans+Pro:300,400,700,300italic,400italic,700italic',
+				'size'	=> '108',
+			),
+
 		);
 
 		$webfonts	= apply_filters( 'gppro_webfont_stacks', $webfonts );
@@ -631,6 +663,9 @@ class GP_Pro_Google_Webfonts
 		$stacklist	= self::google_stacks();
 
 		// serif fonts
+
+		if ( ! isset( $stacks['serif']['abril-fatface'] ) )
+			$stacks['serif']['abril-fatface'] = $stacklist['abril-fatface'];
 
 		if ( ! isset( $stacks['serif']['arvo'] ) )
 			$stacks['serif']['arvo'] = $stacklist['arvo'];
@@ -680,6 +715,8 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $stacks['serif']['quattrocento'] ) )
 			$stacks['serif']['quattrocento'] = $stacklist['quattrocento'];
 
+		if ( ! isset( $stacks['serif']['vollkorn'] ) )
+			$stacks['serif']['vollkorn'] = $stacklist['vollkorn'];
 
 		// sans-serif fonts
 
@@ -703,6 +740,9 @@ class GP_Pro_Google_Webfonts
 
 		if ( ! isset( $stacks['sans']['lato'] ) )
 			$stacks['sans']['lato'] = $stacklist['lato'];
+
+		if ( ! isset( $stacks['sans']['montserrat'] ) )
+			$stacks['sans']['montserrat'] = $stacklist['montserrat'];
 
 		if ( ! isset( $stacks['sans']['orienta'] ) )
 			$stacks['sans']['orienta'] = $stacklist['orienta'];
@@ -730,6 +770,9 @@ class GP_Pro_Google_Webfonts
 
 		if ( ! isset( $stacks['sans']['signika'] ) )
 			$stacks['sans']['signika'] = $stacklist['signika'];
+
+		if ( ! isset( $stacks['sans']['source-sans-pro'] ) )
+			$stacks['sans']['source-sans-pro'] = $stacklist['source-sans-pro'];
 
 		// send back stacks
 		return $stacks;
