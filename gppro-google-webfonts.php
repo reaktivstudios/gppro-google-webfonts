@@ -4,7 +4,7 @@ Plugin Name: Genesis Design Palette Pro - Google Webfonts
 Plugin URI: https://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
-Version: 1.0.3
+Version: 1.0.4
 Requires at least: 3.7
 Author URI: http://andrewnorcross.com
 */
@@ -33,7 +33,7 @@ if( ! defined( 'GPGWF_DIR' ) ) {
 }
 
 if( ! defined( 'GPGWF_VER' ) ) {
-	define( 'GPGWF_VER', '1.0.3' );
+	define( 'GPGWF_VER', '1.0.4' );
 }
 
 class GP_Pro_Google_Webfonts
@@ -310,35 +310,6 @@ class GP_Pro_Google_Webfonts
 		$stacklist	= self::google_stacks();
 
 		return $stacklist[$font];
-
-	}
-
-	/**
-	 * this is really an admin-level thing but might be used in the future.
-	 * basically lists all the fonts in a table
-	 *
-	 * @return [type] [description]
-	 */
-	public function showfonts() {
-				// fetch our list of stacks
-		$stacklist	= self::google_stacks();
-
-		echo '<table>';
-
-		foreach ( $stacklist as $stack ) {
-
-			$type	= strpos( $stack['css'], 'sans-serif' ) !== false ? 'sans-serif' : 'serif';
-
-			echo '<tr>';
-
-			echo '<td>'.$stack['label'].'</td>';
-			echo '<td>'.$type.'</td>';
-
-			echo '</tr>';
-
-		}
-
-		echo '</table>';
 
 	}
 
@@ -643,8 +614,67 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '108',
 			),
 
+			// cursive fonts
+
+			'arizonia'	=> array(
+				'label'	=> __( 'Arizonia', 'gppro-google-webfonts' ),
+				'css'	=> '"Arizonia", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Arizonia',
+				'size'	=> '13',
+			),
+
+			'bilbo-swash'	=> array(
+				'label'	=> __( 'Bilbo Swash Caps', 'gppro-google-webfonts' ),
+				'css'	=> '"Bilbo Swash Caps", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Bilbo+Swash+Caps',
+				'size'	=> '14',
+			),
+
+			'calligraffitti'	=> array(
+				'label'	=> __( 'Calligraffitti', 'gppro-google-webfonts' ),
+				'css'	=> '"Calligraffitti", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Calligraffitti',
+				'size'	=> '36',
+			),
+
+			'dancing-script'	=> array(
+				'label'	=> __( 'Dancing Script', 'gppro-google-webfonts' ),
+				'css'	=> '"Dancing Script", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Dancing+Script:400,700',
+				'size'	=> '116',
+			),
+
+			'kaushan-script'	=> array(
+				'label'	=> __( 'Kaushan Script', 'gppro-google-webfonts' ),
+				'css'	=> '"Kaushan Script", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Kaushan+Script',
+				'size'	=> '38',
+			),
+
+			'pacifico'	=> array(
+				'label'	=> __( 'Pacifico', 'gppro-google-webfonts' ),
+				'css'	=> '"Pacifico", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Pacifico',
+				'size'	=> '27',
+			),
+
+			'rock-salt'	=> array(
+				'label'	=> __( 'Rock Salt', 'gppro-google-webfonts' ),
+				'css'	=> '"Rock Salt", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Rock+Salt',
+				'size'	=> '74',
+			),
+
 		);
 
+		// filter them all
 		$webfonts	= apply_filters( 'gppro_webfont_stacks', $webfonts );
 
 		return $webfonts;
@@ -773,6 +803,32 @@ class GP_Pro_Google_Webfonts
 
 		if ( ! isset( $stacks['sans']['source-sans-pro'] ) )
 			$stacks['sans']['source-sans-pro'] = $stacklist['source-sans-pro'];
+
+		// sans-serif fonts
+
+		if ( ! isset( $stacks['cursive']['arizonia'] ) )
+			$stacks['cursive']['arizonia'] = $stacklist['arizonia'];
+
+		if ( ! isset( $stacks['cursive']['bilbo-swash'] ) )
+			$stacks['cursive']['bilbo-swash'] = $stacklist['bilbo-swash'];
+
+		if ( ! isset( $stacks['cursive']['calligraffitti'] ) )
+			$stacks['cursive']['calligraffitti'] = $stacklist['calligraffitti'];
+
+		if ( ! isset( $stacks['cursive']['dancing-script'] ) )
+			$stacks['cursive']['dancing-script'] = $stacklist['dancing-script'];
+
+		if ( ! isset( $stacks['cursive']['kaushan-script'] ) )
+			$stacks['cursive']['kaushan-script'] = $stacklist['kaushan-script'];
+
+		if ( ! isset( $stacks['cursive']['pacifico'] ) )
+			$stacks['cursive']['pacifico'] = $stacklist['pacifico'];
+
+		if ( ! isset( $stacks['cursive']['rock-salt'] ) )
+			$stacks['cursive']['rock-salt'] = $stacklist['rock-salt'];
+
+		// filter them all
+		$stacks	= apply_filters( 'gppro_webfont_stack_list', $webfonts );
 
 		// send back stacks
 		return $stacks;
