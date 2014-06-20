@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gppro-google-webfonts\n"
-"POT-Creation-Date: 2014-05-27 13:33-0500\n"
-"PO-Revision-Date: 2014-05-27 13:33-0500\n"
+"POT-Creation-Date: 2014-06-20 15:06-0500\n"
+"PO-Revision-Date: 2014-06-20 15:06-0500\n"
 "Last-Translator: Andrew Norcross <andrew@andrewnorcross.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -36,146 +36,174 @@ msgstr ""
 msgid "Ignore this message"
 msgstr "Ignore this message"
 
-#: gppro-google-webfonts.php:357
+#: gppro-google-webfonts.php:328
 msgid "Abril Fatface"
 msgstr "Abril Fatface"
 
-#: gppro-google-webfonts.php:365
+#: gppro-google-webfonts.php:336
 msgid "Arvo"
 msgstr "Arvo"
 
-#: gppro-google-webfonts.php:373
+#: gppro-google-webfonts.php:344
 msgid "Bitter"
 msgstr "Bitter"
 
-#: gppro-google-webfonts.php:381
+#: gppro-google-webfonts.php:352
 msgid "Bree Serif"
 msgstr "Bree Serif"
 
-#: gppro-google-webfonts.php:389
+#: gppro-google-webfonts.php:360
 msgid "Crimson Text"
 msgstr "Crimson Text"
 
-#: gppro-google-webfonts.php:397
+#: gppro-google-webfonts.php:368
 msgid "Enriqueta"
 msgstr "Enriqueta"
 
-#: gppro-google-webfonts.php:405
+#: gppro-google-webfonts.php:376
 msgid "Fenix"
 msgstr "Fenix"
 
-#: gppro-google-webfonts.php:413
+#: gppro-google-webfonts.php:384
 msgid "Lora"
 msgstr "Lora"
 
-#: gppro-google-webfonts.php:421
+#: gppro-google-webfonts.php:392
 msgid "Josefin Slab"
 msgstr "Josefin Slab"
 
-#: gppro-google-webfonts.php:429
+#: gppro-google-webfonts.php:400
 msgid "Merriweather"
 msgstr "Merriweather"
 
-#: gppro-google-webfonts.php:437
+#: gppro-google-webfonts.php:408
 msgid "Nixie One"
 msgstr "Nixie One"
 
-#: gppro-google-webfonts.php:445
+#: gppro-google-webfonts.php:416
 msgid "Old Standard TT"
 msgstr "Old Standard TT"
 
-#: gppro-google-webfonts.php:453
+#: gppro-google-webfonts.php:424
 msgid "Playfair Display"
 msgstr "Playfair Display"
 
-#: gppro-google-webfonts.php:461
+#: gppro-google-webfonts.php:432
 msgid "Podkova"
 msgstr "Podkova"
 
-#: gppro-google-webfonts.php:469
+#: gppro-google-webfonts.php:440
 msgid "PT Serif"
 msgstr "PT Serif"
 
-#: gppro-google-webfonts.php:477
+#: gppro-google-webfonts.php:448
 msgid "Roboto Slab"
 msgstr "Roboto Slab"
 
-#: gppro-google-webfonts.php:485
+#: gppro-google-webfonts.php:456
 msgid "Quattrocento"
 msgstr "Quattrocento"
 
-#: gppro-google-webfonts.php:493
+#: gppro-google-webfonts.php:464
 msgid "Vollkorn"
 msgstr "Vollkorn"
 
-#: gppro-google-webfonts.php:503
+#: gppro-google-webfonts.php:474
 msgid "Abel"
 msgstr "Abel"
 
-#: gppro-google-webfonts.php:511
+#: gppro-google-webfonts.php:482
 msgid "Archivo Narrow"
 msgstr "Archivo Narrow"
 
-#: gppro-google-webfonts.php:519
+#: gppro-google-webfonts.php:490
 msgid "Cabin"
 msgstr "Cabin"
 
-#: gppro-google-webfonts.php:527
+#: gppro-google-webfonts.php:498
 msgid "Dosis"
 msgstr "Dosis"
 
-#: gppro-google-webfonts.php:535
+#: gppro-google-webfonts.php:506
 msgid "Inder"
 msgstr "Inder"
 
-#: gppro-google-webfonts.php:543
+#: gppro-google-webfonts.php:514
 msgid "Josefin Sans"
 msgstr "Josefin Sans"
 
-#: gppro-google-webfonts.php:551
+#: gppro-google-webfonts.php:522
 msgid "Lato"
 msgstr "Lato"
 
-#: gppro-google-webfonts.php:559
+#: gppro-google-webfonts.php:530
 msgid "Montserrat"
 msgstr "Montserrat"
 
-#: gppro-google-webfonts.php:567
+#: gppro-google-webfonts.php:538
 msgid "Open Sans"
 msgstr "Open Sans"
 
-#: gppro-google-webfonts.php:575
+#: gppro-google-webfonts.php:546
 msgid "Open Sans Condensed"
 msgstr "Open Sans Condensed"
 
-#: gppro-google-webfonts.php:583
+#: gppro-google-webfonts.php:554
 msgid "Orienta"
 msgstr "Orienta"
 
-#: gppro-google-webfonts.php:591
+#: gppro-google-webfonts.php:562
 msgid "Oswald"
 msgstr "Oswald"
 
-#: gppro-google-webfonts.php:599
+#: gppro-google-webfonts.php:570
 msgid "Oxygen"
 msgstr "Oxygen"
 
-#: gppro-google-webfonts.php:607
+#: gppro-google-webfonts.php:578
 msgid "Quattrocento Sans"
 msgstr "Quattrocento Sans"
 
-#: gppro-google-webfonts.php:615
+#: gppro-google-webfonts.php:586
 msgid "Raleway"
 msgstr "Raleway"
 
-#: gppro-google-webfonts.php:623
+#: gppro-google-webfonts.php:594
 msgid "Roboto"
 msgstr "Roboto"
 
-#: gppro-google-webfonts.php:631
+#: gppro-google-webfonts.php:602
 msgid "Signika"
 msgstr "Signika"
 
-#: gppro-google-webfonts.php:639
+#: gppro-google-webfonts.php:610
 msgid "Source Sans Pro"
 msgstr "Source Sans Pro"
+
+#: gppro-google-webfonts.php:620
+msgid "Arizonia"
+msgstr "Arizonia"
+
+#: gppro-google-webfonts.php:628
+msgid "Bilbo Swash Caps"
+msgstr "Bilbo Swash Caps"
+
+#: gppro-google-webfonts.php:636
+msgid "Calligraffitti"
+msgstr "Calligraffitti"
+
+#: gppro-google-webfonts.php:644
+msgid "Dancing Script"
+msgstr "Dancing Script"
+
+#: gppro-google-webfonts.php:652
+msgid "Kaushan Script"
+msgstr "Kaushan Script"
+
+#: gppro-google-webfonts.php:660
+msgid "Pacifico"
+msgstr "Pacifico"
+
+#: gppro-google-webfonts.php:668
+msgid "Rock Salt"
+msgstr "Rock Salt"
