@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gppro-google-webfonts\n"
-"POT-Creation-Date: 2014-06-20 15:06-0500\n"
-"PO-Revision-Date: 2014-06-20 15:06-0500\n"
+"POT-Creation-Date: 2014-06-22 11:41-0500\n"
+"PO-Revision-Date: 2014-06-22 11:42-0500\n"
 "Last-Translator: Andrew Norcross <andrew@andrewnorcross.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -207,3 +207,11 @@ msgstr "Pacifico"
 #: gppro-google-webfonts.php:668
 msgid "Rock Salt"
 msgstr "Rock Salt"
+
+#: gppro-google-webfonts.php:678
+msgid "Droid Sans Mono"
+msgstr "Droid Sans Mono"
+
+#: gppro-google-webfonts.php:686
+msgid "Ubuntu Mono"
+msgstr "Ubuntu Mono"
