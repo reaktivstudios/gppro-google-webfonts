@@ -672,6 +672,24 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '74',
 			),
 
+			// monospace fonts
+
+			'droid-sans-mono'	=> array(
+				'label'	=> __( 'Droid Sans Mono', 'gppro-google-webfonts' ),
+				'css'	=> '"Droid Sans Mono", monospace',
+				'src'	=> 'web',
+				'val'	=> 'Droid+Sans+Mono',
+				'size'	=> '73',
+			),
+
+			'ubuntu-mono'	=> array(
+				'label'	=> __( 'Ubuntu Mono', 'gppro-google-webfonts' ),
+				'css'	=> '"Ubuntu Mono", monospace',
+				'src'	=> 'web',
+				'val'	=> 'Ubuntu+Mono',
+				'size'	=> '18',
+			),
+
 		);
 
 		// filter them all
@@ -804,7 +822,7 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $stacks['sans']['source-sans-pro'] ) )
 			$stacks['sans']['source-sans-pro'] = $stacklist['source-sans-pro'];
 
-		// sans-serif fonts
+		// cursive fonts
 
 		if ( ! isset( $stacks['cursive']['arizonia'] ) )
 			$stacks['cursive']['arizonia'] = $stacklist['arizonia'];
@@ -827,8 +845,15 @@ class GP_Pro_Google_Webfonts
 		if ( ! isset( $stacks['cursive']['rock-salt'] ) )
 			$stacks['cursive']['rock-salt'] = $stacklist['rock-salt'];
 
+		// monospace fonts
+		if ( ! isset( $stacks['mono']['droid-sans-mono'] ) )
+			$stacks['mono']['droid-sans-mono'] = $stacklist['droid-sans-mono'];
+
+		if ( ! isset( $stacks['monospace']['ubuntu-mono'] ) )
+			$stacks['mono']['ubuntu-mono'] = $stacklist['ubuntu-mono'];
+
 		// filter them all
-		$stacks	= apply_filters( 'gppro_webfont_stack_list', $webfonts );
+		$stacks	= apply_filters( 'gppro_webfont_stack_list', $stacks );
 
 		// send back stacks
 		return $stacks;

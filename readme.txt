@@ -18,9 +18,11 @@ Adds a set of popular Google Webfonts to Design Palette Pro. Provides the proper
 * Bilbo Swash Caps
 * Calligraffitti
 * Dancing Script
+* Droid Sans Mono
 * Kaushan Script
 * Pacifico
 * Rock Salt
+* Ubuntu Mono
 
 
 == Installation ==
@@ -35,7 +37,7 @@ The description covers it all.
 
 = How Many Fonts Are Included? =
 
-There are 43 total fonts included
+There are 45 total fonts included
 
 = Why Aren't All Fonts Included? =
 
@@ -57,6 +59,7 @@ Here is a list
 * [Calligraffitti](https://www.google.com/fonts/specimen/Calligraffitti)
 * [Crimson Text](https://www.google.com/fonts/specimen/Crimson+Text)
 * [Dancing Script](https://www.google.com/fonts/specimen/Dancing+Script)
+* [Droid Sans Mono](https://www.google.com/fonts/specimen/Droid+Sans+Mono)
 * [Dosis](https://www.google.com/fonts/specimen/Dosis)
 * [Enriqueta](https://www.google.com/fonts/specimen/Enriqueta)
 * [Fenix](https://www.google.com/fonts/specimen/Fenix)
@@ -87,13 +90,14 @@ Here is a list
 * [Rock Salt](https://www.google.com/fonts/specimen/Rock+Salt)
 * [Signika](https://www.google.com/fonts/specimen/Signika)
 * [Source Sans Pro](https://www.google.com/fonts/specimen/Source+Sans+Pro)
+* [Ubuntu Mono](https://www.google.com/fonts/specimen/Ubuntu+Mono)
 * [Vollkorn](https://www.google.com/fonts/specimen/Vollkorn)
 
 
 == Changelog ==
 
 = 1.0.4 =
-* Added new handwriting / cursive style fonts
+* Added new handwriting / cursive and monospace style fonts
 
 = 1.0.3 =
 * Added new fonts
@@ -106,3 +110,8 @@ Here is a list
 
 = 1.0.0 =
 * Initial release
+
+== Upgrade Notice ==
+
+= 1.0.4 =
+You must be running version 1.2.3 of Design Palette Pro to use these new fonts
