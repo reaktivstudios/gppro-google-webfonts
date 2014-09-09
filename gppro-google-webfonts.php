@@ -100,31 +100,26 @@ class GP_Pro_Google_Webfonts
 	 */
 
 	public function gppro_active_check() {
-
+		// get the current screen
 		$screen = get_current_screen();
-
+		// bail if not on the plugins page
 		if ( $screen->parent_file !== 'plugins.php' ) {
 			return;
 		}
-
 		// run the active check
 		$coreactive	= class_exists( 'Genesis_Palette_Pro' ) ? Genesis_Palette_Pro::check_active() : false;
-
+		// active. bail
+		if ( $coreactive ) {
+			return;
+		}
 		// not active. show message
-		if ( ! $coreactive ) :
-
-			echo '<div id="message" class="error fade below-h2"><p><strong>'.__( 'This plugin requires Genesis Design Palette Pro to function and cannot be activated.', 'gppro-google-webfonts' ).'</strong></p></div>';
-
-			// hide activation method
-			unset( $_GET['activate'] );
-
-			// deactivate YOURSELF
-			deactivate_plugins( plugin_basename( __FILE__ ) );
-
-		endif;
-
+		echo '<div id="message" class="error fade below-h2"><p><strong>'.__( sprintf( 'This plugin requires Genesis Design Palette Pro to function and cannot be activated.' ), 'gppro-google-webfonts' ).'</strong></p></div>';
+		// hide activation method
+		unset( $_GET['activate'] );
+		// deactivate the plugin
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+		// and finish
 		return;
-
 	}
 
 	/**
