@@ -146,7 +146,7 @@ class GP_Pro_Google_Webfonts
 		}
 
 		// check child theme, display warning
-		echo '<div id="message" class="error fade below-h2 gppro-admin-warning"><p>';
+		echo '<div id="message" class="error fade below-h2 gppro-admin-warning gppro-admin-warning-webfonts"><p>';
 		echo '<strong>'.__( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gppro-google-webfonts' ).'</strong>';
 		echo '<span class="webfont-ignore">'.__( 'Ignore this message', 'gppro-google-webfonts' ).'</span>';
 		echo '</p></div>';
