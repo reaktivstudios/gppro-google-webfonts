@@ -1,8 +1,8 @@
 === Genesis Design Palette Pro - Google Webfonts ===
 Contributors: norcross, jjeaton, reaktivstudios
 Requires at least: 3.7
-Tested up to: 4.0
-Stable tag: 1.0.5
+Tested up to: 4.1
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: design palette pro, genesis design, google webfonts
@@ -13,12 +13,12 @@ Adds a set of popular Google Webfonts to Design Palette Pro
 
 Adds a set of popular Google Webfonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
 
-= New fonts in 1.0.5 =
-* Great Vibes
-* Meddon
-* Pathway Gothic One
-* Rokkitt
-* Syncopate
+= New fonts in 1.0.6 =
+* Neuton
+* Roboto Condensed
+* Sacramento
+* Sofia
+* Source Serif Pro
 
 == Installation ==
 1. Upload the `gppro-google-webfonts` folder and all its contents to the `/wp-content/plugins/` directory
@@ -30,9 +30,13 @@ Adds a set of popular Google Webfonts to Design Palette Pro. Provides the proper
 
 The description covers it all.
 
+= Why Doesn't This Work On My Theme? =
+
+Because this is an add-on for [Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro"). Without that plugin, nothing will work.
+
 = How Many Fonts Are Included? =
 
-There are 50 total fonts included
+There are 55 total fonts included
 
 = Why Aren't All Fonts Included? =
 
@@ -68,6 +72,7 @@ Here is a list
 * [Meddon](https://www.google.com/fonts/specimen/Meddon)
 * [Merriweather](https://www.google.com/fonts/specimen/Merriweather)
 * [Montserrat](https://www.google.com/fonts/specimen/Montserrat)
+* [Neuton](https://www.google.com/fonts/specimen/Neuton)
 * [Nixie One](https://www.google.com/fonts/specimen/Nixie+One)
 * [Old Standard TT](https://www.google.com/fonts/specimen/Old+Standard+TT)
 * [Open Sans](https://www.google.com/fonts/specimen/Open+Sans)
@@ -84,17 +89,24 @@ Here is a list
 * [Quattrocento Sans](https://www.google.com/fonts/specimen/Quattrocento+Sans)
 * [Raleway](https://www.google.com/fonts/specimen/Raleway)
 * [Roboto](https://www.google.com/fonts/specimen/Roboto)
+* [Roboto Condensed](https://www.google.com/fonts/specimen/Roboto+Condensed)
 * [Roboto Slab](https://www.google.com/fonts/specimen/Roboto+Slab)
 * [Rock Salt](https://www.google.com/fonts/specimen/Rock+Salt)
 * [Rokkitt](https://www.google.com/fonts/specimen/Rokkitt)
+* [Sacramento](https://www.google.com/fonts/specimen/Sacramento)
 * [Signika](https://www.google.com/fonts/specimen/Signika)
+* [Sofia](https://www.google.com/fonts/specimen/Sofia)
 * [Source Sans Pro](https://www.google.com/fonts/specimen/Source+Sans+Pro)
+* [Source Serif Pro](https://www.google.com/fonts/specimen/Source+Serif+Pro)
 * [Syncopate](https://www.google.com/fonts/specimen/Syncopate)
 * [Ubuntu Mono](https://www.google.com/fonts/specimen/Ubuntu+Mono)
 * [Vollkorn](https://www.google.com/fonts/specimen/Vollkorn)
 
 
 == Changelog ==
+
+= 1.0.6 =
+* Fonts. It's always about the fonts, isn't it
 
 = 1.0.5 =
 * Added some more fonts, because who doesn't love more fonts?
@@ -117,4 +129,4 @@ Here is a list
 == Upgrade Notice ==
 
 = 1.0.4 =
-You must be running version 1.2.3 of Design Palette Pro to use these new fonts
+You must be running version 1.2.3 of Design Palette Pro or newer to use these new fonts

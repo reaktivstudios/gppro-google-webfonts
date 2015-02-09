@@ -4,7 +4,7 @@ Plugin Name: Genesis Design Palette Pro - Google Webfonts
 Plugin URI: https://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
-Version: 1.0.5
+Version: 1.0.6
 Requires at least: 3.7
 Author URI: http://andrewnorcross.com
 */
@@ -33,7 +33,7 @@ if( ! defined( 'GPGWF_DIR' ) ) {
 }
 
 if( ! defined( 'GPGWF_VER' ) ) {
-	define( 'GPGWF_VER', '1.0.5' );
+	define( 'GPGWF_VER', '1.0.6' );
 }
 
 class GP_Pro_Google_Webfonts
@@ -62,7 +62,6 @@ class GP_Pro_Google_Webfonts
 
 		// GP Pro specific
 		add_filter( 'gppro_font_stacks',                array( $this, 'google_stack_list'       ),  99      );
-
 	}
 
 	/**
@@ -113,11 +112,14 @@ class GP_Pro_Google_Webfonts
 		}
 
 		// not active. show message
-		echo '<div id="message" class="error fade below-h2"><p><strong>' . __( sprintf( 'This plugin requires Genesis Design Palette Pro to function and cannot be activated.' ), 'gppro-google-webfonts' ).'</strong></p></div>';
+		echo '<div id="message" class="error fade below-h2"><p><strong>' . __( 'This plugin requires Genesis Design Palette Pro to function and cannot be activated.', 'gppro-google-webfonts' ).'</strong></p></div>';
+
 		// hide activation method
 		unset( $_GET['activate'] );
+
 		// deactivate the plugin
 		deactivate_plugins( plugin_basename( __FILE__ ) );
+
 		// and finish
 		return;
 	}
@@ -133,7 +135,7 @@ class GP_Pro_Google_Webfonts
 		$screen = get_current_screen();
 
 		// bail if not on the base DPP page
-		if ( $screen->base !== 'genesis_page_genesis-palette-pro' ) {
+		if ( ! is_object( $screen ) || is_object( $screen ) && $screen->base !== 'genesis_page_genesis-palette-pro' ) {
 			return;
 		}
 
@@ -147,7 +149,7 @@ class GP_Pro_Google_Webfonts
 
 		// check child theme, display warning
 		echo '<div id="message" class="error fade below-h2 gppro-admin-warning gppro-admin-warning-webfonts"><p>';
-		echo '<strong>'.__( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gppro-google-webfonts' ).'</strong>';
+		echo '<strong>' . __( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gppro-google-webfonts' ) . '</strong>';
 		echo '<span class="webfont-ignore">'.__( 'Ignore this message', 'gppro-google-webfonts' ).'</span>';
 		echo '</p></div>';
 	}
@@ -157,12 +159,15 @@ class GP_Pro_Google_Webfonts
 	 *
 	 * @return
 	 */
-	static function pagespeed_check( $fontsize ) {
+	public static function pagespeed_check( $fontsize ) {
 
+		// fetch the existing alert, if it exists
 		$alert  = get_option( 'gppro-webfont-alert' );
 
+		// sum the total we are adding
 		$totals = array_sum( $fontsize );
 
+		// set our high number point with a filter
 		$filter = apply_filters( 'gppro_webfont_alert', 250 );
 
 		// delete the alert if less than alert amount
@@ -177,7 +182,7 @@ class GP_Pro_Google_Webfonts
 
 		// set alert flag for over alert amount
 		if ( $totals >= absint( $filter ) ) {
-			update_option( 'gppro-webfont-alert', true );
+			add_option( 'gppro-webfont-alert', true, null, 'no' );
 		}
 	}
 
@@ -186,18 +191,12 @@ class GP_Pro_Google_Webfonts
 	 *
 	 * @return
 	 */
-	static function font_scripts() {
+	public static function font_scripts() {
 
-		// fetch our font string
-		$string = self::font_choice_string();
-
-		// bail with no string
-		if ( ! $string ) {
-			return;
+		// fetch our font string and enqueue the CSS
+		if ( false !== $string = self::font_choice_string() ) {
+			wp_enqueue_style( 'gppro-webfonts', '//fonts.googleapis.com/css?family=' . $string, array(), GPGWF_VER );
 		}
-
-		// enqueue the CSS
-		wp_enqueue_style( 'gppro-webfonts', '//fonts.googleapis.com/css?family=' . $string, array(), GPGWF_VER );
 	}
 
 	/**
@@ -205,7 +204,7 @@ class GP_Pro_Google_Webfonts
 	 *
 	 * @return
 	 */
-	static function font_choice_string() {
+	public static function font_choice_string() {
 
 		// fetch list of active fonts
 		$actives    = self::font_choice_active();
@@ -249,11 +248,8 @@ class GP_Pro_Google_Webfonts
 			$pagespeed	= self::pagespeed_check( $fontsize );
 		}
 
-		// implode into string with divider
-		$string     = implode( '|', $fontarr );
-
-		// send it back
-		return $string;
+		// implode into string with divider and send it back
+		return implode( '|', $fontarr );
 	}
 
 	/**
@@ -261,7 +257,7 @@ class GP_Pro_Google_Webfonts
 	 *
 	 * @return
 	 */
-	static function font_choice_active() {
+	public static function font_choice_active() {
 
 		// fetch our list of stacks
 		$stacklist  = self::google_stacks();
@@ -296,13 +292,18 @@ class GP_Pro_Google_Webfonts
 	 *
 	 * @return
 	 */
-	static function single_font_fetch( $font = '' ) {
+	public static function single_font_fetch( $font = '' ) {
+
+		// bail if no font was passed
+		if ( empty( $font ) ) {
+			return false;
+		}
 
 		// fetch our list of stacks
 		$stacklist	= self::google_stacks();
 
 		// return the single requested
-		return $stacklist[$font];
+		return ! empty( $stacklist[$font] ) ? $stacklist[$font] : false;
 	}
 
 	/**
@@ -310,8 +311,9 @@ class GP_Pro_Google_Webfonts
 	 *
 	 * @return
 	 */
-	static function google_stacks() {
+	public static function google_stacks() {
 
+		// set the array of fonts
 		$webfonts	= array(
 
 			// serif fonts
@@ -395,6 +397,14 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '44',
 			),
 
+			'neuton'    => array(
+				'label'	=> __( 'Neuton', 'gppro-google-webfonts' ),
+				'css'	=> '"Neuton", serif',
+				'src'	=> 'web',
+				'val'	=> 'Neuton:300,400,700,400italic',
+				'size'	=> '56',
+			),
+
 			'nixie-one'	=> array(
 				'label'	=> __( 'Nixie One', 'gppro-google-webfonts' ),
 				'css'	=> '"Nixie One", serif',
@@ -457,6 +467,14 @@ class GP_Pro_Google_Webfonts
 				'src'	=> 'web',
 				'val'	=> 'Quattrocento:400,700',
 				'size'	=> '54',
+			),
+
+			'source-serif-pro'  => array(
+				'label'	=> __( 'Source Serif Pro', 'gppro-google-webfonts' ),
+				'css'	=> '"Source Serif Pro", serif',
+				'src'	=> 'web',
+				'val'	=> 'Source+Serif+Pro:400,700',
+				'size'	=> '48',
 			),
 
 			'vollkorn'	=> array(
@@ -581,6 +599,14 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '7',
 			),
 
+			'roboto-condensed' => array(
+				'label'	=> __( 'Roboto Condensed', 'gppro-google-webfonts' ),
+				'css'	=> '"Roboto Condensed", sans-serif',
+				'src'	=> 'web',
+				'val'	=> 'Roboto+Condensed:300,400,700,300italic,400italic,700italic',
+				'size'	=> '66',
+			),
+
 			'quattrocento-sans'	=> array(
 				'label'	=> __( 'Quattrocento Sans', 'gppro-google-webfonts' ),
 				'css'	=> '"Quattrocento Sans", sans-serif',
@@ -703,6 +729,22 @@ class GP_Pro_Google_Webfonts
 				'size'	=> '74',
 			),
 
+			'sacramento'  => array(
+				'label'	=> __( 'Sacramento', 'gppro-google-webfonts' ),
+				'css'	=> '"Sacramento", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Sacramento',
+				'size'	=> '20',
+			),
+
+			'sofia'     => array(
+				'label'	=> __( 'Sofia', 'gppro-google-webfonts' ),
+				'css'	=> '"Sofia", cursive',
+				'src'	=> 'web',
+				'val'	=> 'Sofia',
+				'size'	=> '18',
+			),
+
 			// monospace fonts
 
 			'droid-sans-mono'	=> array(
@@ -723,11 +765,8 @@ class GP_Pro_Google_Webfonts
 
 		);
 
-		// filter them all
-		$webfonts	= apply_filters( 'gppro_webfont_stacks', $webfonts );
-
-		return $webfonts;
-
+		// filter them all and return
+		return apply_filters( 'gppro_webfont_stacks', $webfonts );
 	}
 
 	/**
@@ -735,174 +774,100 @@ class GP_Pro_Google_Webfonts
 	 *
 	 * @return
 	 */
-	public function google_stack_list( $stacks ) {
+	public function google_stack_list( $stacks = array() ) {
 
 		// fetch our list of stacks
 		$stacklist	= self::google_stacks();
 
-		// serif fonts
+		// set up the fonts we are adding
+		$fonts  = array(
+			// serif fonts
+			'serif'  => array(
+				'abril-fatface',
+				'arvo',
+				'bitter',
+				'bree-serif',
+				'crimson-text',
+				'enriqueta',
+				'fenix',
+				'lora',
+				'josefin-slab',
+				'merriweather',
+				'neuton',
+				'nixie-one',
+				'old-standard-tt',
+				'playfair-display',
+				'podkova',
+				'rokkitt',
+				'pt-serif',
+				'roboto-slab',
+				'quattrocento',
+				'source-serif-pro',
+				'vollkorn'
+			),
+			// sans-serif fonts
+			'sans'  => array(
+				'abel',
+				'archivo-narrow',
+				'cabin',
+				'dosis',
+				'inder',
+				'josefin-sans',
+				'lato',
+				'montserrat',
+				'orienta',
+				'open-sans',
+				'open-sans-condensed',
+				'oswald',
+				'oxygen',
+				'pathway-gothic',
+				'roboto-condensed',
+				'quattrocento-sans',
+				'raleway',
+				'roboto',
+				'signika',
+				'source-sans-pro',
+				'syncopate'
+			),
+			// cursive fonts
+			'cursive'  => array(
+				'arizonia',
+				'bilbo-swash',
+				'calligraffitti',
+				'dancing-script',
+				'great-vibes',
+				'kaushan-script',
+				'meddon',
+				'pacifico',
+				'rock-salt',
+				'sacramento',
+				'sofia'
+			),
+			// monospace fonts
+			'mono'  => array(
+				'droid-sans-mono',
+				'ubuntu-mono'
+			)
+		);
 
-		if ( ! isset( $stacks['serif']['abril-fatface'] ) )
-			$stacks['serif']['abril-fatface'] = $stacklist['abril-fatface'];
+		// filter the list prior to doing the check
+		$fonts  = apply_filters( 'gppro_webfont_families', $fonts );
 
-		if ( ! isset( $stacks['serif']['arvo'] ) )
-			$stacks['serif']['arvo'] = $stacklist['arvo'];
+		// loop the type groups
+		foreach ( $fonts as $type => $families ) {
 
-		if ( ! isset( $stacks['serif']['bitter'] ) )
-			$stacks['serif']['bitter'] = $stacklist['bitter'];
+			// now loop the individual families
+			foreach ( $families as $family ) {
 
-		if ( ! isset( $stacks['serif']['bree-serif'] ) )
-			$stacks['serif']['bree-serif'] = $stacklist['bree-serif'];
+				// if we dont already have the font, add it
+				if ( ! isset( $stacks[$type][$family] ) ) {
+					$stacks[$type][$family] = $stacklist[$family];
+				}
+			}
+		}
 
-		if ( ! isset( $stacks['serif']['crimson-text'] ) )
-			$stacks['serif']['crimson-text'] = $stacklist['crimson-text'];
-
-		if ( ! isset( $stacks['serif']['enriqueta'] ) )
-			$stacks['serif']['enriqueta'] = $stacklist['enriqueta'];
-
-		if ( ! isset( $stacks['serif']['fenix'] ) )
-			$stacks['serif']['fenix'] = $stacklist['fenix'];
-
-		if ( ! isset( $stacks['serif']['lora'] ) )
-			$stacks['serif']['lora'] = $stacklist['lora'];
-
-		if ( ! isset( $stacks['serif']['josefin-slab'] ) )
-			$stacks['serif']['josefin-slab'] = $stacklist['josefin-slab'];
-
-		if ( ! isset( $stacks['serif']['merriweather'] ) )
-			$stacks['serif']['merriweather'] = $stacklist['merriweather'];
-
-		if ( ! isset( $stacks['serif']['nixie-one'] ) )
-			$stacks['serif']['nixie-one'] = $stacklist['nixie-one'];
-
-		if ( ! isset( $stacks['serif']['old-standard-tt'] ) )
-			$stacks['serif']['old-standard-tt'] = $stacklist['old-standard-tt'];
-
-		if ( ! isset( $stacks['serif']['playfair-display'] ) )
-			$stacks['serif']['playfair-display'] = $stacklist['playfair-display'];
-
-		if ( ! isset( $stacks['serif']['podkova'] ) )
-			$stacks['serif']['podkova'] = $stacklist['podkova'];
-
-		if ( ! isset( $stacks['serif']['rokkitt'] ) )
-			$stacks['serif']['rokkitt'] = $stacklist['rokkitt'];
-
-		if ( ! isset( $stacks['serif']['pt-serif'] ) )
-			$stacks['serif']['pt-serif'] = $stacklist['pt-serif'];
-
-		if ( ! isset( $stacks['serif']['roboto-slab'] ) )
-			$stacks['serif']['roboto-slab'] = $stacklist['roboto-slab'];
-
-		if ( ! isset( $stacks['serif']['quattrocento'] ) )
-			$stacks['serif']['quattrocento'] = $stacklist['quattrocento'];
-
-		if ( ! isset( $stacks['serif']['vollkorn'] ) )
-			$stacks['serif']['vollkorn'] = $stacklist['vollkorn'];
-
-		// sans-serif fonts
-
-		if ( ! isset( $stacks['sans']['abel'] ) )
-			$stacks['sans']['abel'] = $stacklist['abel'];
-
-		if ( ! isset( $stacks['sans']['archivo-narrow'] ) )
-			$stacks['sans']['archivo-narrow'] = $stacklist['archivo-narrow'];
-
-		if ( ! isset( $stacks['sans']['cabin'] ) )
-			$stacks['sans']['cabin'] = $stacklist['cabin'];
-
-		if ( ! isset( $stacks['sans']['dosis'] ) )
-			$stacks['sans']['dosis'] = $stacklist['dosis'];
-
-		if ( ! isset( $stacks['sans']['inder'] ) )
-			$stacks['sans']['inder'] = $stacklist['inder'];
-
-		if ( ! isset( $stacks['sans']['josefin-sans'] ) )
-			$stacks['sans']['josefin-sans'] = $stacklist['josefin-sans'];
-
-		if ( ! isset( $stacks['sans']['lato'] ) )
-			$stacks['sans']['lato'] = $stacklist['lato'];
-
-		if ( ! isset( $stacks['sans']['montserrat'] ) )
-			$stacks['sans']['montserrat'] = $stacklist['montserrat'];
-
-		if ( ! isset( $stacks['sans']['orienta'] ) )
-			$stacks['sans']['orienta'] = $stacklist['orienta'];
-
-		if ( ! isset( $stacks['sans']['open-sans'] ) )
-			$stacks['sans']['open-sans'] = $stacklist['open-sans'];
-
-		if ( ! isset( $stacks['sans']['open-sans-condensed'] ) )
-			$stacks['sans']['open-sans-condensed'] = $stacklist['open-sans-condensed'];
-
-		if ( ! isset( $stacks['sans']['oswald'] ) )
-			$stacks['sans']['oswald'] = $stacklist['oswald'];
-
-		if ( ! isset( $stacks['sans']['oxygen'] ) )
-			$stacks['sans']['oxygen'] = $stacklist['oxygen'];
-
-		if ( ! isset( $stacks['sans']['pathway-gothic'] ) )
-			$stacks['sans']['pathway-gothic'] = $stacklist['pathway-gothic'];
-
-		if ( ! isset( $stacks['sans']['quattrocento-sans'] ) )
-			$stacks['sans']['quattrocento-sans'] = $stacklist['quattrocento-sans'];
-
-		if ( ! isset( $stacks['sans']['raleway'] ) )
-			$stacks['sans']['raleway'] = $stacklist['raleway'];
-
-		if ( ! isset( $stacks['sans']['roboto'] ) )
-			$stacks['sans']['roboto'] = $stacklist['roboto'];
-
-		if ( ! isset( $stacks['sans']['signika'] ) )
-			$stacks['sans']['signika'] = $stacklist['signika'];
-
-		if ( ! isset( $stacks['sans']['source-sans-pro'] ) )
-			$stacks['sans']['source-sans-pro'] = $stacklist['source-sans-pro'];
-
-		if ( ! isset( $stacks['sans']['syncopate'] ) )
-			$stacks['sans']['syncopate'] = $stacklist['syncopate'];
-
-		// cursive fonts
-
-		if ( ! isset( $stacks['cursive']['arizonia'] ) )
-			$stacks['cursive']['arizonia'] = $stacklist['arizonia'];
-
-		if ( ! isset( $stacks['cursive']['bilbo-swash'] ) )
-			$stacks['cursive']['bilbo-swash'] = $stacklist['bilbo-swash'];
-
-		if ( ! isset( $stacks['cursive']['calligraffitti'] ) )
-			$stacks['cursive']['calligraffitti'] = $stacklist['calligraffitti'];
-
-		if ( ! isset( $stacks['cursive']['dancing-script'] ) )
-			$stacks['cursive']['dancing-script'] = $stacklist['dancing-script'];
-
-		if ( ! isset( $stacks['cursive']['great-vibes'] ) )
-			$stacks['cursive']['great-vibes'] = $stacklist['great-vibes'];
-
-		if ( ! isset( $stacks['cursive']['kaushan-script'] ) )
-			$stacks['cursive']['kaushan-script'] = $stacklist['kaushan-script'];
-
-		if ( ! isset( $stacks['cursive']['meddon'] ) )
-			$stacks['cursive']['meddon'] = $stacklist['meddon'];
-
-		if ( ! isset( $stacks['cursive']['pacifico'] ) )
-			$stacks['cursive']['pacifico'] = $stacklist['pacifico'];
-
-		if ( ! isset( $stacks['cursive']['rock-salt'] ) )
-			$stacks['cursive']['rock-salt'] = $stacklist['rock-salt'];
-
-		// monospace fonts
-		if ( ! isset( $stacks['mono']['droid-sans-mono'] ) )
-			$stacks['mono']['droid-sans-mono'] = $stacklist['droid-sans-mono'];
-
-		if ( ! isset( $stacks['monospace']['ubuntu-mono'] ) )
-			$stacks['mono']['ubuntu-mono'] = $stacklist['ubuntu-mono'];
-
-		// filter them all
-		$stacks	= apply_filters( 'gppro_webfont_stack_list', $stacks );
-
-		// send back stacks
-		return $stacks;
-
+		// filter them all and send back stacks
+		return apply_filters( 'gppro_webfont_stack_list', $stacks );
 	}
 
 /// end class
