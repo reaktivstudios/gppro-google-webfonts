@@ -99,7 +99,7 @@ class GP_Pro_Google_Webfonts
 		$screen = get_current_screen();
 
 		// bail if not on the plugins page
-		if ( $screen->parent_file !== 'plugins.php' ) {
+		if ( ! is_object( $screen ) || empty( $screen->parent_file ) || $screen->parent_file !== 'plugins.php' ) {
 			return;
 		}
 
