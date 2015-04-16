@@ -143,7 +143,7 @@ class GP_Pro_Google_Webfonts
 		$alert  = get_option( 'gppro-webfont-alert' );
 
 		// check for each possible alert
-		if ( ! isset( $alert ) || empty( $alert ) || $alert == 'ignore' ) {
+		if ( empty( $alert ) || $alert == 'ignore' ) {
 			return;
 		}
 
@@ -314,453 +314,509 @@ class GP_Pro_Google_Webfonts
 	public static function google_stacks() {
 
 		// set the array of fonts
-		$webfonts	= array(
+		$webfonts   = array(
 
 			// serif fonts
-			'abril-fatface'	=> array(
-				'label'	=> __( 'Abril Fatface', 'gppro-google-webfonts' ),
-				'css'	=> '"Abril Fatface", serif',
-				'src'	=> 'web',
-				'val'	=> 'Abril+Fatface',
-				'size'	=> '14',
+			'abril-fatface' => array(
+				'label' => __( 'Abril Fatface', 'gppro-google-webfonts' ),
+				'css'   => '"Abril Fatface", serif',
+				'src'   => 'web',
+				'val'   => 'Abril+Fatface',
+				'size'  => '14',
 			),
 
-			'arvo'	=> array(
-				'label'	=> __( 'Arvo', 'gppro-google-webfonts' ),
-				'css'	=> '"Arvo", serif',
-				'src'	=> 'web',
-				'val'	=> 'Arvo:400,700,400italic,700italic',
-				'size'	=> '104',
+			'arvo'  => array(
+				'label' => __( 'Arvo', 'gppro-google-webfonts' ),
+				'css'   => '"Arvo", serif',
+				'src'   => 'web',
+				'val'   => 'Arvo:400,700,400italic,700italic',
+				'size'  => '104',
 			),
 
-			'bitter'	=> array(
-				'label'	=> __( 'Bitter', 'gppro-google-webfonts' ),
-				'css'	=> '"Bitter", serif',
-				'src'	=> 'web',
-				'val'	=> 'Bitter:400,700,400italic',
-				'size'	=> '66',
+			'bitter'    => array(
+				'label' => __( 'Bitter', 'gppro-google-webfonts' ),
+				'css'   => '"Bitter", serif',
+				'src'   => 'web',
+				'val'   => 'Bitter:400,700,400italic',
+				'size'  => '66',
 			),
 
-			'bree-serif'	=> array(
-				'label'	=> __( 'Bree Serif', 'gppro-google-webfonts' ),
-				'css'	=> '"Bree Serif", serif',
-				'src'	=> 'web',
-				'val'	=> 'Bree+Serif',
-				'size'	=> '11',
+			'bree-serif'    => array(
+				'label' => __( 'Bree Serif', 'gppro-google-webfonts' ),
+				'css'   => '"Bree Serif", serif',
+				'src'   => 'web',
+				'val'   => 'Bree+Serif',
+				'size'  => '11',
 			),
 
-			'crimson-text'	=> array(
-				'label'	=> __( 'Crimson Text', 'gppro-google-webfonts' ),
-				'css'	=> '"Crimson Text", serif',
-				'src'	=> 'web',
-				'val'	=> 'Crimson+Text:400,700',
-				'size'	=> '186',
+			'crimson-text'  => array(
+				'label' => __( 'Crimson Text', 'gppro-google-webfonts' ),
+				'css'   => '"Crimson Text", serif',
+				'src'   => 'web',
+				'val'   => 'Crimson+Text:400,700',
+				'size'  => '186',
 			),
 
-			'enriqueta'	=> array(
-				'label'	=> __( 'Enriqueta', 'gppro-google-webfonts' ),
-				'css'	=> '"Enriqueta", serif',
-				'src'	=> 'web',
-				'val'	=> 'Enriqueta:400,700',
-				'size'	=> '22',
+			'enriqueta' => array(
+				'label' => __( 'Enriqueta', 'gppro-google-webfonts' ),
+				'css'   => '"Enriqueta", serif',
+				'src'   => 'web',
+				'val'   => 'Enriqueta:400,700',
+				'size'  => '22',
 			),
 
-			'fenix'		=> array(
-				'label'	=> __( 'Fenix', 'gppro-google-webfonts' ),
-				'css'	=> '"Fenix", serif',
-				'src'	=> 'web',
-				'val'	=> 'Fenix',
-				'size'	=> '8',
+			'fenix'     => array(
+				'label' => __( 'Fenix', 'gppro-google-webfonts' ),
+				'css'   => '"Fenix", serif',
+				'src'   => 'web',
+				'val'   => 'Fenix',
+				'size'  => '8',
 			),
 
-			'lora'	=> array(
-				'label'	=> __( 'Lora', 'gppro-google-webfonts' ),
-				'css'	=> '"Lora", serif',
-				'src'	=> 'web',
-				'val'	=> 'Lora:400,700,400italic,700italic',
-				'size'	=> '112',
+			'lora'  => array(
+				'label' => __( 'Lora', 'gppro-google-webfonts' ),
+				'css'   => '"Lora", serif',
+				'src'   => 'web',
+				'val'   => 'Lora:400,700,400italic,700italic',
+				'size'  => '112',
 			),
 
-			'josefin-slab'	=> array(
-				'label'	=> __( 'Josefin Slab', 'gppro-google-webfonts' ),
-				'css'	=> '"Josefin Slab", serif',
-				'src'	=> 'web',
-				'val'	=> 'Josefin+Slab:400,700',
-				'size'	=> '102',
+			'josefin-slab'  => array(
+				'label' => __( 'Josefin Slab', 'gppro-google-webfonts' ),
+				'css'   => '"Josefin Slab", serif',
+				'src'   => 'web',
+				'val'   => 'Josefin+Slab:400,700',
+				'size'  => '102',
 			),
 
-			'merriweather'	=> array(
-				'label'	=> __( 'Merriweather', 'gppro-google-webfonts' ),
-				'css'	=> '"Merriweather", serif',
-				'src'	=> 'web',
-				'val'	=> 'Merriweather:400,700,400italic,700italic',
-				'size'	=> '44',
+			'merriweather'  => array(
+				'label' => __( 'Merriweather', 'gppro-google-webfonts' ),
+				'css'   => '"Merriweather", serif',
+				'src'   => 'web',
+				'val'   => 'Merriweather:400,700,400italic,700italic',
+				'size'  => '44',
 			),
 
 			'neuton'    => array(
-				'label'	=> __( 'Neuton', 'gppro-google-webfonts' ),
-				'css'	=> '"Neuton", serif',
-				'src'	=> 'web',
-				'val'	=> 'Neuton:300,400,700,400italic',
-				'size'	=> '56',
+				'label' => __( 'Neuton', 'gppro-google-webfonts' ),
+				'css'   => '"Neuton", serif',
+				'src'   => 'web',
+				'val'   => 'Neuton:300,400,700,400italic',
+				'size'  => '56',
 			),
 
-			'nixie-one'	=> array(
-				'label'	=> __( 'Nixie One', 'gppro-google-webfonts' ),
-				'css'	=> '"Nixie One", serif',
-				'src'	=> 'web',
-				'val'	=> 'Nixie+One',
-				'size'	=> '39',
+			'nixie-one' => array(
+				'label' => __( 'Nixie One', 'gppro-google-webfonts' ),
+				'css'   => '"Nixie One", serif',
+				'src'   => 'web',
+				'val'   => 'Nixie+One',
+				'size'  => '39',
 			),
 
-			'old-standard-tt'	=> array(
-				'label'	=> __( 'Old Standard TT', 'gppro-google-webfonts' ),
-				'css'	=> '"Old Standard TT", serif',
-				'src'	=> 'web',
-				'val'	=> 'Old+Standard+TT:400,700,400italic',
-				'size'	=> '93',
+			'old-standard-tt'   => array(
+				'label' => __( 'Old Standard TT', 'gppro-google-webfonts' ),
+				'css'   => '"Old Standard TT", serif',
+				'src'   => 'web',
+				'val'   => 'Old+Standard+TT:400,700,400italic',
+				'size'  => '93',
 			),
 
-			'playfair-display'	=> array(
-				'label'	=> __( 'Playfair Display', 'gppro-google-webfonts' ),
-				'css'	=> '"Playfair Display", serif',
-				'src'	=> 'web',
-				'val'	=> 'Playfair+Display:400,700,400italic',
-				'size'	=> '78',
+			'playfair-display'  => array(
+				'label' => __( 'Playfair Display', 'gppro-google-webfonts' ),
+				'css'   => '"Playfair Display", serif',
+				'src'   => 'web',
+				'val'   => 'Playfair+Display:400,700,400italic',
+				'size'  => '78',
 			),
 
-			'podkova'	=> array(
-				'label'	=> __( 'Podkova', 'gppro-google-webfonts' ),
-				'css'	=> '"Podkova", serif',
-				'src'	=> 'web',
-				'val'	=> 'Podkova:400,700',
-				'size'	=> '72',
+			'podkova'   => array(
+				'label' => __( 'Podkova', 'gppro-google-webfonts' ),
+				'css'   => '"Podkova", serif',
+				'src'   => 'web',
+				'val'   => 'Podkova:400,700',
+				'size'  => '72',
 			),
 
-			'rokkitt'	=> array(
-				'label'	=> __( 'Rokkitt', 'gppro-google-webfonts' ),
-				'css'	=> '"Rokkitt", serif',
-				'src'	=> 'web',
-				'val'	=> 'Rokkitt:400,700',
-				'size'	=> '52',
+			'rokkitt'   => array(
+				'label' => __( 'Rokkitt', 'gppro-google-webfonts' ),
+				'css'   => '"Rokkitt", serif',
+				'src'   => 'web',
+				'val'   => 'Rokkitt:400,700',
+				'size'  => '52',
 			),
 
-			'pt-serif'	=> array(
-				'label'	=> __( 'PT Serif', 'gppro-google-webfonts' ),
-				'css'	=> '"PT Serif", serif',
-				'src'	=> 'web',
-				'val'	=> 'PT+Serif:400,700',
-				'size'	=> '88',
+			'pt-serif'  => array(
+				'label' => __( 'PT Serif', 'gppro-google-webfonts' ),
+				'css'   => '"PT Serif", serif',
+				'src'   => 'web',
+				'val'   => 'PT+Serif:400,700',
+				'size'  => '88',
 			),
 
-			'roboto-slab'	=> array(
-				'label'	=> __( 'Roboto Slab', 'gppro-google-webfonts' ),
-				'css'	=> '"Roboto Slab", serif',
-				'src'	=> 'web',
-				'val'	=> 'Roboto+Slab:300,400,700',
-				'size'	=> '36',
+			'roboto-slab'   => array(
+				'label' => __( 'Roboto Slab', 'gppro-google-webfonts' ),
+				'css'   => '"Roboto Slab", serif',
+				'src'   => 'web',
+				'val'   => 'Roboto+Slab:300,400,700',
+				'size'  => '36',
 			),
 
-			'quattrocento'	=> array(
-				'label'	=> __( 'Quattrocento', 'gppro-google-webfonts' ),
-				'css'	=> '"Quattrocento", serif',
-				'src'	=> 'web',
-				'val'	=> 'Quattrocento:400,700',
-				'size'	=> '54',
+			'quattrocento'  => array(
+				'label' => __( 'Quattrocento', 'gppro-google-webfonts' ),
+				'css'   => '"Quattrocento", serif',
+				'src'   => 'web',
+				'val'   => 'Quattrocento:400,700',
+				'size'  => '54',
 			),
 
 			'source-serif-pro'  => array(
-				'label'	=> __( 'Source Serif Pro', 'gppro-google-webfonts' ),
-				'css'	=> '"Source Serif Pro", serif',
-				'src'	=> 'web',
-				'val'	=> 'Source+Serif+Pro:400,700',
-				'size'	=> '48',
+				'label' => __( 'Source Serif Pro', 'gppro-google-webfonts' ),
+				'css'   => '"Source Serif Pro", serif',
+				'src'   => 'web',
+				'val'   => 'Source+Serif+Pro:400,700',
+				'size'  => '48',
 			),
 
-			'vollkorn'	=> array(
-				'label'	=> __( 'Vollkorn', 'gppro-google-webfonts' ),
-				'css'	=> '"Vollkorn", serif',
-				'src'	=> 'web',
-				'val'	=> 'Vollkorn:400,700,400italic,700italic',
-				'size'	=> '124',
+			'vollkorn'  => array(
+				'label' => __( 'Vollkorn', 'gppro-google-webfonts' ),
+				'css'   => '"Vollkorn", serif',
+				'src'   => 'web',
+				'val'   => 'Vollkorn:400,700,400italic,700italic',
+				'size'  => '124',
 			),
 
 			// sans serif fonts
 
-			'abel'	=> array(
-				'label'	=> __( 'Abel', 'gppro-google-webfonts' ),
-				'css'	=> '"Abel", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Abel',
-				'size'	=> '16',
+			'abel'  => array(
+				'label' => __( 'Abel', 'gppro-google-webfonts' ),
+				'css'   => '"Abel", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Abel',
+				'size'  => '16',
 			),
 
-			'archivo-narrow'	=> array(
-				'label'	=> __( 'Archivo Narrow', 'gppro-google-webfonts' ),
-				'css'	=> '"Archivo Narrow", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Archivo+Narrow:400,700,400italic,700italic',
-				'size'	=> '100',
+			'archivo-narrow'    => array(
+				'label' => __( 'Archivo Narrow', 'gppro-google-webfonts' ),
+				'css'   => '"Archivo Narrow", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Archivo+Narrow:400,700,400italic,700italic',
+				'size'  => '100',
 			),
 
-			'cabin'	=> array(
-				'label'	=> __( 'Cabin', 'gppro-google-webfonts' ),
-				'css'	=> '"Cabin", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Cabin:400,700',
-				'size'	=> '166',
+			'cabin' => array(
+				'label' => __( 'Cabin', 'gppro-google-webfonts' ),
+				'css'   => '"Cabin", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Cabin:400,700',
+				'size'  => '166',
 			),
 
-			'dosis'	=> array(
-				'label'	=> __( 'Dosis', 'gppro-google-webfonts' ),
-				'css'	=> '"Dosis", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Dosis:300,400,700',
-				'size'	=> '96',
+			'dosis' => array(
+				'label' => __( 'Dosis', 'gppro-google-webfonts' ),
+				'css'   => '"Dosis", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Dosis:300,400,700',
+				'size'  => '96',
 			),
 
-			'inder'	=> array(
-				'label'	=> __( 'Inder', 'gppro-google-webfonts' ),
-				'css'	=> '"Inder", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Inder',
-				'size'	=> '9',
+			'inder' => array(
+				'label' => __( 'Inder', 'gppro-google-webfonts' ),
+				'css'   => '"Inder", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Inder',
+				'size'  => '9',
 			),
 
-			'josefin-sans'	=> array(
-				'label'	=> __( 'Josefin Sans', 'gppro-google-webfonts' ),
-				'css'	=> '"Josefin Sans", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Josefin+Sans:400,700',
-				'size'	=> '38',
+			'josefin-sans'  => array(
+				'label' => __( 'Josefin Sans', 'gppro-google-webfonts' ),
+				'css'   => '"Josefin Sans", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Josefin+Sans:400,700',
+				'size'  => '38',
 			),
 
-			'lato'	=> array(
-				'label'	=> __( 'Lato', 'gppro-google-webfonts' ),
-				'css'	=> '"Lato", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Lato:300,400,700',
-				'size'	=> '150',
+			'lato'  => array(
+				'label' => __( 'Lato', 'gppro-google-webfonts' ),
+				'css'   => '"Lato", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Lato:300,400,700',
+				'size'  => '150',
 			),
 
-			'montserrat'	=> array(
-				'label'	=> __( 'Montserrat', 'gppro-google-webfonts' ),
-				'css'	=> '"Montserrat", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Montserrat:400,700',
-				'size'	=> '28',
+			'montserrat'    => array(
+				'label' => __( 'Montserrat', 'gppro-google-webfonts' ),
+				'css'   => '"Montserrat", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Montserrat:400,700',
+				'size'  => '28',
 			),
 
-			'open-sans'	=> array(
-				'label'	=> __( 'Open Sans', 'gppro-google-webfonts' ),
-				'css'	=> '"Open Sans", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Open+Sans:300,400,700,300italic,400italic,700italic',
-				'size'	=> '90',
+			'open-sans' => array(
+				'label' => __( 'Open Sans', 'gppro-google-webfonts' ),
+				'css'   => '"Open Sans", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Open+Sans:300,400,700,300italic,400italic,700italic',
+				'size'  => '90',
 			),
 
-			'open-sans-condensed'	=> array(
-				'label'	=> __( 'Open Sans Condensed', 'gppro-google-webfonts' ),
-				'css'	=> '"Open Sans Condensed", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Open+Sans+Condensed:300,700,300italic',
-				'size'	=> '51',
+			'open-sans-condensed'   => array(
+				'label' => __( 'Open Sans Condensed', 'gppro-google-webfonts' ),
+				'css'   => '"Open Sans Condensed", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Open+Sans+Condensed:300,700,300italic',
+				'size'  => '51',
 			),
 
-			'orienta'	=> array(
-				'label'	=> __( 'Orienta', 'gppro-google-webfonts' ),
-				'css'	=> '"Orienta", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Orienta',
-				'size'	=> '13',
+			'orienta'   => array(
+				'label' => __( 'Orienta', 'gppro-google-webfonts' ),
+				'css'   => '"Orienta", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Orienta',
+				'size'  => '13',
 			),
 
-			'oswald'	=> array(
-				'label'	=> __( 'Oswald', 'gppro-google-webfonts' ),
-				'css'	=> '"Oswald", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Oswald:400,700',
-				'size'	=> '26',
+			'oswald'    => array(
+				'label' => __( 'Oswald', 'gppro-google-webfonts' ),
+				'css'   => '"Oswald", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Oswald:400,700',
+				'size'  => '26',
 			),
 
-			'oxygen'	=> array(
-				'label'	=> __( 'Oxygen', 'gppro-google-webfonts' ),
-				'css'	=> '"Oxygen", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Oxygen:300,400,700',
-				'size'	=> '51',
+			'oxygen'    => array(
+				'label' => __( 'Oxygen', 'gppro-google-webfonts' ),
+				'css'   => '"Oxygen", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Oxygen:300,400,700',
+				'size'  => '51',
 			),
 
 			'pathway-gothic' => array(
-				'label'	=> __( 'Pathway Gothic One', 'gppro-google-webfonts' ),
-				'css'	=> '"Pathway Gothic One", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Pathway+Gothic+One',
-				'size'	=> '7',
+				'label' => __( 'Pathway Gothic One', 'gppro-google-webfonts' ),
+				'css'   => '"Pathway Gothic One", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Pathway+Gothic+One',
+				'size'  => '7',
+			),
+
+			'quicksand' => array(
+				'label' => __( 'Quicksand', 'gppro-google-webfonts' ),
+				'css'   => '"Quicksand", san-serif',
+				'src'   => 'web',
+				'val'   => 'Quicksand:300,400,700',
+				'size'  => '39',
 			),
 
 			'roboto-condensed' => array(
-				'label'	=> __( 'Roboto Condensed', 'gppro-google-webfonts' ),
-				'css'	=> '"Roboto Condensed", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Roboto+Condensed:300,400,700,300italic,400italic,700italic',
-				'size'	=> '66',
+				'label' => __( 'Roboto Condensed', 'gppro-google-webfonts' ),
+				'css'   => '"Roboto Condensed", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Roboto+Condensed:300,400,700,300italic,400italic,700italic',
+				'size'  => '66',
 			),
 
-			'quattrocento-sans'	=> array(
-				'label'	=> __( 'Quattrocento Sans', 'gppro-google-webfonts' ),
-				'css'	=> '"Quattrocento Sans", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Quattrocento+Sans:400,700,400italic,700italic',
-				'size'	=> '76',
+			'quattrocento-sans' => array(
+				'label' => __( 'Quattrocento Sans', 'gppro-google-webfonts' ),
+				'css'   => '"Quattrocento Sans", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Quattrocento+Sans:400,700,400italic,700italic',
+				'size'  => '76',
 			),
 
-			'raleway'	=> array(
-				'label'	=> __( 'Raleway', 'gppro-google-webfonts' ),
-				'css'	=> '"Raleway", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Raleway:400,500,900',
-				'size'	=> '177',
+			'raleway'   => array(
+				'label' => __( 'Raleway', 'gppro-google-webfonts' ),
+				'css'   => '"Raleway", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Raleway:400,500,900',
+				'size'  => '177',
 			),
 
-			'roboto'	=> array(
-				'label'	=> __( 'Roboto', 'gppro-google-webfonts' ),
-				'css'	=> '"Roboto", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Roboto:400,700,400italic,700italic',
-				'size'	=> '40',
+			'roboto'    => array(
+				'label' => __( 'Roboto', 'gppro-google-webfonts' ),
+				'css'   => '"Roboto", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Roboto:400,700,400italic,700italic',
+				'size'  => '40',
 			),
 
-			'signika'	=> array(
-				'label'	=> __( 'Signika', 'gppro-google-webfonts' ),
-				'css'	=> '"Signika", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Signika:300,400,600,700',
-				'size'	=> '148',
+			'signika'   => array(
+				'label' => __( 'Signika', 'gppro-google-webfonts' ),
+				'css'   => '"Signika", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Signika:300,400,600,700',
+				'size'  => '148',
 			),
 
-			'source-sans-pro'	=> array(
-				'label'	=> __( 'Source Sans Pro', 'gppro-google-webfonts' ),
-				'css'	=> '"Source Sans Pro", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Source+Sans+Pro:300,400,700,300italic,400italic,700italic',
-				'size'	=> '108',
+			'source-sans-pro'   => array(
+				'label' => __( 'Source Sans Pro', 'gppro-google-webfonts' ),
+				'css'   => '"Source Sans Pro", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Source+Sans+Pro:300,400,700,300italic,400italic,700italic',
+				'size'  => '108',
 			),
 
-			'syncopate'	=> array(
-				'label'	=> __( 'Syncopate', 'gppro-google-webfonts' ),
-				'css'	=> '"Syncopate", sans-serif',
-				'src'	=> 'web',
-				'val'	=> 'Syncopate:400,700',
-				'size'	=> '134',
+			'syncopate' => array(
+				'label' => __( 'Syncopate', 'gppro-google-webfonts' ),
+				'css'   => '"Syncopate", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Syncopate:400,700',
+				'size'  => '134',
 			),
 
 			// cursive fonts
 
-			'arizonia'	=> array(
-				'label'	=> __( 'Arizonia', 'gppro-google-webfonts' ),
-				'css'	=> '"Arizonia", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Arizonia',
-				'size'	=> '13',
+			'arizonia'  => array(
+				'label' => __( 'Arizonia', 'gppro-google-webfonts' ),
+				'css'   => '"Arizonia", cursive',
+				'src'   => 'web',
+				'val'   => 'Arizonia',
+				'size'  => '13',
 			),
 
-			'bilbo-swash'	=> array(
-				'label'	=> __( 'Bilbo Swash Caps', 'gppro-google-webfonts' ),
-				'css'	=> '"Bilbo Swash Caps", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Bilbo+Swash+Caps',
-				'size'	=> '14',
+			'bilbo-swash'   => array(
+				'label' => __( 'Bilbo Swash Caps', 'gppro-google-webfonts' ),
+				'css'   => '"Bilbo Swash Caps", cursive',
+				'src'   => 'web',
+				'val'   => 'Bilbo+Swash+Caps',
+				'size'  => '14',
 			),
 
-			'calligraffitti'	=> array(
-				'label'	=> __( 'Calligraffitti', 'gppro-google-webfonts' ),
-				'css'	=> '"Calligraffitti", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Calligraffitti',
-				'size'	=> '36',
+			'cabin-sketch'  => array(
+				'label' => __( 'Cabin Sketch', 'gppro-google-webfonts' ),
+				'css'   => '"Cabin Sketch", cursive',
+				'src'   => 'web',
+				'val'   => 'Cabin+Sketch:400,700',
+				'size'  => '202',
 			),
 
-			'dancing-script'	=> array(
-				'label'	=> __( 'Dancing Script', 'gppro-google-webfonts' ),
-				'css'	=> '"Dancing Script", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Dancing+Script:400,700',
-				'size'	=> '116',
+			'calligraffitti'    => array(
+				'label' => __( 'Calligraffitti', 'gppro-google-webfonts' ),
+				'css'   => '"Calligraffitti", cursive',
+				'src'   => 'web',
+				'val'   => 'Calligraffitti',
+				'size'  => '36',
 			),
 
-			'great-vibes'	=> array(
-				'label'	=> __( 'Great Vibes', 'gppro-google-webfonts' ),
-				'css'	=> '"Great Vibes", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Great+Vibes',
-				'size'	=> '24',
+			'dancing-script'    => array(
+				'label' => __( 'Dancing Script', 'gppro-google-webfonts' ),
+				'css'   => '"Dancing Script", cursive',
+				'src'   => 'web',
+				'val'   => 'Dancing+Script:400,700',
+				'size'  => '116',
 			),
 
-			'kaushan-script'	=> array(
-				'label'	=> __( 'Kaushan Script', 'gppro-google-webfonts' ),
-				'css'	=> '"Kaushan Script", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Kaushan+Script',
-				'size'	=> '38',
+			'fredericka-the-great'  => array(
+				'label' => __( 'Fredericka the Great', 'gppro-google-webfonts' ),
+				'css'   => '"Fredericka the Great", cursive',
+				'src'   => 'web',
+				'val'   => 'Fredericka+the+Great:400',
+				'size'  => '271',
 			),
 
-			'meddon'	=> array(
-				'label'	=> __( 'Meddon', 'gppro-google-webfonts' ),
-				'css'	=> '"Meddon", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Meddon',
-				'size'	=> '83',
+			'great-vibes'   => array(
+				'label' => __( 'Great Vibes', 'gppro-google-webfonts' ),
+				'css'   => '"Great Vibes", cursive',
+				'src'   => 'web',
+				'val'   => 'Great+Vibes',
+				'size'  => '24',
 			),
 
-			'pacifico'	=> array(
-				'label'	=> __( 'Pacifico', 'gppro-google-webfonts' ),
-				'css'	=> '"Pacifico", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Pacifico',
-				'size'	=> '27',
+			'handlee'   => array(
+				'label' => __( 'Handlee', 'gppro-google-webfonts' ),
+				'css'   => '"Handlee", cursive',
+				'src'   => 'web',
+				'val'   => 'Handlee:400',
+				'size'  => '22',
 			),
 
-			'rock-salt'	=> array(
-				'label'	=> __( 'Rock Salt', 'gppro-google-webfonts' ),
-				'css'	=> '"Rock Salt", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Rock+Salt',
-				'size'	=> '74',
+			'kaushan-script'    => array(
+				'label' => __( 'Kaushan Script', 'gppro-google-webfonts' ),
+				'css'   => '"Kaushan Script", cursive',
+				'src'   => 'web',
+				'val'   => 'Kaushan+Script',
+				'size'  => '38',
+			),
+
+			'londrina-outline'  => array(
+				'label' => __( 'Londrina Outline', 'gppro-google-webfonts' ),
+				'css'   => '"Londrina Outline", cursive',
+				'src'   => 'web',
+				'val'   => 'Londrina+Outline:400',
+				'size'  => '42',
+			),
+
+			'londrina-sketch'   => array(
+				'label' => __( 'Londrina Sketch', 'gppro-google-webfonts' ),
+				'css'   => '"Londrina Sketch", cursive',
+				'src'   => 'web',
+				'val'   => 'Londrina+Sketch:400',
+				'size'  => '82',
+			),
+
+			'meddon'    => array(
+				'label' => __( 'Meddon', 'gppro-google-webfonts' ),
+				'css'   => '"Meddon", cursive',
+				'src'   => 'web',
+				'val'   => 'Meddon',
+				'size'  => '83',
+			),
+
+			'pacifico'  => array(
+				'label' => __( 'Pacifico', 'gppro-google-webfonts' ),
+				'css'   => '"Pacifico", cursive',
+				'src'   => 'web',
+				'val'   => 'Pacifico',
+				'size'  => '27',
+			),
+
+			'rock-salt' => array(
+				'label' => __( 'Rock Salt', 'gppro-google-webfonts' ),
+				'css'   => '"Rock Salt", cursive',
+				'src'   => 'web',
+				'val'   => 'Rock+Salt',
+				'size'  => '74',
 			),
 
 			'sacramento'  => array(
-				'label'	=> __( 'Sacramento', 'gppro-google-webfonts' ),
-				'css'	=> '"Sacramento", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Sacramento',
-				'size'	=> '20',
+				'label' => __( 'Sacramento', 'gppro-google-webfonts' ),
+				'css'   => '"Sacramento", cursive',
+				'src'   => 'web',
+				'val'   => 'Sacramento',
+				'size'  => '20',
 			),
 
 			'sofia'     => array(
-				'label'	=> __( 'Sofia', 'gppro-google-webfonts' ),
-				'css'	=> '"Sofia", cursive',
-				'src'	=> 'web',
-				'val'	=> 'Sofia',
-				'size'	=> '18',
+				'label' => __( 'Sofia', 'gppro-google-webfonts' ),
+				'css'   => '"Sofia", cursive',
+				'src'   => 'web',
+				'val'   => 'Sofia',
+				'size'  => '18',
 			),
 
 			// monospace fonts
 
-			'droid-sans-mono'	=> array(
-				'label'	=> __( 'Droid Sans Mono', 'gppro-google-webfonts' ),
-				'css'	=> '"Droid Sans Mono", monospace',
-				'src'	=> 'web',
-				'val'	=> 'Droid+Sans+Mono',
-				'size'	=> '73',
+			'droid-sans-mono'   => array(
+				'label' => __( 'Droid Sans Mono', 'gppro-google-webfonts' ),
+				'css'   => '"Droid Sans Mono", monospace',
+				'src'   => 'web',
+				'val'   => 'Droid+Sans+Mono',
+				'size'  => '73',
 			),
 
-			'ubuntu-mono'	=> array(
-				'label'	=> __( 'Ubuntu Mono', 'gppro-google-webfonts' ),
-				'css'	=> '"Ubuntu Mono", monospace',
-				'src'	=> 'web',
-				'val'	=> 'Ubuntu+Mono',
-				'size'	=> '18',
+			'source-code-pro'   => array(
+				'label' => __( 'Source Code Pro', 'gppro-google-webfonts' ),
+				'css'   => '"Source Code Pro", monospace',
+				'src'   => 'web',
+				'val'   => 'Source+Code+Pro:400,700',
+				'size'  => '48',
+			),
+
+			'ubuntu-mono'   => array(
+				'label' => __( 'Ubuntu Mono', 'gppro-google-webfonts' ),
+				'css'   => '"Ubuntu Mono", monospace',
+				'src'   => 'web',
+				'val'   => 'Ubuntu+Mono',
+				'size'  => '18',
 			),
 
 		);
@@ -803,7 +859,7 @@ class GP_Pro_Google_Webfonts
 				'roboto-slab',
 				'quattrocento',
 				'source-serif-pro',
-				'vollkorn'
+				'vollkorn',
 			),
 			// sans-serif fonts
 			'sans'  => array(
@@ -821,32 +877,39 @@ class GP_Pro_Google_Webfonts
 				'oswald',
 				'oxygen',
 				'pathway-gothic',
+				'quicksand',
 				'roboto-condensed',
 				'quattrocento-sans',
 				'raleway',
 				'roboto',
 				'signika',
 				'source-sans-pro',
-				'syncopate'
+				'syncopate',
 			),
 			// cursive fonts
 			'cursive'  => array(
 				'arizonia',
 				'bilbo-swash',
+				'cabin-sketch',
 				'calligraffitti',
+				'fredericka-the-great',
 				'dancing-script',
 				'great-vibes',
 				'kaushan-script',
+				'handlee',
+				'londrina-outline',
+				'londrina-sketch',
 				'meddon',
 				'pacifico',
 				'rock-salt',
 				'sacramento',
-				'sofia'
+				'sofia',
 			),
 			// monospace fonts
 			'mono'  => array(
 				'droid-sans-mono',
-				'ubuntu-mono'
+				'source-code-pro',
+				'ubuntu-mono',
 			)
 		);
 

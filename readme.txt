@@ -2,7 +2,7 @@
 Contributors: norcross, jjeaton, reaktivstudios
 Requires at least: 3.7
 Tested up to: 4.1
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: design palette pro, genesis design, google webfonts
@@ -13,12 +13,13 @@ Adds a set of popular Google Webfonts to Design Palette Pro
 
 Adds a set of popular Google Webfonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
 
-= New fonts in 1.0.6 =
-* Neuton
-* Roboto Condensed
-* Sacramento
-* Sofia
-* Source Serif Pro
+= New fonts in 1.0.7 =
+* Quicksand
+* Cabin Sketch
+* Fredericka the Great
+* Handlee
+* Londrina Outline
+* Londrina Sketch
 
 == Installation ==
 1. Upload the `gppro-google-webfonts` folder and all its contents to the `/wp-content/plugins/` directory
@@ -36,7 +37,7 @@ Because this is an add-on for [Design Palette Pro](http://genesisdesignpro.com/ 
 
 = How Many Fonts Are Included? =
 
-There are 55 total fonts included
+There are 62 total fonts included
 
 = Why Aren't All Fonts Included? =
 
@@ -55,6 +56,7 @@ Here is a list
 * [Bitter](https://www.google.com/fonts/specimen/Bitter)
 * [Bree Serif](https://www.google.com/fonts/specimen/Bree+Serif)
 * [Cabin](https://www.google.com/fonts/specimen/Cabin)
+* [Cabin Sketch](https://www.google.com/fonts/specimen/Cabin+Sketch)
 * [Calligraffitti](https://www.google.com/fonts/specimen/Calligraffitti)
 * [Crimson Text](https://www.google.com/fonts/specimen/Crimson+Text)
 * [Dancing Script](https://www.google.com/fonts/specimen/Dancing+Script)
@@ -62,12 +64,16 @@ Here is a list
 * [Droid Sans Mono](https://www.google.com/fonts/specimen/Droid+Sans+Mono)
 * [Enriqueta](https://www.google.com/fonts/specimen/Enriqueta)
 * [Fenix](https://www.google.com/fonts/specimen/Fenix)
+* [Fredericka the Great](https://www.google.com/fonts/specimen/Fredericka+the+Great)
 * [Great Vibes](https://www.google.com/fonts/specimen/Great+Vibes)
+* [Handlee](https://www.google.com/fonts/specimen/Handlee)
 * [Inder](https://www.google.com/fonts/specimen/Inder)
 * [Josefin Sans](https://www.google.com/fonts/specimen/Josefin+Sans)
 * [Josefin Slab](https://www.google.com/fonts/specimen/Josefin+Slab)
 * [Kaushan Script](https://www.google.com/fonts/specimen/Kaushan+Script)
 * [Lato](https://www.google.com/fonts/specimen/Lato)
+* [Londrina Outline](https://www.google.com/fonts/specimen/Londrina+Outline)
+* [Londrina Sketch](https://www.google.com/fonts/specimen/Londrina+Sketch)
 * [Lora](https://www.google.com/fonts/specimen/Lora)
 * [Meddon](https://www.google.com/fonts/specimen/Meddon)
 * [Merriweather](https://www.google.com/fonts/specimen/Merriweather)
@@ -87,6 +93,7 @@ Here is a list
 * [PT Serif](https://www.google.com/fonts/specimen/PT+Serif)
 * [Quattrocento](https://www.google.com/fonts/specimen/Quattrocento)
 * [Quattrocento Sans](https://www.google.com/fonts/specimen/Quattrocento+Sans)
+* [Quicksand](https://www.google.com/fonts/specimen/Quicksand)
 * [Raleway](https://www.google.com/fonts/specimen/Raleway)
 * [Roboto](https://www.google.com/fonts/specimen/Roboto)
 * [Roboto Condensed](https://www.google.com/fonts/specimen/Roboto+Condensed)
@@ -96,6 +103,7 @@ Here is a list
 * [Sacramento](https://www.google.com/fonts/specimen/Sacramento)
 * [Signika](https://www.google.com/fonts/specimen/Signika)
 * [Sofia](https://www.google.com/fonts/specimen/Sofia)
+* [Source Code Pro](https://www.google.com/fonts/specimen/Source+Code+Pro)
 * [Source Sans Pro](https://www.google.com/fonts/specimen/Source+Sans+Pro)
 * [Source Serif Pro](https://www.google.com/fonts/specimen/Source+Serif+Pro)
 * [Syncopate](https://www.google.com/fonts/specimen/Syncopate)
@@ -104,6 +112,9 @@ Here is a list
 
 
 == Changelog ==
+
+= 1.0.7 =
+* Yo dawg, I heard you liked fonts so I put some fonts in your fonts
 
 = 1.0.6 =
 * Fonts. It's always about the fonts, isn't it
