@@ -4,11 +4,13 @@ Plugin Name: Genesis Design Palette Pro - Google Webfonts
 Plugin URI: https://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
-Version: 1.0.6
-Requires at least: 3.7
+Version: 1.0.7
+Requires at least: 4.0
 Author URI: http://andrewnorcross.com
 */
-/*  Copyright 2014 Andrew Norcross
+
+/*
+	Copyright 2014 Andrew Norcross
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -24,24 +26,28 @@ Author URI: http://andrewnorcross.com
 	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-if( ! defined( 'GPGWF_BASE' ) ) {
-	define( 'GPGWF_BASE', plugin_basename(__FILE__) );
+if ( ! defined( 'GPGWF_BASE' ) ) {
+	define( 'GPGWF_BASE', plugin_basename( __FILE__ ) );
 }
 
-if( ! defined( 'GPGWF_DIR' ) ) {
+if ( ! defined( 'GPGWF_DIR' ) ) {
 	define( 'GPGWF_DIR', dirname( __FILE__ ) );
 }
 
-if( ! defined( 'GPGWF_VER' ) ) {
-	define( 'GPGWF_VER', '1.0.6' );
+if ( ! defined( 'GPGWF_VER' ) ) {
+	define( 'GPGWF_VER', '1.0.7' );
 }
 
+/**
+ * Load our Google Webfonts class
+ */
 class GP_Pro_Google_Webfonts
 {
 
 	/**
 	 * Static property to hold our singleton instance
-	 * @var
+	 *
+	 * @var GP_Pro_Google_Webfonts
 	 */
 	static $instance = false;
 
@@ -52,15 +58,15 @@ class GP_Pro_Google_Webfonts
 	 */
 	private function __construct() {
 
-		// general backend
+		// General backend actions.
 		add_action( 'plugins_loaded',                   array( $this, 'textdomain'              )           );
 		add_action( 'admin_notices',                    array( $this, 'gppro_active_check'      ),  10      );
 		add_action( 'admin_notices',                    array( $this, 'pagespeed_alert'         ),  10      );
 
-		// front end
+		// Front end action.
 		add_action( 'wp_enqueue_scripts',               array( $this, 'font_scripts'            )           );
 
-		// GP Pro specific
+		// GP Pro specific filter.
 		add_filter( 'gppro_font_stacks',                array( $this, 'google_stack_list'       ),  99      );
 	}
 
@@ -68,7 +74,7 @@ class GP_Pro_Google_Webfonts
 	 * If an instance exists, this returns it.  If not, it creates one and
 	 * retuns it.
 	 *
-	 * @return GP_Pro_Freeform_CSS
+	 * @return $instance
 	 */
 	public static function getInstance() {
 
@@ -80,243 +86,259 @@ class GP_Pro_Google_Webfonts
 	}
 
 	/**
-	 * load textdomain
-	 *
-	 * @return
+	 * Load textdomain.
 	 */
 	public function textdomain() {
 		load_plugin_textdomain( 'gppro-google-webfonts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
-	 * check for GP Pro being active
+	 * Check for GP Pro being active.
 	 *
-	 * @return
+	 * @return HTML message or nothing.
 	 */
 	public function gppro_active_check() {
 
-		// get the current screen
-		$screen = get_current_screen();
-
-		// bail if not on the plugins page
-		if ( ! is_object( $screen ) || empty( $screen->parent_file ) || $screen->parent_file !== 'plugins.php' ) {
+		// Make sure the function exists.
+		if ( ! function_exists( 'get_current_screen' ) ) {
 			return;
 		}
 
-		// run the active check
+		// Get the current screen.
+		$screen = get_current_screen();
+
+		// Bail if not on the plugins page.
+		if ( ! is_object( $screen ) || empty( $screen->parent_file ) || 'plugins.php' !== esc_attr( $screen->parent_file ) ) {
+			return;
+		}
+
+		// Run the active check.
 		$coreactive = class_exists( 'Genesis_Palette_Pro' ) ? Genesis_Palette_Pro::check_active() : false;
 
-		// active. bail
+		// Active. bail.
 		if ( $coreactive ) {
 			return;
 		}
 
-		// not active. show message
-		echo '<div id="message" class="error fade below-h2"><p><strong>' . __( 'This plugin requires Genesis Design Palette Pro to function and cannot be activated.', 'gppro-google-webfonts' ).'</strong></p></div>';
+		// Not active. Show message.
+		echo '<div id="message" class="notice settings-error is-dismissible gppro-admin-warning"><p><strong>' . esc_html__( 'This plugin requires Genesis Design Palette Pro to function and cannot be activated.', 'gppro-google-webfonts' ).'</strong></p></div>';
 
-		// hide activation method
+		// Hide activation method.
 		unset( $_GET['activate'] );
 
-		// deactivate the plugin
+		// Deactivate the plugin.
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 
-		// and finish
+		// And finish.
 		return;
 	}
 
 	/**
-	 * check for high font number
+	 * Check for high font number.
 	 *
-	 * @return
+	 * @return HTML  A message alert if we have a high number.
 	 */
 	public function pagespeed_alert() {
 
-		// get the current screen
+		// Make sure the function exists.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+
+		// Get the current screen.
 		$screen = get_current_screen();
 
-		// bail if not on the base DPP page
-		if ( ! is_object( $screen ) || is_object( $screen ) && $screen->base !== 'genesis_page_genesis-palette-pro' ) {
+		// Bail if not on the main DPP page.
+		if ( ! is_object( $screen ) || empty( $screen->base ) || 'genesis_page_genesis-palette-pro' !== esc_attr( $screen->base ) ) {
 			return;
 		}
 
-		// check out pagespeed alert
+		// Check out pagespeed alert.
 		$alert  = get_option( 'gppro-webfont-alert' );
 
-		// check for each possible alert
-		if ( empty( $alert ) || $alert == 'ignore' ) {
+		// Check for each possible alert.
+		if ( empty( $alert ) || 'ignore' === $alert ) {
 			return;
 		}
 
-		// check child theme, display warning
+		// Display the pagespeed warning.
 		echo '<div id="message" class="error fade below-h2 gppro-admin-warning gppro-admin-warning-webfonts"><p>';
-		echo '<strong>' . __( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gppro-google-webfonts' ) . '</strong>';
-		echo '<span class="webfont-ignore">'.__( 'Ignore this message', 'gppro-google-webfonts' ).'</span>';
+		echo '<strong>' . esc_html__( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gppro-google-webfonts' ) . '</strong>';
+		echo '<span class="webfont-ignore">' . esc_html__( 'Ignore this message', 'gppro-google-webfonts' ) . '</span>';
 		echo '</p></div>';
 	}
 
 	/**
-	 * register alert for pagespeed test
+	 * Register alert for pagespeed test.
 	 *
-	 * @return
+	 * @param  integer $fontsize  The value of all the fonts loaded.
+	 *
+	 * @return void.
 	 */
 	public static function pagespeed_check( $fontsize ) {
 
-		// fetch the existing alert, if it exists
+		// Fetch the existing alert, if it exists.
 		$alert  = get_option( 'gppro-webfont-alert' );
 
-		// sum the total we are adding
+		// Sum the total we are adding.
 		$totals = array_sum( $fontsize );
 
-		// set our high number point with a filter
+		// Set our high number point with a filter.
 		$filter = apply_filters( 'gppro_webfont_alert', 250 );
 
-		// delete the alert if less than alert amount
+		// Delete the alert if less than alert amount.
 		if ( $totals < absint( $filter ) ) {
 			delete_option( 'gppro-webfont-alert' );
 		}
 
-		// check my alert status before moving on
-		if ( ! empty( $alert ) && $alert == 'ignore' ) {
+		// Check my alert status before moving on.
+		if ( ! empty( $alert ) && 'ignore' === $alert ) {
 			return;
 		}
 
-		// set alert flag for over alert amount
+		// Set alert flag for over alert amount.
 		if ( $totals >= absint( $filter ) ) {
 			add_option( 'gppro-webfont-alert', true, null, 'no' );
 		}
 	}
 
 	/**
-	 * call webfont CSS files
+	 * Call our webfont CSS files.
 	 *
-	 * @return
+	 * @return void
 	 */
 	public static function font_scripts() {
 
-		// fetch our font string and enqueue the CSS
+		// Fetch our font string and enqueue the CSS.
 		if ( false !== $string = self::font_choice_string() ) {
 			wp_enqueue_style( 'gppro-webfonts', '//fonts.googleapis.com/css?family=' . $string, array(), GPGWF_VER );
 		}
 	}
 
 	/**
-	 * helper to create array of font options and combine into string
+	 * Helper to create array of font options and combine into string.
 	 *
-	 * @return
+	 * @return string  The string of the Google webfonts.
 	 */
 	public static function font_choice_string() {
 
-		// fetch list of active fonts
-		$actives    = self::font_choice_active();
-
-		// bail with no actives
-		if ( empty( $actives ) ) {
+		// Fetch list of active fonts and bail without.
+		if ( false === $actives = self::font_choice_active() ) {
 			return false;
 		}
 
-		// set value arrays to false
+		// Set value arrays to false.
 		$fontarr    = false;
 		$fontsize   = false;
 
-		// loop them all
+		// Loop them all.
 		foreach ( $actives as $active ) {
 
-			// get individual font data
+			// Get individual font data.
 			$data   = self::single_font_fetch( $active );
 
-			// bail if it came back native (i.e. already loaded )
-			if ( $data['src'] == 'native' ) {
+			// Bail if it came back native (i.e. already loaded ).
+			if ( empty( $data['src'] ) || 'native' === $data['src'] ) {
 				continue;
 			}
 
-			// pass it into array and go forth
-			$fontarr[]	= $data['val'];
-			$fontsize[]	= $data['size'];
+			// Bail if the value (i.e. string itself) is empty.
+			if ( empty( $data['val'] ) ) {
+				continue;
+			}
+
+			// Pass it into array and go forth.
+			$fontarr[]  = $data['val'];
+			$fontsize[] = ! empty( $data['size'] ) ? $data['size'] : 0;
 		}
 
-		// bail if nothing is there
+		// Bail if nothing is there.
 		if ( ! $fontarr ) {
 			return false;
 		}
 
-		// cast into array
+		// Cast into array.
 		$fontarr    = (array) $fontarr;
 		$fontsize   = (array) $fontsize;
 
-		// run font weight check for pagespeed alert
+		// Run font weight check for pagespeed alert.
 		if ( $fontsize ) {
-			$pagespeed	= self::pagespeed_check( $fontsize );
+			$pagespeed  = self::pagespeed_check( $fontsize );
 		}
 
-		// implode into string with divider and send it back
+		// Implode into string with divider and send it back.
 		return implode( '|', $fontarr );
 	}
 
 	/**
-	 * helper to determine if a font has actually been selected and creates an array
+	 * Helper to determine if a font has actually been selected and creates an array.
 	 *
-	 * @return
+	 * @return array $choices  The active fonts.
 	 */
 	public static function font_choice_active() {
 
-		// fetch our list of stacks
+		// Fetch our list of stacks.
 		$stacklist  = self::google_stacks();
 		$stackkeys  = array_keys( $stacklist );
 
-		// grab our settings
+		// Grab our settings.
 		$settings  = get_option( 'gppro-settings' );
 
-		// bail with no DPP settings
-		if ( ! $settings ) {
+		// Bail with no DPP settings.
+		if ( empty( $settings ) ) {
 			return false;
 		}
 
-		// set an empty array
+		// Set an empty array.
 		$choices    = array();
 
-		// filter through and run comparison
+		// Gilter through and run comparison.
 		foreach ( $settings as $key => $value ) {
 
-			// add our things
+			// Add our things.
 			if ( in_array( $value, $stackkeys ) ) {
-				$choices[]	= $value;
+				$choices[]  = $value;
 			}
 		}
 
-		// return our choices
+		// Return our choices without duplicates.
 		return array_unique( $choices );
 	}
 
 	/**
-	 * helper to fetch the values from a single stack
+	 * Helper to fetch the values from a single stack.
 	 *
-	 * @return
+	 * @param  string $font   The font stack to pull from the overall array.
+	 *
+	 * @return array  $stack  A single font stack from the set or false.
 	 */
 	public static function single_font_fetch( $font = '' ) {
 
-		// bail if no font was passed
+		// Bail if no font was passed.
 		if ( empty( $font ) ) {
 			return false;
 		}
 
-		// fetch our list of stacks
-		$stacklist	= self::google_stacks();
+		// Fetch our list of stacks and bail if we don't have one.
+		if ( false === $stacklist = self::google_stacks() ) {
+			return false;
+		}
 
-		// return the single requested
-		return ! empty( $stacklist[$font] ) ? $stacklist[$font] : false;
+		// Return the single requested.
+		return ! empty( $stacklist[ $font ] ) ? $stacklist[ $font ] : false;
 	}
 
 	/**
-	 * create list of stacks to use in various locations
+	 * Create list of stacks to use in various locations.
 	 *
-	 * @return
+	 * @return array $webfonts  The big array of fonts.
 	 */
 	public static function google_stacks() {
 
-		// set the array of fonts
+		// Set the array of fonts.
 		$webfonts   = array(
 
-			// serif fonts
+			// The list of serif fonts.
 			'abril-fatface' => array(
 				'label' => __( 'Abril Fatface', 'gppro-google-webfonts' ),
 				'css'   => '"Abril Fatface", serif',
@@ -485,8 +507,7 @@ class GP_Pro_Google_Webfonts
 				'size'  => '124',
 			),
 
-			// sans serif fonts
-
+			// The list of sans serif fonts.
 			'abel'  => array(
 				'label' => __( 'Abel', 'gppro-google-webfonts' ),
 				'css'   => '"Abel", sans-serif',
@@ -663,8 +684,7 @@ class GP_Pro_Google_Webfonts
 				'size'  => '134',
 			),
 
-			// cursive fonts
-
+			// The list of cursive fonts.
 			'arizonia'  => array(
 				'label' => __( 'Arizonia', 'gppro-google-webfonts' ),
 				'css'   => '"Arizonia", cursive',
@@ -793,8 +813,7 @@ class GP_Pro_Google_Webfonts
 				'size'  => '18',
 			),
 
-			// monospace fonts
-
+			// The list of monospace fonts.
 			'droid-sans-mono'   => array(
 				'label' => __( 'Droid Sans Mono', 'gppro-google-webfonts' ),
 				'css'   => '"Droid Sans Mono", monospace',
@@ -821,24 +840,25 @@ class GP_Pro_Google_Webfonts
 
 		);
 
-		// filter them all and return
+		// Filter them all and return.
 		return apply_filters( 'gppro_webfont_stacks', $webfonts );
 	}
 
 	/**
-	 * add stacks to the dropdown
+	 * Add stacks to the dropdown
 	 *
-	 * @return
+	 * @param  array $stacks  The existing fonts in the dropdown list.
+	 *
+	 * @return array $stacks  The updated list of fonts.
 	 */
 	public function google_stack_list( $stacks = array() ) {
 
-		// fetch our list of stacks
-		$stacklist	= self::google_stacks();
+		// Fetch our list of stacks.
+		$stacklist  = self::google_stacks();
 
-		// set up the fonts we are adding
+		// Set up the fonts we are adding.
 		$fonts  = array(
-			// serif fonts
-			'serif'  => array(
+			'serif'  => array( // Our list of serif fonts.
 				'abril-fatface',
 				'arvo',
 				'bitter',
@@ -861,8 +881,7 @@ class GP_Pro_Google_Webfonts
 				'source-serif-pro',
 				'vollkorn',
 			),
-			// sans-serif fonts
-			'sans'  => array(
+			'sans'  => array( // Our list of sans-serif fonts.
 				'abel',
 				'archivo-narrow',
 				'cabin',
@@ -886,8 +905,7 @@ class GP_Pro_Google_Webfonts
 				'source-sans-pro',
 				'syncopate',
 			),
-			// cursive fonts
-			'cursive'  => array(
+			'cursive'  => array( // Our list of cursive fonts.
 				'arizonia',
 				'bilbo-swash',
 				'cabin-sketch',
@@ -905,36 +923,40 @@ class GP_Pro_Google_Webfonts
 				'sacramento',
 				'sofia',
 			),
-			// monospace fonts
-			'mono'  => array(
+			'mono'  => array( // Our list of monospace fonts.
 				'droid-sans-mono',
 				'source-code-pro',
 				'ubuntu-mono',
-			)
+			),
 		);
 
-		// filter the list prior to doing the check
+		// Filter the list prior to doing the check.
 		$fonts  = apply_filters( 'gppro_webfont_families', $fonts );
 
-		// loop the type groups
+		// If we emptied the font stack for some reason, return.
+		if ( empty( $fonts ) ) {
+			return $stacks;
+		}
+
+		// Loop the type groups.
 		foreach ( $fonts as $type => $families ) {
 
-			// now loop the individual families
+			// Now loop the individual families.
 			foreach ( $families as $family ) {
 
-				// if we dont already have the font, add it
-				if ( ! isset( $stacks[$type][$family] ) ) {
-					$stacks[$type][$family] = $stacklist[$family];
+				// If we dont already have the font, add it.
+				if ( ! isset( $stacks[ $type ][ $family ] ) ) {
+					$stacks[ $type ][ $family ] = $stacklist[ $family ];
 				}
 			}
 		}
 
-		// filter them all and send back stacks
+		// Filter them all and send back stacks.
 		return apply_filters( 'gppro_webfont_stack_list', $stacks );
 	}
 
-/// end class
+	// End class.
 }
 
-// Instantiate our class
+// Instantiate our class.
 $GP_Pro_Google_Webfonts = GP_Pro_Google_Webfonts::getInstance();
