@@ -4,7 +4,7 @@ Plugin Name: Genesis Design Palette Pro - Google Webfonts
 Plugin URI: https://genesisdesignpro.com/
 Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
-Version: 1.0.7
+Version: 1.0.8
 Requires at least: 4.0
 Author URI: http://andrewnorcross.com
 */
