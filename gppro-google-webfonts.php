@@ -435,6 +435,14 @@ class GP_Pro_Google_Webfonts
 				'size'  => '39',
 			),
 
+			'noto-serif'   => array(
+				'label' => __( 'Noto Serif', 'gppro-google-webfonts' ),
+				'css'   => '"Noto Serif", serif',
+				'src'   => 'web',
+				'val'   => 'Noto+Serif:400,400i,700,700i',
+				'size'  => '36',
+			),
+
 			'old-standard-tt'   => array(
 				'label' => __( 'Old Standard TT', 'gppro-google-webfonts' ),
 				'css'   => '"Old Standard TT", serif',
@@ -570,6 +578,14 @@ class GP_Pro_Google_Webfonts
 				'src'   => 'web',
 				'val'   => 'Montserrat:400,700',
 				'size'  => '28',
+			),
+
+			'noto-sans'    => array(
+				'label' => __( 'Noto Sans', 'gppro-google-webfonts' ),
+				'css'   => '"Noto Sans", sans-serif',
+				'src'   => 'web',
+				'val'   => 'Noto+Sans:400,400i,700,700i',
+				'size'  => '36',
 			),
 
 			'open-sans' => array(
@@ -871,6 +887,7 @@ class GP_Pro_Google_Webfonts
 				'merriweather',
 				'neuton',
 				'nixie-one',
+				'noto-serif',
 				'old-standard-tt',
 				'playfair-display',
 				'podkova',
@@ -890,6 +907,7 @@ class GP_Pro_Google_Webfonts
 				'josefin-sans',
 				'lato',
 				'montserrat',
+				'noto-sans',
 				'orienta',
 				'open-sans',
 				'open-sans-condensed',
