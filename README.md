@@ -41,7 +41,7 @@ There are 64 total fonts included
 
 ### Why Aren't All Fonts Included? ###
 
-Because having a list of 600+ fonts would be very difficult (if not impossible) to actually use.
+Because having a list of 800+ fonts would be very difficult (if not impossible) to actually use.
 
 ### What Fonts Are Included? ###
 
