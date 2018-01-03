@@ -57,6 +57,8 @@ class GP_Pro_Google_Webfonts
 	 * @return
 	 */
 	private function __construct() {
+		// Load admin tools.
+		require_once GPGWF_DIR . '/lib/api.php';
 
 		// General backend actions.
 		add_action( 'plugins_loaded',                   array( $this, 'textdomain'              )           );
