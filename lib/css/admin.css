@@ -1,0 +1,10 @@
+.gppro-google-webfonts-fonts ul:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.gppro-google-webfonts-fonts li {
+	width: 33%;
+	float: left;
+}
