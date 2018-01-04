@@ -38,6 +38,8 @@ class GP_Pro_Google_Webfonts_Api {
 	 */
 	protected $api_key = '';
 
+	protected $page;
+
 	/**
 	 * This is the constructor.
 	 *
@@ -48,9 +50,20 @@ class GP_Pro_Google_Webfonts_Api {
 		// Get the API key from the options table if it exists.
 		$this->api_key = get_option( 'gppro_google_webfonts_api_key', '' );
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_notices', array( $this, 'api_key_action_response' ) );
 		add_action( 'admin_menu', array( $this, 'webfonts_menu' ) );
 		add_action( 'admin_init', array( $this, 'maybe_store_api_key' ) );
+	}
+
+	/**
+	 * Load our admin side CSS.
+	 *
+	 * @return void
+	 */
+	public function admin_styles() {
+
+		wp_enqueue_style( 'gppro-google-webfonts-admin', plugins_url( 'lib/css/admin.css', dirname( __FILE__ ) ) );
 
 	}
 
@@ -62,13 +75,52 @@ class GP_Pro_Google_Webfonts_Api {
 	public function webfonts_menu() {
 
 		// Add a tools page to manage the list of Google Webfonts.
-		add_management_page(
+		$this->page = add_management_page(
 			__( 'Design Palette Pro Webfonts', 'gppro-google-webfonts' ),
 			__( 'DPP Webfonts', 'gppro-google-webfonts' ),
 			apply_filters( 'gppro_caps', 'manage_options' ),
 			'dpp-webfonts',
 			array( $this, 'webfonts_page' )
 		);
+
+		add_action( 'add_meta_boxes_' . $this->page, array( $this, 'add_meta_boxes' ) );
+		add_action( 'load-' . $this->page, array( $this, 'page_actions' ) );
+		add_action( 'admin_footer-' . $this->page, array( $this, 'footer_scripts' ) );
+	}
+
+	public function page_actions() {
+		do_action( 'add_meta_boxes_' . $this->page, null );
+		do_action( 'add_meta_boxes', $this->page, null );
+
+		/* Enqueue WordPress' script for handling the metaboxes */
+		wp_enqueue_script('postbox');
+	}
+
+	public function add_meta_boxes() {
+
+		// Add API key metabox.
+		add_meta_box(
+			'gppro_google_webfonts_api_key_meta_box',
+			__( 'Google Webfonts API Key', 'gppro-google-webfonts' ),
+			array( $this, 'api_key_layout' ),
+			$this->page,
+			'api-key'
+		);
+
+		// Add font search metabox.
+		add_meta_box(
+			'gppro_google_webfonts_font_search_meta_box',
+			__( 'Google Webfonts Search', 'gppro-google-webfonts' ),
+			array( $this, 'webfonts_layout' ),
+			$this->page,
+			'font-search'
+		);		
+	}
+
+	function footer_scripts(){
+		?>
+		<script> postboxes.add_postbox_toggles(pagenow);</script>
+		<?php
 	}
 
 	/**
@@ -78,22 +130,7 @@ class GP_Pro_Google_Webfonts_Api {
 	 */
 	public function webfonts_page() {
 
-		// The wrapper for the admin page.
-		echo '<div class="wrap gppro-google-webfonts-admin">';
-
-			// Handle the page title.
-			echo '<h1>' . esc_html( get_admin_page_title() ) . '</h1>';
-
-			echo '<div id="poststuff">';
-
-				// Fetch the API Key field layout.
-				$this->api_key_layout();
-
-				// Fetch the webfonts layout.
-				$this->webfonts_layout();
-
-		// Close the markup.
-		echo '</div>';
+		include GPGWF_DIR . '/lib/views/google-webfonts-api.php';
 
 	}
 
@@ -102,50 +139,37 @@ class GP_Pro_Google_Webfonts_Api {
 	 *
 	 * @return void
 	 */
-	protected function api_key_layout() {
-?>
-		<div class="metabox-holder">
-			<div class="postbox-container">
-				<form method="post" action="<?php echo esc_url( self::get_webfonts_page_link() ); ?>">
+	public function api_key_layout() {
+		?>
+		<?php do_action( 'gppro_before_webfonts_api_key_admin_settings' ); ?>
 
-					<?php echo wp_nonce_field( 'gppro-google-webfonts-api-key-nonce', 'gppro-google-webfonts-api-key-nonce', false, false ); ?>
+		<table class="form-table">
+			<tr>
+				<th scope="row">
+					<label for="gppro_google_webfonts_api_key"><?php echo esc_html__( 'Google API Key', 'gppro-google-webfonts' ); ?></label>
+				</th>
+				<td>
+					<input name="gppro_google_webfonts_api_key" id="gppro_google_webfonts_api_key" value="<?php echo esc_attr( $this->api_key ); ?>" aria-describedby="api_key-description" class="regular-text" />
+					<p class="description" id="api_key-description">
+					<?php
+						printf( '%1$s <a href="%2$s" title="%3$s" target="_blank">%4$s</a>',
+							esc_html__( 'You must have a Google Fonts Developer API key to use this feature.', 'gppro-google-webfonts' ),
+							esc_url( 'https://developers.google.com/fonts/docs/developer_api' ),
+							esc_attr__( 'Google Fonts Developer API Key', 'gppro-google-webfonts' ),
+							esc_html__( 'Click here to learn more and to retrieve your API key.', 'gppro-google-webfonts' )
+						);
+					?>
+					</p>
+				</td>
+			</tr>
+		</table>
 
-					<?php do_action( 'gppro_before_webfonts_api_key_admin_settings' ); ?>
-
-					<table class="form-table">
-						<tr>
-							<th scope="row">
-								<label for="gppro_google_webfonts_api_key"><?php echo esc_html__( 'Google API Key', 'gppro-google-webfonts' ); ?></label>
-							</th>
-							<td>
-								<input name="gppro_google_webfonts_api_key" id="gppro_google_webfonts_api_key" value="<?php echo esc_attr( $this->api_key ); ?>" aria-describedby="api_key-description" class="regular-text" />
-								<p class="description" id="api_key-description">
-								<?php
-									printf( '%1$s <a href="%2$s" title="%3$s" target="_blank">%4$s</a>',
-										esc_html__( 'You must have a Google Fonts Developer API key to use this feature.', 'gppro-google-webfonts' ),
-										esc_url( 'https://developers.google.com/fonts/docs/developer_api' ),
-										esc_attr__( 'Google Fonts Developer API Key', 'gppro-google-webfonts' ),
-										esc_html__( 'Click here to learn more and to retrieve your API key.', 'gppro-google-webfonts' )
-									);
-								?>
-								</p>
-							</td>
-						</tr>
-					</table>
-
-					<?php do_action( 'gppro_after_webfonts_api_key_admin_settings' ); ?>
-
-					<div class="bottom-buttons">
-						<?php submit_button( __( 'Submit', 'gppro-google-webfonts' ), 'primary', 'submit', false ); ?>
-						<?php submit_button( __( 'Reset', 'gppro-google-webfonts' ), 'secondary genesis-js-confirm-reset', 'reset', false ); ?>
-					</div>
-
-					<input type="hidden" name="gppro-google-webfonts-action" value="store-api-key" />
-
-				</form>
-			</div>
+		<div class="bottom-buttons">
+			<?php submit_button( __( 'Submit', 'gppro-google-webfonts' ), 'primary', 'submit', false ); ?>
 		</div>
-<?php
+
+		<?php do_action( 'gppro_after_webfonts_api_key_admin_settings' ); ?>
+		<?php
 	}
 
 	/**
@@ -153,10 +177,19 @@ class GP_Pro_Google_Webfonts_Api {
 	 *
 	 * @return void
 	 */
-	protected function webfonts_layout() {
+	public function webfonts_layout() {
 		if ( '' !== $this->api_key ) {
 			$fonts = $this->get_fonts();
-			echo '<pre>' . print_r($fonts, true) . '</pre>';
+			if ( ! empty( $fonts->items ) ) {
+				include GPGWF_DIR . '/lib/views/google-webfonts-fonts.php';
+			}
+		} else {
+			printf( '%1$s <a href="%2$s" title="%3$s" target="_blank">%4$s</a>',
+				esc_html__( 'You must have a Google Fonts Developer API key to use this feature.', 'gppro-google-webfonts' ),
+				esc_url( 'https://developers.google.com/fonts/docs/developer_api' ),
+				esc_attr__( 'Google Fonts Developer API Key', 'gppro-google-webfonts' ),
+				esc_html__( 'Click here to learn more and to retrieve your API key.', 'gppro-google-webfonts' )
+			);
 		}
 	}
 
@@ -203,7 +236,7 @@ class GP_Pro_Google_Webfonts_Api {
 		}
 
 		// Check for our hidden field.
-		if ( empty( $_POST['gppro-google-webfonts-action'] ) || 'store-api-key' !== sanitize_key( $_POST['gppro-google-webfonts-action'] ) ) { // Input var okay.
+		if ( empty( $_POST['action'] ) || 'gppro-google-webfonts-store-api-key' !== sanitize_key( $_POST['action'] ) ) { // Input var okay.
 			return;
 		}
 
