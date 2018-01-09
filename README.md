@@ -3,9 +3,9 @@
 
 **Requires at least:** 4.0
 
-**Tested up to:** 4.5
+**Tested up to:** 4.9.1
 
-**Stable tag:** 1.0.7
+**Stable tag:** 1.0.8
 
 **License:** GPLv2 or later
 
@@ -17,13 +17,9 @@
 
 Adds a set of popular Google Webfonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
 
-### New fonts in 1.0.7 ###
-* Quicksand
-* Cabin Sketch
-* Fredericka the Great
-* Handlee
-* Londrina Outline
-* Londrina Sketch
+### New fonts in 1.0.8 ###
+* Noto Sans
+* Noto Serif
 
 ## Installation ##
 1. Upload the `gppro-google-webfonts` folder and all its contents to the `/wp-content/plugins/` directory
@@ -41,11 +37,11 @@ Because this is an add-on for [Design Palette Pro](http://genesisdesignpro.com/ 
 
 ### How Many Fonts Are Included? ###
 
-There are 62 total fonts included
+There are 64 total fonts included
 
 ### Why Aren't All Fonts Included? ###
 
-Because having a list of 600+ fonts would be very difficult (if not impossible) to actually use.
+Because having a list of 800+ fonts would be very difficult (if not impossible) to actually use.
 
 ### What Fonts Are Included? ###
 
@@ -84,6 +80,8 @@ Here is a list
 * [Montserrat](https://www.google.com/fonts/specimen/Montserrat)
 * [Neuton](https://www.google.com/fonts/specimen/Neuton)
 * [Nixie One](https://www.google.com/fonts/specimen/Nixie+One)
+* [Noto Sans](https://fonts.google.com/specimen/Noto+Sans)
+* [Noto Serif](https://fonts.google.com/specimen/Noto+Serif)
 * [Old Standard TT](https://www.google.com/fonts/specimen/Old+Standard+TT)
 * [Open Sans](https://www.google.com/fonts/specimen/Open+Sans)
 * [Open Sans Condensed](https://www.google.com/fonts/specimen/Open+Sans+Condensed)
@@ -116,6 +114,9 @@ Here is a list
 
 
 ## Changelog ##
+
+### 1.0.8 ###
+* No more tofu!
 
 ### 1.0.7 ###
 * Yo dawg, I heard you liked fonts so I put some fonts in your fonts
