@@ -92,8 +92,8 @@ class GP_Pro_Google_Webfonts_Api {
 		do_action( 'add_meta_boxes_' . $this->page, null );
 		do_action( 'add_meta_boxes', $this->page, null );
 
-		/* Enqueue WordPress' script for handling the metaboxes */
-		wp_enqueue_script('postbox');
+		// Enqueue WordPress' script for handling the metaboxes.
+		wp_enqueue_script( 'postbox' );
 	}
 
 	public function add_meta_boxes() {
