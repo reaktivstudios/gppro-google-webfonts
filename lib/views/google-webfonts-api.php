@@ -22,16 +22,11 @@
 
 		<div id="poststuff">
 
-			<div id="post-body" class="metabox-holder columns-2">
+			<div id="post-body" class="metabox-holder">
 
-				<div id="postbox-container-1" class="postbox-container">
-					Postbox Container 1
-					<?php do_meta_boxes('','enabled-fonts',null); ?>
-				</div>
-
-				<div id="postbox-container-2" class="postbox-container">
-					<?php do_meta_boxes('','api-key',null); ?>
-					<?php do_meta_boxes('','font-search',null); ?>
+				<div class="postbox-container">
+					<?php do_meta_boxes( '', 'api', null ); ?>
+					<?php do_meta_boxes( '', 'font', null ); ?>
 				</div>
 
 			</div> <!-- #post-body -->
