@@ -57,19 +57,17 @@ class GP_Pro_Google_Webfonts
 	 * @return
 	 */
 	private function __construct() {
-		// Load admin tools.
-		require_once GPGWF_DIR . '/lib/api.php';
-
 		// General backend actions.
-		add_action( 'plugins_loaded',                   array( $this, 'textdomain'              )           );
-		add_action( 'admin_notices',                    array( $this, 'gppro_active_check'      ),  10      );
-		add_action( 'admin_notices',                    array( $this, 'pagespeed_alert'         ),  10      );
+		add_action( 'dpp_fonts_init', array( $this, 'load_source' ) );
+		add_action( 'plugins_loaded', array( $this, 'textdomain' ) );
+		add_action( 'admin_notices', array( $this, 'gppro_active_check' ), 10 );
+		add_action( 'admin_notices', array( $this, 'pagespeed_alert' ), 10 );
 
 		// Front end action.
-		add_action( 'wp_enqueue_scripts',               array( $this, 'font_scripts'            )           );
+		add_action( 'wp_enqueue_scripts', array( $this, 'font_scripts' ) );
 
 		// GP Pro specific filter.
-		add_filter( 'gppro_font_stacks',                array( $this, 'google_stack_list'       ),  99      );
+		// add_filter( 'gppro_font_stacks', array( $this, 'google_stack_list' ), 99 );
 	}
 
 	/**
@@ -92,6 +90,13 @@ class GP_Pro_Google_Webfonts
 	 */
 	public function textdomain() {
 		load_plugin_textdomain( 'gppro-google-webfonts', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+
+	/**
+	 * Load Google source class.
+	 */
+	public function load_source() {
+		require_once GPGWF_DIR . '/lib/class-google.php';
 	}
 
 	/**
