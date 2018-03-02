@@ -7,8 +7,10 @@
  * @package Design Palette Pro - Google Webfonts
  */
 
+namespace DPP\Webfonts\Lib;
+
 /*
-	Copyright 2017 Reaktiv Studios
+	Copyright 2018 Reaktiv Studios
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -29,7 +31,7 @@
  *
  * Contains integration with Google Webfonts Developer API.
  */
-class GP_Pro_Google_Webfonts_Api {
+class Google extends \DPP\Lib\Fonts\Source {
 
 	/**
 	 * Google API key.
@@ -38,33 +40,50 @@ class GP_Pro_Google_Webfonts_Api {
 	 */
 	protected $api_key = '';
 
+	/**
+	 * Fon source name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'google';
+
 	protected $page;
 
 	/**
-	 * This is the constructor.
+	 * Handle our checks then call our hooks.
 	 *
-	 * @return
+	 * @return void
 	 */
-	public function __construct() {
+	public function init() {
+
+		// First make sure we have our main class. not sure how we wouldn't but then again...
+		if ( ! class_exists( 'Genesis_Palette_Pro' ) ) {
+			return;
+		}
 
 		// Get the API key from the options table if it exists.
 		$this->api_key = get_option( 'gppro_google_webfonts_api_key', '' );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
+		parent::init();
+
 		add_action( 'admin_notices', array( $this, 'api_key_action_response' ) );
 		add_action( 'admin_menu', array( $this, 'webfonts_menu' ) );
 		add_action( 'admin_init', array( $this, 'maybe_store_api_key' ) );
 	}
 
 	/**
-	 * Load our admin side CSS.
+	 * Set the font source config.
+	 *
+	 * @param array $defaults Default config parameters.
 	 *
 	 * @return void
 	 */
-	public function admin_styles() {
+	protected function set_config( $defaults ) {
+		$this->config = array(
+			'label' => __( 'Google Webfonts', 'gppro-google-webfonts' ),
+		);
 
-		wp_enqueue_style( 'gppro-google-webfonts-admin', plugins_url( 'lib/css/admin.css', dirname( __FILE__ ) ) );
-
+		$this->config = wp_parse_args( $this->config, $defaults );
 	}
 
 	/**
@@ -97,14 +116,13 @@ class GP_Pro_Google_Webfonts_Api {
 	}
 
 	public function add_meta_boxes() {
-
 		// Add API key metabox.
 		add_meta_box(
 			'gppro_google_webfonts_api_key_meta_box',
 			__( 'Google Webfonts API Key', 'gppro-google-webfonts' ),
 			array( $this, 'api_key_layout' ),
 			$this->page,
-			'api-key'
+			'api'
 		);
 
 		// Add font search metabox.
@@ -113,13 +131,13 @@ class GP_Pro_Google_Webfonts_Api {
 			__( 'Google Webfonts Search', 'gppro-google-webfonts' ),
 			array( $this, 'webfonts_layout' ),
 			$this->page,
-			'font-search'
-		);		
+			'font'
+		);
 	}
 
-	function footer_scripts(){
+	function footer_scripts() {
 		?>
-		<script> postboxes.add_postbox_toggles(pagenow);</script>
+		<script>postboxes.add_postbox_toggles(pagenow);</script>
 		<?php
 	}
 
@@ -179,9 +197,9 @@ class GP_Pro_Google_Webfonts_Api {
 	 */
 	public function webfonts_layout() {
 		if ( '' !== $this->api_key ) {
-			$fonts = $this->get_fonts();
-			if ( ! empty( $fonts->items ) ) {
-				include GPGWF_DIR . '/lib/views/google-webfonts-fonts.php';
+			$this->load_fonts();
+			if ( ! empty( $this->fonts ) ) {
+				echo '<pre>' . print_r( $this->fonts, true ) . '</pre>';
 			}
 		} else {
 			printf( '%1$s <a href="%2$s" title="%3$s" target="_blank">%4$s</a>',
@@ -191,17 +209,6 @@ class GP_Pro_Google_Webfonts_Api {
 				esc_html__( 'Click here to learn more and to retrieve your API key.', 'gppro-google-webfonts' )
 			);
 		}
-	}
-
-	/**
-	 * Display webfonts search form.
-	 *
-	 * @return void
-	 */
-	protected function webfonts_search_form() {
-?>
-
-<?php
 	}
 
 	/**
@@ -330,31 +337,81 @@ class GP_Pro_Google_Webfonts_Api {
 	}
 
 	/**
-	 * Get a list of fonts from the Google Webfonts API.
+	 * Load the list of fonts available from the soruce.
 	 *
-	 * @param array  $args Arguments to add to API call.
-	 * @param string $key Optional API key to use instead of $this->api_key
-	 *
-	 * @return array/boolean List of fonts or false
+	 * @return void
 	 */
-	protected function get_fonts( $args = array(), $key = '' ) {
-		if ( '' === $key ) {
+	protected function load_fonts() {
+		if ( empty( $this->fonts ) ) {
 			$key = $this->api_key;
-		}
 
-		if ( '' === $key ) {
-			return false;
-		}
+			if ( '' === $key ) {
+				return false;
+			}
 
-		$response = wp_remote_get( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key );
+			$response = wp_remote_get( esc_url( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key ) );
 
-		if ( is_array( $response ) ) {
-			if ( isset( $response['response']['code'] ) && 200 === $response['response']['code'] ) {
-				return json_decode( $response['body'] );
+			if ( is_array( $response ) ) {
+				if ( isset( $response['response']['code'] ) && 200 === $response['response']['code'] ) {
+					$response_fonts = json_decode( $response['body'] )->items;
+					$fonts          = array();
+
+					array_walk(
+						$response_fonts,
+						function( $font, $font_index ) use ( &$fonts ) {
+							$font_key = strtolower( $font->family );
+
+							$type     = $font->category;
+							$alt_font = $font->category;
+							switch ( $type ) {
+								case 'handwriting':
+									$type     = 'cursive';
+									$alt_font = 'serif';
+									break;
+
+								case 'display':
+									$type     = 'serif';
+									$alt_font = 'serif';
+									break;
+
+								case 'sans-serif':
+									$type = 'sans';
+									break;
+							}
+							$variants = array_map(
+								function( $variant ) {
+									if ( 'regular' === $variant ) {
+										return '400';
+									}
+									if ( 'italic' === $variant ) {
+										return '400italic';
+									}
+
+									return $variant;
+								},
+								$font->variants
+							);
+
+							$val = str_replace( ' ', '+', $font->family ) . ':' . implode( ',', $variants );
+
+							$fonts[ $font_key ] = dpp_font(
+								array(
+									'src'    => 'web',
+									'url'    => esc_url( 'https://fonts.google.com/specimen/' . str_replace( ' ', '+', $font->family ) ),
+									'label'  => $font->family,
+									'css'    => '"' . $font->family . '", ' . $alt_font,
+									'type'   => $type,
+									'source' => $this->name,
+									'val'    => $val,
+								)
+							);
+						}
+					);
+
+					$this->fonts = $fonts;
+				}
 			}
 		}
-
-		return false;
 	}
 
 	/**
@@ -442,4 +499,6 @@ class GP_Pro_Google_Webfonts_Api {
 
 }
 
-$GP_Pro_Google_Webfonts_Api = new GP_Pro_Google_Webfonts_Api();
+// Instantiate the font source.
+$google = new Google();
+$google->init();
