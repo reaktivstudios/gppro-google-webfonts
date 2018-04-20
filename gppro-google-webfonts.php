@@ -10,7 +10,7 @@ Author URI: https://genesisdesignpro.com
 */
 
 /*
-	Copyright 2014 Andrew Norcross
+	Copyright 2018 Reaktiv Studios
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
