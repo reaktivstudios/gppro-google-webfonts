@@ -6,11 +6,11 @@ Description: Adds a set of popular Google Webfonts to Design Palette Pro
 Author: Reaktiv Studios
 Version: 1.0.8
 Requires at least: 4.0
-Author URI: http://andrewnorcross.com
+Author URI: https://genesisdesignpro.com
 */
 
 /*
-	Copyright 2014 Andrew Norcross
+	Copyright 2018 Reaktiv Studios
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -964,6 +964,9 @@ class GP_Pro_Google_Webfonts
 
 				// If we dont already have the font, add it.
 				if ( ! isset( $stacks[ $type ][ $family ] ) ) {
+					if ( empty( $stacklist[ $family ] ) ) {
+						continue;
+					}
 					$stacks[ $type ][ $family ] = $stacklist[ $family ];
 				}
 			}
