@@ -1,13 +1,15 @@
 <?php
-/*
-Plugin Name: Genesis Design Palette Pro - Google Webfonts
-Plugin URI: https://genesisdesignpro.com/
-Description: Adds a set of popular Google Webfonts to Design Palette Pro
-Author: Reaktiv Studios
-Version: 1.0.8
-Requires at least: 4.0
-Author URI: https://genesisdesignpro.com
-*/
+/**
+ * Plugin Name: Genesis Design Palette Pro - Google Webfonts
+ * Plugin URI: https://genesisdesignpro.com/
+ * Description: Adds a set of popular Google Webfonts to Design Palette Pro
+ * Author: Reaktiv Studios
+ * Version: 1.0.8
+ * Requires at least: 4.0
+ * Author URI: https://genesisdesignpro.com
+ *
+ * @package gppro-google-webfonts
+ */
 
 /*
 	Copyright 2018 Reaktiv Studios
@@ -51,5 +53,7 @@ function gppro_google_webfonts_load() {
 }
 add_action( 'init', 'gppro_google_webfonts_load' );
 
-// The GP_Pro_Google_Webfonts class needs to exist for legacy purposes.
+/**
+ * The GP_Pro_Google_Webfonts class needs to exist for legacy purposes.
+ */
 class GP_Pro_Google_Webfonts {}
