@@ -45,10 +45,10 @@ if ( ! defined( 'GPGWF_VER' ) ) {
  * Load Google webfonts source class if new fonts functionality exists.
  */
 function gppro_google_webfonts_load() {
-	if ( ! class_exists( '\DPP\Admin\Fonts' ) ) {
-		require_once GPGWF_DIR . '/lib/class-legacy.php';
-	} else {
+	if ( class_exists( '\DPP\Admin\Fonts' ) ) {
 		require_once GPGWF_DIR . '/lib/class-google.php';
+	} else {
+		require_once GPGWF_DIR . '/lib/class-legacy.php';
 	}
 }
 add_action( 'init', 'gppro_google_webfonts_load' );
