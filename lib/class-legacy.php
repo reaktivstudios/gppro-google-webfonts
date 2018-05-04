@@ -5,7 +5,7 @@
  * @package Design Palette Pro - Google Webfonts
  */
 
-namespace DPP\Webfonts\Lib;
+namespace DPP\Webfonts;
 
 /*
 	Copyright 2014 Andrew Norcross
