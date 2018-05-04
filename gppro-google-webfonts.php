@@ -26,7 +26,7 @@ if ( ! defined( 'GPGWF_VER' ) ) {
  * Load Google webfonts source class if new fonts functionality exists.
  */
 function gppro_google_webfonts_load() {
-	if ( ! class_exists( '\DPP\Lib\Fonts' ) ) {
+	if ( ! class_exists( '\DPP\Admin\Fonts' ) ) {
 		require_once GPGWF_DIR . '/lib/class-legacy.php';
 	} else {
 		require_once GPGWF_DIR . '/lib/class-google.php';
