@@ -7,7 +7,7 @@
  * @package Design Palette Pro - Google Webfonts
  */
 
-namespace DPP\Webfonts\Lib;
+namespace DPP\Webfonts;
 
 /*
 	Copyright 2018 Reaktiv Studios
@@ -31,7 +31,7 @@ namespace DPP\Webfonts\Lib;
  *
  * Contains integration with Google Webfonts Developer API.
  */
-class Google extends \DPP\Lib\Fonts\Source {
+class Google extends \DPP\Admin\Fonts\Source {
 
 	/**
 	 * Google API key.
@@ -403,6 +403,7 @@ class Google extends \DPP\Lib\Fonts\Source {
 									'type'   => $type,
 									'source' => $this->name,
 									'val'    => $val,
+									'link'   => '//fonts.googleapis.com/css?family=' . $val,
 								)
 							);
 						}
