@@ -40,18 +40,32 @@ if ( ! defined( 'GPGWF_VER' ) ) {
 	define( 'GPGWF_VER', '1.0.7' );
 }
 
+// Load helper function to retrieve legacy font stacks.
+require_once GPGWF_DIR . '/lib/legacy-font-stacks.php';
+
 /**
  * Load Google webfonts legacy class if new fonts functionality does not exist.
  * Load Google webfonts source class if new fonts functionality exists.
  */
 function gppro_google_webfonts_load() {
 	if ( class_exists( '\DPP\Admin\Fonts' ) ) {
+		// Load Google webfonts source class.
 		require_once GPGWF_DIR . '/lib/class-google.php';
 	} else {
+		// Load google webfonts legacy class.
 		require_once GPGWF_DIR . '/lib/class-legacy.php';
 	}
 }
 add_action( 'init', 'gppro_google_webfonts_load' );
+
+/**
+ * Add filters to work on DPP\Admin\Setup.
+ */
+function gppro_google_webfonts_add_filters() {
+	// Load the Google API Key setting.
+	require_once GPGWF_DIR . '/lib/setting-api-key.php';
+}
+add_action( 'dpp_before_admin_setup', 'gppro_google_webfonts_add_filters' );
 
 /**
  * The GP_Pro_Google_Webfonts class needs to exist for legacy purposes.

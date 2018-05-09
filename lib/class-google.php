@@ -47,8 +47,6 @@ class Google extends \DPP\Admin\Fonts\Source {
 	 */
 	protected $name = 'google';
 
-	protected $page;
-
 	/**
 	 * Handle our checks then call our hooks.
 	 *
@@ -62,13 +60,11 @@ class Google extends \DPP\Admin\Fonts\Source {
 		}
 
 		// Get the API key from the options table if it exists.
-		$this->api_key = get_option( 'gppro_google_webfonts_api_key', '' );
+		$this->api_key = $this->get_api_key();
 
 		parent::init();
 
 		add_action( 'admin_notices', array( $this, 'api_key_action_response' ) );
-		add_action( 'admin_menu', array( $this, 'webfonts_menu' ) );
-		add_action( 'admin_init', array( $this, 'maybe_store_api_key' ) );
 	}
 
 	/**
@@ -87,234 +83,17 @@ class Google extends \DPP\Admin\Fonts\Source {
 	}
 
 	/**
-	 * Create the Google webfonts page submenu item under the "Tools" menu.
+	 * Get the API Key from the options table.
 	 *
-	 * @return void
+	 * @return string
 	 */
-	public function webfonts_menu() {
-
-		// Add a tools page to manage the list of Google Webfonts.
-		$this->page = add_management_page(
-			__( 'Design Palette Pro Webfonts', 'gppro-google-webfonts' ),
-			__( 'DPP Webfonts', 'gppro-google-webfonts' ),
-			apply_filters( 'gppro_caps', 'manage_options' ),
-			'dpp-webfonts',
-			array( $this, 'webfonts_page' )
-		);
-
-		add_action( 'add_meta_boxes_' . $this->page, array( $this, 'add_meta_boxes' ) );
-		add_action( 'load-' . $this->page, array( $this, 'page_actions' ) );
-		add_action( 'admin_footer-' . $this->page, array( $this, 'footer_scripts' ) );
-	}
-
-	public function page_actions() {
-		do_action( 'add_meta_boxes_' . $this->page, null );
-		do_action( 'add_meta_boxes', $this->page, null );
-
-		// Enqueue WordPress' script for handling the metaboxes.
-		wp_enqueue_script( 'postbox' );
-	}
-
-	public function add_meta_boxes() {
-		// Add API key metabox.
-		add_meta_box(
-			'gppro_google_webfonts_api_key_meta_box',
-			__( 'Google Webfonts API Key', 'gppro-google-webfonts' ),
-			array( $this, 'api_key_layout' ),
-			$this->page,
-			'api'
-		);
-
-		// Add font search metabox.
-		add_meta_box(
-			'gppro_google_webfonts_font_search_meta_box',
-			__( 'Google Webfonts Search', 'gppro-google-webfonts' ),
-			array( $this, 'webfonts_layout' ),
-			$this->page,
-			'font'
-		);
-	}
-
-	function footer_scripts() {
-		?>
-		<script>postboxes.add_postbox_toggles(pagenow);</script>
-		<?php
-	}
-
-	/**
-	 * Construct our webfonts page.
-	 *
-	 * @return void
-	 */
-	public function webfonts_page() {
-
-		include GPGWF_DIR . '/lib/views/google-webfonts-api.php';
-
-	}
-
-	/**
-	 * Display Google API Key field on the webfonts page.
-	 *
-	 * @return void
-	 */
-	public function api_key_layout() {
-		?>
-		<?php do_action( 'gppro_before_webfonts_api_key_admin_settings' ); ?>
-
-		<table class="form-table">
-			<tr>
-				<th scope="row">
-					<label for="gppro_google_webfonts_api_key"><?php echo esc_html__( 'Google API Key', 'gppro-google-webfonts' ); ?></label>
-				</th>
-				<td>
-					<input name="gppro_google_webfonts_api_key" id="gppro_google_webfonts_api_key" value="<?php echo esc_attr( $this->api_key ); ?>" aria-describedby="api_key-description" class="regular-text" />
-					<p class="description" id="api_key-description">
-					<?php
-						printf( '%1$s <a href="%2$s" title="%3$s" target="_blank">%4$s</a>',
-							esc_html__( 'You must have a Google Fonts Developer API key to use this feature.', 'gppro-google-webfonts' ),
-							esc_url( 'https://developers.google.com/fonts/docs/developer_api' ),
-							esc_attr__( 'Google Fonts Developer API Key', 'gppro-google-webfonts' ),
-							esc_html__( 'Click here to learn more and to retrieve your API key.', 'gppro-google-webfonts' )
-						);
-					?>
-					</p>
-				</td>
-			</tr>
-		</table>
-
-		<div class="bottom-buttons">
-			<?php submit_button( __( 'Submit', 'gppro-google-webfonts' ), 'primary', 'submit', false ); ?>
-		</div>
-
-		<?php do_action( 'gppro_after_webfonts_api_key_admin_settings' ); ?>
-		<?php
-	}
-
-	/**
-	 * Display Google webfonts on the settings page.
-	 *
-	 * @return void
-	 */
-	public function webfonts_layout() {
-		if ( '' !== $this->api_key ) {
-			$this->load_fonts();
-			if ( ! empty( $this->fonts ) ) {
-				echo '<pre>' . print_r( $this->fonts, true ) . '</pre>';
-			}
-		} else {
-			printf( '%1$s <a href="%2$s" title="%3$s" target="_blank">%4$s</a>',
-				esc_html__( 'You must have a Google Fonts Developer API key to use this feature.', 'gppro-google-webfonts' ),
-				esc_url( 'https://developers.google.com/fonts/docs/developer_api' ),
-				esc_attr__( 'Google Fonts Developer API Key', 'gppro-google-webfonts' ),
-				esc_html__( 'Click here to learn more and to retrieve your API key.', 'gppro-google-webfonts' )
-			);
-		}
-	}
-
-	/**
-	 * Build and return the link to send the user to the license entering.
-	 *
-	 * @param  array  $args    Optional args to add to the link.
-	 *
-	 * @return string $link    The URL of the Genesis settings page.
-	 */
-	public static function get_webfonts_page_link( $args = array() ) {
-
-		// Set my base link.
-		$base   = menu_page_url( 'dpp-webfonts', 0 );
-
-		// Set my link up.
-		$link   = ! empty( $args ) ? add_query_arg( $args, $base ) : $base;
-
-		// And return my link.
-		return apply_filters( 'gppro_webfonts_page_url', $link );
-	}
-
-	/**
-	 * Maybe store the API key.
-	 *
-	 * @return void
-	 */
-	public function maybe_store_api_key() {
-
-		// Bail if this is an Ajax or Cron job.
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX || defined( 'DOING_CRON' ) && DOING_CRON ) {
-			return;
+	protected function get_api_key() {
+		if ( empty( $this->api_key ) ) {
+			// Get the API key from the options table if it exists.
+			$this->api_key = get_option( 'gppro_google_webfonts_api_key', '' );
 		}
 
-		// Check for our hidden field.
-		if ( empty( $_POST['action'] ) || 'gppro-google-webfonts-store-api-key' !== sanitize_key( $_POST['action'] ) ) { // Input var okay.
-			return;
-		}
-
-		$link = self::get_webfonts_page_link();
-
-		// Make sure a nonce was passed and is valid.
-		if ( empty( $_POST['gppro-google-webfonts-api-key-nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['gppro-google-webfonts-api-key-nonce'] ), 'gppro-google-webfonts-api-key-nonce' ) ) {
-
-			// Set my redirect link with the error code.
-			$link   = add_query_arg(
-				array(
-					'processed' => 'failure',
-					'errcode' => 'MISSING_NONCE',
-				),
-				$link
-			);
-
-			// And do the redirect.
-			wp_safe_redirect( $link );
-			exit;
-		}
-
-		// Bail if the api key field is missing.
-		if ( empty( $_POST['gppro_google_webfonts_api_key'] ) ) {
-
-			// Set my redirect link with the error code.
-			$link   = add_query_arg(
-				array(
-					'processed' => 'failure',
-					'errcode' => 'EMPTY_KEY',
-				),
-				$link
-			);
-
-			// And do the redirect.
-			wp_safe_redirect( $link );
-			exit;
-		}
-
-		$api_key = sanitize_text_field( $_POST['gppro_google_webfonts_api_key'] );
-
-		if ( $this->api_key_check( $api_key ) ) {
-			// Update the API Key.
-			update_option( 'gppro_google_webfonts_api_key', $api_key );
-
-			// Set my redirect link with the success code.
-			$link   = add_query_arg(
-				array(
-					'processed' => 'success',
-				),
-				$link
-			);
-
-			// And do the redirect.
-			wp_safe_redirect( $link );
-			exit;
-		} else {
-			// Set my redirect link with the error code.
-			$link   = add_query_arg(
-				array(
-					'processed' => 'failure',
-					'errcode' => 'INVALID_KEY',
-				),
-				$link
-			);
-
-			// And do the redirect.
-			wp_safe_redirect( $link );
-			exit;
-		}
-
+		return $this->api_key;
 	}
 
 	/**
@@ -359,7 +138,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 					array_walk(
 						$response_fonts,
 						function( $font, $font_index ) use ( &$fonts ) {
-							$font_key = strtolower( $font->family );
+							$font_key = sanitize_title( $font->family );
 
 							$type     = $font->category;
 							$alt_font = $font->category;
@@ -422,80 +201,35 @@ class Google extends \DPP\Admin\Fonts\Source {
 	 */
 	public function api_key_action_response() {
 
+		$screen = get_current_screen();
+		if ( empty( $screen ) ) {
+			return;
+		}
+
+		$page = $screen->id;
+
 		// First check we're on the right page.
-		if ( empty( $_GET['page'] ) || 'dpp-webfonts' !== sanitize_key( $_GET['page'] ) ) {
+		if ( 'genesis_page_genesis-palette-pro' !== $page ) {
 			return;
 		}
 
-		// Make sure we have the process result.
-		if ( empty( $_GET['processed'] ) || ! in_array( sanitize_key( $_GET['processed'] ), array( 'success', 'failure' ) ) ) {
-			return;
+		// Set the class.
+		$class  = 'notice is-dismissible notice-error';
+
+		// Initialize the message.
+		$text = '';
+
+		$this->api_key = $this->get_api_key();
+
+		if ( empty( $this->api_key ) ) {
+			$text = __( 'You must enter a Google Fonts Developer API key to access the Google Fonts feature.', 'gppro-google-webfonts' );
+		} elseif ( ! $this->api_key_check( $this->api_key ) ) {
+			$text = __( 'The API key you entered is invalid.', 'gppro-google-webfonts' );
 		}
 
-		// Set my base class.
-		$class  = 'notice is-dismissible';
-
-		// Handle our success message.
-		if ( 'success' === sanitize_key( $_GET['processed'] ) ) {
-
-			// Add success to the class.
-			$class .= ' notice-success';
-
-			// And my error text.
-			$text   = __( 'Google Webfonts API Key successfully saved!', 'gppro-google-webfonts' );
+		if ( '' !== $text ) {
+			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $text ) );
 		}
-
-		// Handle our failure messages.
-		if ( 'failure' === sanitize_key( $_GET['processed'] ) ) {
-
-			// Get my error message.
-			$error  = ! empty( $_GET['errcode'] ) ? strtolower( sanitize_key( $_GET['errcode'] ) ) : 'unknown';
-
-			// Add failure to the class.
-			$class .= ' notice-error';
-
-			// And my error text.
-			$text   = self::get_message_text( $error );
-		}
-
-		// And output it.
-		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $text ) );
-	}
-
-	/**
-	 * Get the text to use on the API key saving process.
-	 *
-	 * @param  string $key   Which message key to do.
-	 *
-	 * @return string $text  The resulting text.
-	 */
-	public static function get_message_text( $key = '' ) {
-
-		// Do our switch check.
-		switch ( $key ) {
-
-			case 'missing_nonce' :
-
-				$text   = __( 'There was an error saving this API key. Please try again.', 'gppro-google-webfonts' );
-				break;
-
-			case 'empty_key' :
-
-				$text   = __( 'The API key is missing. Please enter an API key before submitting.', 'gppro-google-webfonts' );
-				break;
-
-			case 'invalid_key' :
-
-				$text   = __( 'The API key you entered is invalid.', 'gppro-google-webfonts' );
-				break;
-
-			default :
-				$text   = __( 'There was an error with this API key.', 'gppro-google-webfonts' );
-				break;
-		}
-
-		// Return the text.
-		return $text;
 	}
 
 }
