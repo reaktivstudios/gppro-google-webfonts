@@ -65,6 +65,9 @@ class Google extends \DPP\Admin\Fonts\Source {
 		parent::init();
 
 		add_action( 'admin_notices', array( $this, 'api_key_action_response' ) );
+
+		// Enqueue any scripts that the source may need.
+		add_action( 'wp_enqueue_scripts', array( $this, 'font_scripts' ) );
 	}
 
 	/**
@@ -105,7 +108,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 	 */
 	protected function api_key_check( $key ) {
 		if ( '' !== $key ) {
-			$fonts = $this->get_fonts( array(), $key );
+			$fonts = $this->get_fonts( array() );
 
 			if ( false !== $fonts ) {
 				return true;
@@ -229,6 +232,36 @@ class Google extends \DPP\Admin\Fonts\Source {
 
 		if ( '' !== $text ) {
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $text ) );
+		}
+	}
+
+	/**
+	 * Load Google font link ref in the header.
+	 */
+	public function font_scripts() {
+		$active_fonts   = dpp_get_active_fonts();
+		$selected_fonts = dpp_get_selected_font_stacks();
+
+		$google_font_values = array();
+		foreach ( $active_fonts as $key => $font ) {
+			if (
+				in_array( $key, $selected_fonts, true )
+				&& ! empty( $font['source'] )
+				&& 'google' === $font['source']
+				&& ! empty( $font['val'] )
+			) {
+				$google_font_values[] = $font['val'];
+			}
+		}
+
+		if ( ! empty( $google_font_values ) ) {
+			$google_font_values = implode( '|', $google_font_values );
+			wp_enqueue_style(
+				'gppro-webfonts',
+				'//fonts.googleapis.com/css?family=' . $google_font_values,
+				array(),
+				GPGWF_VER
+			);
 		}
 	}
 
