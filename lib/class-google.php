@@ -68,6 +68,8 @@ class Google extends \DPP\Admin\Fonts\Source {
 
 		// Enqueue any scripts that the source may need.
 		add_action( 'wp_enqueue_scripts', array( $this, 'font_scripts' ) );
+
+		add_action( 'dpp_preview_head_before_styles', array( $this, 'preview_head' ) );
 	}
 
 	/**
@@ -236,12 +238,14 @@ class Google extends \DPP\Admin\Fonts\Source {
 	}
 
 	/**
-	 * Load Google font link ref in the header.
+	 * Get Google font values.
+	 *
+	 * @param array $active_fonts   List of active fonts.
+	 * @param array $selected_fonts List of selected fonts.
+	 *
+	 * @return array
 	 */
-	public function font_scripts() {
-		$active_fonts   = dpp_get_active_fonts();
-		$selected_fonts = dpp_get_selected_font_stacks();
-
+	protected function get_google_font_values( $active_fonts, $selected_fonts ) {
 		$google_font_values = array();
 		foreach ( $active_fonts as $key => $font ) {
 			if (
@@ -254,14 +258,59 @@ class Google extends \DPP\Admin\Fonts\Source {
 			}
 		}
 
+		return $google_font_values;
+	}
+
+	/**
+	 * Load Google font link ref in the header.
+	 */
+	public function font_scripts() {
+		$active_fonts   = dpp_get_active_fonts();
+		$selected_fonts = dpp_get_selected_font_stacks();
+
+		$google_font_values = $this->get_google_font_values( $active_fonts, $selected_fonts );
+
 		if ( ! empty( $google_font_values ) ) {
 			$google_font_values = implode( '|', $google_font_values );
+			$google_url = '//fonts.googleapis.com/css?family=' . $google_font_values;
 			wp_enqueue_style(
 				'gppro-webfonts',
-				'//fonts.googleapis.com/css?family=' . $google_font_values,
+				$google_url,
 				array(),
 				GPGWF_VER
 			);
+		}
+	}
+
+	/**
+	 * Load Google fonts ref into the head for the customizer preview.
+	 *
+	 * @param array \DPP\Customizer\Data $data The DPP customizer data.
+	 *
+	 * @return void
+	 */
+	public function preview_head( $data ) {
+		$active_fonts           = dpp_get_active_fonts();
+		$selected_desktop_fonts = dpp_get_selected_font_stacks( $data->data['desktop'] );
+		$selected_tablet_fonts  = dpp_get_selected_font_stacks( $data->data['tablet'] );
+		$selected_mobile_fonts  = dpp_get_selected_font_stacks( $data->data['mobile'] );
+
+		$selected_fonts = array_unique(
+			array_merge(
+				$selected_desktop_fonts,
+				$selected_tablet_fonts,
+				$selected_mobile_fonts
+			)
+		);
+
+		$google_font_values = $this->get_google_font_values( $active_fonts, $selected_fonts );
+
+		if ( ! empty( $google_font_values ) ) {
+			$google_font_values = implode( '|', $google_font_values );
+			$google_url = '//fonts.googleapis.com/css?family=' . $google_font_values;
+			?>
+	<link href="<?php echo esc_url( $google_url ); ?>" rel="stylesheet" /> 
+			<?php
 		}
 	}
 
