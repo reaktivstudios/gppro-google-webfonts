@@ -272,7 +272,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 
 		if ( ! empty( $google_font_values ) ) {
 			$google_font_values = implode( '|', $google_font_values );
-			$google_url = '//fonts.googleapis.com/css?family=' . $google_font_values;
+			$google_url         = '//fonts.googleapis.com/css?family=' . $google_font_values;
 			wp_enqueue_style(
 				'gppro-webfonts',
 				$google_url,
