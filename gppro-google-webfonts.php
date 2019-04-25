@@ -37,7 +37,7 @@ if ( ! defined( 'GPGWF_DIR' ) ) {
 }
 
 if ( ! defined( 'GPGWF_VER' ) ) {
-	define( 'GPGWF_VER', '1.0.7' );
+	define( 'GPGWF_VER', '2.0.0' );
 }
 
 // Load helper function to retrieve legacy font stacks.
