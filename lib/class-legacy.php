@@ -97,7 +97,7 @@ class Legacy {
 		}
 
 		// Run the active check.
-		$coreactive = class_exists( 'Genesis_Palette_Pro' ) ? Genesis_Palette_Pro::check_active() : false;
+		$coreactive = class_exists( 'Genesis_Palette_Pro' ) ? \Genesis_Palette_Pro::check_active() : false;
 
 		// Active. bail.
 		if ( $coreactive ) {
