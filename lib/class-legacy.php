@@ -60,10 +60,10 @@ class Legacy {
 	 *
 	 * @return $instance
 	 */
-	public static function getInstance() {
+	public static function get_instance() {
 
 		if ( ! self::$instance ) {
-			self::$instance = new self;
+			self::$instance = new self();
 		}
 
 		return self::$instance;
@@ -378,4 +378,4 @@ class Legacy {
 }
 
 // Instantiate our class.
-$legacy = Legacy::getInstance();
+$legacy = Legacy::get_instance();
