@@ -14,11 +14,9 @@
  */
 function gppro_google_webfonts_api_key( $settings ) {
 	$description = sprintf(
-		'%1$s <a href="%2$s" target="_blank">%3$s</a> %4$s.',
-		__( 'You must have a', 'gppro-google-webfonts' ),
-		esc_url( 'https://developers.google.com/fonts/docs/developer_api' ),
-		__( 'Google Fonts Developer API key', 'gppro-google-webfonts' ),
-		__( 'to access the Google Fonts feature', 'gppro-google-webfonts' )
+		// translators: Note about requirement of Google Fonts developer API key.
+		__( 'You must have a <a href="%1$s">Google Fonts Developer API key</a> to access the Google Fonts feature', 'gppro-google-webfonts' ),
+		esc_url( 'https://developers.google.com/fonts/docs/developer_api' )
 	);
 
 	$settings['gppro_google_webfonts_api_key'] = array(
