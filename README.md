@@ -1,25 +1,24 @@
-# Genesis Design Palette Pro - Google Webfonts #
+# Genesis Design Palette Pro - Google Web Fonts #
 **Contributors:** norcross, jjeaton, reaktivstudios
 
 **Requires at least:** 4.0
 
-**Tested up to:** 4.9.1
+**Tested up to:** 5.1.1
 
-**Stable tag:** 1.0.8
+**Stable tag:** 2.0.0
 
 **License:** GPLv2 or later
 
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
-**Tags:** design palette pro, genesis design, google webfonts
+**Tags:** design palette pro, genesis design, google web fonts
 
 ## Description ##
 
-Adds a set of popular Google Webfonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
+Adds a set of popular Google Web Fonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
 
-### New fonts in 1.0.8 ###
-* Noto Sans
-* Noto Serif
+### New fonts in 2.0.0 ###
+* All Google fonts are now supported through the Google fonts API.
 
 ## Installation ##
 1. Upload the `gppro-google-webfonts` folder and all its contents to the `/wp-content/plugins/` directory
@@ -45,75 +44,14 @@ Because having a list of 800+ fonts would be very difficult (if not impossible) 
 
 ### What Fonts Are Included? ###
 
-Here is a list
-
-* [Abel](https://www.google.com/fonts/specimen/Abel)
-* [Abril Fatface](https://www.google.com/fonts/specimen/Abril+Fatface)
-* [Archivo Narrow](https://www.google.com/fonts/specimen/Archivo+Narrow)
-* [Arizonia](https://www.google.com/fonts/specimen/Arizonia)
-* [Arvo](https://www.google.com/fonts/specimen/Arvo)
-* [Bilbo Swash Caps](https://www.google.com/fonts/specimen/Bilbo+Swash+Caps)
-* [Bitter](https://www.google.com/fonts/specimen/Bitter)
-* [Bree Serif](https://www.google.com/fonts/specimen/Bree+Serif)
-* [Cabin](https://www.google.com/fonts/specimen/Cabin)
-* [Cabin Sketch](https://www.google.com/fonts/specimen/Cabin+Sketch)
-* [Calligraffitti](https://www.google.com/fonts/specimen/Calligraffitti)
-* [Crimson Text](https://www.google.com/fonts/specimen/Crimson+Text)
-* [Dancing Script](https://www.google.com/fonts/specimen/Dancing+Script)
-* [Dosis](https://www.google.com/fonts/specimen/Dosis)
-* [Droid Sans Mono](https://www.google.com/fonts/specimen/Droid+Sans+Mono)
-* [Enriqueta](https://www.google.com/fonts/specimen/Enriqueta)
-* [Fenix](https://www.google.com/fonts/specimen/Fenix)
-* [Fredericka the Great](https://www.google.com/fonts/specimen/Fredericka+the+Great)
-* [Great Vibes](https://www.google.com/fonts/specimen/Great+Vibes)
-* [Handlee](https://www.google.com/fonts/specimen/Handlee)
-* [Inder](https://www.google.com/fonts/specimen/Inder)
-* [Josefin Sans](https://www.google.com/fonts/specimen/Josefin+Sans)
-* [Josefin Slab](https://www.google.com/fonts/specimen/Josefin+Slab)
-* [Kaushan Script](https://www.google.com/fonts/specimen/Kaushan+Script)
-* [Lato](https://www.google.com/fonts/specimen/Lato)
-* [Londrina Outline](https://www.google.com/fonts/specimen/Londrina+Outline)
-* [Londrina Sketch](https://www.google.com/fonts/specimen/Londrina+Sketch)
-* [Lora](https://www.google.com/fonts/specimen/Lora)
-* [Meddon](https://www.google.com/fonts/specimen/Meddon)
-* [Merriweather](https://www.google.com/fonts/specimen/Merriweather)
-* [Montserrat](https://www.google.com/fonts/specimen/Montserrat)
-* [Neuton](https://www.google.com/fonts/specimen/Neuton)
-* [Nixie One](https://www.google.com/fonts/specimen/Nixie+One)
-* [Noto Sans](https://fonts.google.com/specimen/Noto+Sans)
-* [Noto Serif](https://fonts.google.com/specimen/Noto+Serif)
-* [Old Standard TT](https://www.google.com/fonts/specimen/Old+Standard+TT)
-* [Open Sans](https://www.google.com/fonts/specimen/Open+Sans)
-* [Open Sans Condensed](https://www.google.com/fonts/specimen/Open+Sans+Condensed)
-* [Orienta](https://www.google.com/fonts/specimen/Orienta)
-* [Oswald](https://www.google.com/fonts/specimen/Oswald)
-* [Oxygen](https://www.google.com/fonts/specimen/Oxygen)
-* [Pacifico](https://www.google.com/fonts/specimen/Pacifico)
-* [Pathway Gothic One](https://www.google.com/fonts/specimen/Pathway+Gothic+One)
-* [Playfair Display](https://www.google.com/fonts/specimen/Playfair+Display)
-* [Podkova](https://www.google.com/fonts/specimen/Podkova)
-* [PT Serif](https://www.google.com/fonts/specimen/PT+Serif)
-* [Quattrocento](https://www.google.com/fonts/specimen/Quattrocento)
-* [Quattrocento Sans](https://www.google.com/fonts/specimen/Quattrocento+Sans)
-* [Quicksand](https://www.google.com/fonts/specimen/Quicksand)
-* [Raleway](https://www.google.com/fonts/specimen/Raleway)
-* [Roboto](https://www.google.com/fonts/specimen/Roboto)
-* [Roboto Condensed](https://www.google.com/fonts/specimen/Roboto+Condensed)
-* [Roboto Slab](https://www.google.com/fonts/specimen/Roboto+Slab)
-* [Rock Salt](https://www.google.com/fonts/specimen/Rock+Salt)
-* [Rokkitt](https://www.google.com/fonts/specimen/Rokkitt)
-* [Sacramento](https://www.google.com/fonts/specimen/Sacramento)
-* [Signika](https://www.google.com/fonts/specimen/Signika)
-* [Sofia](https://www.google.com/fonts/specimen/Sofia)
-* [Source Code Pro](https://www.google.com/fonts/specimen/Source+Code+Pro)
-* [Source Sans Pro](https://www.google.com/fonts/specimen/Source+Sans+Pro)
-* [Source Serif Pro](https://www.google.com/fonts/specimen/Source+Serif+Pro)
-* [Syncopate](https://www.google.com/fonts/specimen/Syncopate)
-* [Ubuntu Mono](https://www.google.com/fonts/specimen/Ubuntu+Mono)
-* [Vollkorn](https://www.google.com/fonts/specimen/Vollkorn)
+* [All Google fonts](https://fonts.google.com/) are now available!
 
 
 ## Changelog ##
+
+### 2.0.0 ###
+* Add support for Google Fonts API.
+* Include all Google Fonts in new Design Palette Pro fonts tool.
 
 ### 1.0.8 ###
 * No more tofu!
@@ -143,6 +81,9 @@ Here is a list
 * Initial release
 
 ## Upgrade Notice ##
+
+### 2.0.0 ###
+You must be running version 1.7.0 of Design Palette Pro or newer to use the new Google Fonts API feature.
 
 ### 1.0.4 ###
 You must be running version 1.2.3 of Design Palette Pro or newer to use these new fonts
