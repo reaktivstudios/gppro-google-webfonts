@@ -123,7 +123,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 	/**
 	 * Load the list of fonts available from the soruce.
 	 *
-	 * @return void
+	 * @return boolean
 	 */
 	protected function load_fonts() {
 		if ( empty( $this->fonts ) ) {
@@ -140,63 +140,83 @@ class Google extends \DPP\Admin\Fonts\Source {
 					$response_fonts = json_decode( $response['body'] )->items;
 					$fonts          = array();
 
-					array_walk(
-						$response_fonts,
-						function( $font, $font_index ) use ( &$fonts ) {
-							$font_key = sanitize_title( $font->family );
+					foreach ( $response_fonts as $font ) {
+						$font_key = sanitize_title( $font->family );
 
-							$type     = $font->category;
-							$alt_font = $font->category;
-							switch ( $type ) {
-								case 'handwriting':
-									$type     = 'cursive';
-									$alt_font = 'serif';
-									break;
+						$type     = $this->get_font_type( $font->category, false );
+						$alt_font = $this->get_font_type( $font->category, true );
 
-								case 'display':
-									$type     = 'serif';
-									$alt_font = 'serif';
-									break;
+						$variants = array_map(
+							array( $this, 'map_variants' ),
+							$font->variants
+						);
 
-								case 'sans-serif':
-									$type = 'sans';
-									break;
-							}
-							$variants = array_map(
-								function( $variant ) {
-									if ( 'regular' === $variant ) {
-										return '400';
-									}
-									if ( 'italic' === $variant ) {
-										return '400italic';
-									}
+						$val = str_replace( ' ', '+', $font->family ) . ':' . implode( ',', $variants );
 
-									return $variant;
-								},
-								$font->variants
-							);
-
-							$val = str_replace( ' ', '+', $font->family ) . ':' . implode( ',', $variants );
-
-							$fonts[ $font_key ] = dpp_font(
-								array(
-									'src'    => 'web',
-									'url'    => esc_url( 'https://fonts.google.com/specimen/' . str_replace( ' ', '+', $font->family ) ),
-									'label'  => $font->family,
-									'css'    => '"' . $font->family . '", ' . $alt_font,
-									'type'   => $type,
-									'source' => $this->name,
-									'val'    => $val,
-									'link'   => '//fonts.googleapis.com/css?family=' . $val,
-								)
-							);
-						}
-					);
+						$fonts[ $font_key ] = dpp_font(
+							array(
+								'src'    => 'web',
+								'url'    => esc_url( 'https://fonts.google.com/specimen/' . str_replace( ' ', '+', $font->family ) ),
+								'label'  => $font->family,
+								'css'    => '"' . $font->family . '", ' . $alt_font,
+								'type'   => $type,
+								'source' => $this->name,
+								'val'    => $val,
+								'link'   => '//fonts.googleapis.com/css?family=' . $val,
+							)
+						);
+					}
 
 					$this->fonts = $fonts;
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get the font type.
+	 *
+	 * @param string $font_category The font category.
+	 * @param bool   $alt           Get alt font type if true.
+	 *
+	 * @return string
+	 */
+	protected function get_font_type( $font_category, $alt ) {
+		$type = $font_category;
+
+		switch ( $font_category ) {
+			case 'handwriting':
+				$type = $alt ? 'serif' : 'cursive';
+				break;
+
+			case 'display':
+				$type = 'serif';
+				break;
+
+			case 'sans-serif':
+				$type = $alt ? $font_category : 'sans';
+				break;
+		}
+
+		return $type;
+	}
+
+	/**
+	 * Map the font variants array.
+	 *
+	 * @param string $variant The variant to map.
+	 *
+	 * @return string
+	 */
+	protected function map_variants( $variant ) {
+		if ( 'regular' === $variant ) {
+			return '400';
+		}
+		if ( 'italic' === $variant ) {
+			return '400italic';
+		}
+
+		return $variant;
 	}
 
 	/**
