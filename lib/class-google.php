@@ -1,10 +1,10 @@
 <?php
 /**
- * Genesis Design Palette Pro - Google Webfonts API integration
+ * Genesis Design Palette Pro - Google Web Fonts API integration
  *
  * Enables the user to select any Google font to use with Design Palette Pro.
  *
- * @package Design Palette Pro - Google Webfonts
+ * @package Design Palette Pro - Google Web Fonts
  */
 
 namespace DPP\Webfonts;
@@ -27,9 +27,9 @@ namespace DPP\Webfonts;
 */
 
 /**
- * Google Webfonts API class.
+ * Google Web Fonts API class.
  *
- * Contains integration with Google Webfonts Developer API.
+ * Contains integration with Google Web Fonts Developer API.
  */
 class Google extends \DPP\Admin\Fonts\Source {
 
@@ -81,7 +81,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 	 */
 	protected function set_config( $defaults ) {
 		$this->config = array(
-			'label' => __( 'Google Webfonts', 'gppro-google-webfonts' ),
+			'label' => __( 'Google Web Fonts', 'gppro-google-webfonts' ),
 		);
 
 		$this->config = wp_parse_args( $this->config, $defaults );

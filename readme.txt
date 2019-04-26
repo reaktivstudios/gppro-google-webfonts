@@ -1,17 +1,17 @@
-=== Genesis Design Palette Pro - Google Webfonts ===
+=== Genesis Design Palette Pro - Google Web Fonts ===
 Contributors: norcross, jjeaton, reaktivstudios
 Requires at least: 4.0
 Tested up to: 5.1.1
 Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: design palette pro, genesis design, google webfonts
+Tags: design palette pro, genesis design, google web fonts
 
-Adds a set of popular Google Webfonts to Design Palette Pro
+Adds a set of popular Google Web Fonts to Design Palette Pro
 
 == Description ==
 
-Adds a set of popular Google Webfonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
+Adds a set of popular Google Web Fonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
 
 ### New fonts in 2.0.0 ###
 * All Google fonts are now supported through the Google fonts API.

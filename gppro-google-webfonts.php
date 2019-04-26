@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Genesis Design Palette Pro - Google Webfonts
+ * Plugin Name: Genesis Design Palette Pro - Google Web Fonts
  * Plugin URI: https://genesisdesignpro.com/
- * Description: Adds a set of popular Google Webfonts to Design Palette Pro
+ * Description: Adds a set of popular Google Web Fonts to Design Palette Pro
  * Author: Reaktiv Studios
  * Version: 2.0.0
  * Requires at least: 4.0
@@ -44,15 +44,15 @@ if ( ! defined( 'GPGWF_VER' ) ) {
 require_once GPGWF_DIR . '/lib/legacy-font-stacks.php';
 
 /**
- * Load Google webfonts legacy class if new fonts functionality does not exist.
- * Load Google webfonts source class if new fonts functionality exists.
+ * Load Google web fonts legacy class if new fonts functionality does not exist.
+ * Load Google web fonts source class if new fonts functionality exists.
  */
 function gppro_google_webfonts_load() {
 	if ( class_exists( '\DPP\Admin\Fonts' ) ) {
-		// Load Google webfonts source class.
+		// Load Google web fonts source class.
 		require_once GPGWF_DIR . '/lib/class-google.php';
 	} else {
-		// Load google webfonts legacy class.
+		// Load google web fonts legacy class.
 		require_once GPGWF_DIR . '/lib/class-legacy.php';
 	}
 }

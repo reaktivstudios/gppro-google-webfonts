@@ -6,7 +6,7 @@
  */
 
 /**
- * Add the Google Webfonts API Key setting.
+ * Add the Google Web Fonts API Key setting.
  *
  * @param array $settings Existing settings.
  *

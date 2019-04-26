@@ -1,8 +1,8 @@
 <?php
 /**
- * Genesis Design Palette Pro - Google Webfonts Legacy Plugin
+ * Genesis Design Palette Pro - Google Web Fonts Legacy Plugin
  *
- * @package Design Palette Pro - Google Webfonts
+ * @package Design Palette Pro - Google Web Fonts
  */
 
 namespace DPP\Webfonts;
@@ -25,7 +25,7 @@ namespace DPP\Webfonts;
 */
 
 /**
- * Load our Google Webfonts class
+ * Load our Google Web Fonts class
  */
 class Legacy {
 
@@ -147,7 +147,7 @@ class Legacy {
 
 		// Display the pagespeed warning.
 		echo '<div id="message" class="error fade below-h2 gppro-admin-warning gppro-admin-warning-webfonts"><p>';
-		echo '<strong>' . esc_html__( 'Warning: You have selected multiple webfonts which could have a severe impact on site performance.', 'gppro-google-webfonts' ) . '</strong>';
+		echo '<strong>' . esc_html__( 'Warning: You have selected multiple web fonts which could have a severe impact on site performance.', 'gppro-google-webfonts' ) . '</strong>';
 		echo '<span class="webfont-ignore">' . esc_html__( 'Ignore this message', 'gppro-google-webfonts' ) . '</span>';
 		echo '</p></div>';
 	}
@@ -202,7 +202,7 @@ class Legacy {
 	/**
 	 * Helper to create array of font options and combine into string.
 	 *
-	 * @return string  The string of the Google webfonts.
+	 * @return string  The string of the Google Web Fonts.
 	 */
 	public static function font_choice_string() {
 
