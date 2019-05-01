@@ -7,11 +7,11 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: design palette pro, genesis design, google web fonts
 
-Adds a set of popular Google Web Fonts to Design Palette Pro
+Adds support for Google Web Fonts to Design Palette Pro
 
 == Description ==
 
-Adds a set of popular Google Web Fonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
+Adds support for Google Web Fonts to Design Palette Pro. Provides the proper CSS and script loading to use the fonts. Requires the [Genesis Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro") plugin.
 
 ### New fonts in 2.0.0 ###
 * All Google fonts are now supported through the Google fonts API.
@@ -23,28 +23,13 @@ Adds a set of popular Google Web Fonts to Design Palette Pro. Provides the prope
 
 == Frequently Asked Questions ==
 
-= What is this? =
-
-The description covers it all.
-
 = Why Doesn't This Work On My Theme? =
 
 Because this is an add-on for [Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro"). Without that plugin, nothing will work.
 
 = How Many Fonts Are Included? =
 
-There are 64 total fonts included
-
-= Why Aren't All Fonts Included? =
-
-Because having a list of 800+ fonts would be very difficult (if not impossible) to actually use.
-
-= What Fonts Are Included? =
-
-Here is a list
-
-* [All Google fonts](https://fonts.google.com/) are now available!
-
+As of version 2.0, [all 900+ Google Fonts](https://fonts.google.com/) are included.
 
 == Changelog ==
 
