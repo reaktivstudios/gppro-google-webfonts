@@ -28,11 +28,11 @@ Adds support for Google Web Fonts to Design Palette Pro. Provides the proper CSS
 
 ### Why Doesn't This Work On My Theme? ###
 
-Because this is an add-on for [Design Palette Pro](http://genesisdesignpro.com/ "Genesis Design Palette Pro"). Without that plugin, nothing will work.
+This plugin only works with [Design Palette Pro](https://genesisdesignpro.com/) and a [supported Genesis child theme](https://genesisdesignpro.com/themes/).
 
 ### How Many Fonts Are Included? ###
 
-As of version 2.0, [all 900+ Google Fonts](https://fonts.google.com/) are included.
+As of version 2.0, [all 900+ Google Fonts](https://fonts.google.com/) are included when used in conjunction with Design Palette Pro 1.7+.
 
 ## Changelog ##
 
