@@ -41,11 +41,25 @@ class Google extends \DPP\Admin\Fonts\Source {
 	protected $api_key = '';
 
 	/**
-	 * Fon source name.
+	 * Font source name.
 	 *
 	 * @var string
 	 */
 	protected $name = 'google';
+
+	/**
+	 * Transient key.
+	 *
+	 * @var string
+	 */
+	protected $transient_key = 'gppro-google-webfonts--transient';
+
+	/**
+	 * Option key.
+	 *
+	 * @var string
+	 */
+	protected $option_key = 'gppro-google-webfonts--option';
 
 	/**
 	 * Handle our checks then call our hooks.
@@ -127,50 +141,122 @@ class Google extends \DPP\Admin\Fonts\Source {
 	 */
 	protected function load_fonts() {
 		if ( empty( $this->fonts ) ) {
-			$key = $this->api_key;
 
-			if ( '' === $key ) {
+			// Try to load the cached fonts.
+			$this->fonts = $this->get_cached_fonts();
+
+			// If no cached fonts or transient is expired, load from API.
+			if ( empty( $this->fonts ) ) {
+				$this->fonts = $this->fetch_api_fonts();
+			}
+
+			// If still no fonts, try to load fonts saved in options.
+			if ( empty( $this->fonts ) ) {
+				$this->fonts = $this->get_fonts_option();
+			}
+
+			// If still no fonts, there's a problem.
+			if ( empty( $this->fonts ) ) {
 				return false;
 			}
 
-			$response = wp_remote_get( esc_url( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key ) );
+			// Cache the fonts.
+			$this->cache_fonts( $this->fonts );
+		}
 
-			if ( is_array( $response ) ) {
-				if ( isset( $response['response']['code'] ) && 200 === $response['response']['code'] ) {
-					$response_fonts = json_decode( $response['body'] )->items;
-					$fonts          = array();
+		return true;
+	}
 
-					foreach ( $response_fonts as $font ) {
-						$font_key = sanitize_title( $font->family );
+	/**
+	 * Fetch fonts from the API.
+	 *
+	 * @return array
+	 */
+	protected function fetch_api_fonts() {
+		$key = $this->api_key;
 
-						$type     = $this->get_font_type( $font->category, false );
-						$alt_font = $this->get_font_type( $font->category, true );
+		if ( '' === $key ) {
+			return array();
+		}
 
-						$variants = array_map(
-							array( $this, 'map_variants' ),
-							$font->variants
-						);
+		$response = wp_remote_get( esc_url( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key ) );
 
-						$val = str_replace( ' ', '+', $font->family ) . ':' . implode( ',', $variants );
+		if ( is_array( $response ) ) {
+			if ( isset( $response['response']['code'] ) && 200 === $response['response']['code'] ) {
+				$response_fonts = json_decode( $response['body'] )->items;
+				$fonts          = array();
 
-						$fonts[ $font_key ] = dpp_font(
-							array(
-								'src'    => 'web',
-								'url'    => esc_url( 'https://fonts.google.com/specimen/' . str_replace( ' ', '+', $font->family ) ),
-								'label'  => $font->family,
-								'css'    => '"' . $font->family . '", ' . $alt_font,
-								'type'   => $type,
-								'source' => $this->name,
-								'val'    => $val,
-								'link'   => '//fonts.googleapis.com/css?family=' . $val,
-							)
-						);
-					}
+				foreach ( $response_fonts as $font ) {
+					$font_key = sanitize_title( $font->family );
 
-					$this->fonts = $fonts;
+					$type     = $this->get_font_type( $font->category, false );
+					$alt_font = $this->get_font_type( $font->category, true );
+
+					$variants = array_map(
+						array( $this, 'map_variants' ),
+						$font->variants
+					);
+
+					$val = str_replace( ' ', '+', $font->family ) . ':' . implode( ',', $variants );
+
+					$fonts[ $font_key ] = dpp_font(
+						array(
+							'src'    => 'web',
+							'url'    => esc_url( 'https://fonts.google.com/specimen/' . str_replace( ' ', '+', $font->family ) ),
+							'label'  => $font->family,
+							'css'    => '"' . $font->family . '", ' . $alt_font,
+							'type'   => $type,
+							'source' => $this->name,
+							'val'    => $val,
+							'link'   => '//fonts.googleapis.com/css?family=' . $val,
+						)
+					);
 				}
+
+				return $fonts;
 			}
 		}
+
+		return array();
+	}
+
+	/**
+	 * Cache the fonts.
+	 *
+	 * @param array $fonts The fonts to cache.
+	 */
+	protected function cache_fonts( $fonts ) {
+		// Set the expiration to 6 hours.
+		$expiration = 6 * HOUR_IN_SECONDS;
+
+		set_transient( $this->transient_key, $fonts, $expiration );
+		update_option( $this->option_key, $fonts );
+	}
+
+	/**
+	 * Get the cached fonts.
+	 *
+	 * @return array
+	 */
+	protected function get_cached_fonts() {
+		$fonts = get_transient( $this->transient_key );
+
+		if ( ! empty( $fonts ) ) {
+			return $fonts;
+		}
+
+		return array();
+	}
+
+	/**
+	 * Get fonts from the font option.
+	 *
+	 * @return array
+	 */
+	protected function get_fonts_option() {
+		$fonts = get_option( $this->option_key, array() );
+
+		return $fonts;
 	}
 
 	/**
