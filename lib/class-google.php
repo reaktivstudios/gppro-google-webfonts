@@ -159,9 +159,6 @@ class Google extends \DPP\Admin\Fonts\Source {
 			if ( empty( $this->fonts ) ) {
 				return false;
 			}
-
-			// Cache the fonts.
-			$this->cache_fonts( $this->fonts );
 		}
 
 		return true;
@@ -212,6 +209,9 @@ class Google extends \DPP\Admin\Fonts\Source {
 						)
 					);
 				}
+
+				// Cache the fonts.
+				$this->cache_fonts( $this->fonts );
 
 				return $fonts;
 			}
