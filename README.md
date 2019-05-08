@@ -5,7 +5,7 @@
 
 **Tested up to:** 5.1.1
 
-**Stable tag:** 2.0.0
+**Stable tag:** 2.0.1
 
 **License:** GPLv2 or later
 
@@ -35,6 +35,9 @@ This plugin only works with [Design Palette Pro](https://genesisdesignpro.com/) 
 As of version 2.0, [all 900+ Google Fonts](https://fonts.google.com/) are included when used in conjunction with Design Palette Pro 1.7+.
 
 ## Changelog ##
+
+### 2.0.1 ###
+* Add caching for Google Fonts API calls.
 
 ### 2.0.0 ###
 * Add support for Google Fonts API.

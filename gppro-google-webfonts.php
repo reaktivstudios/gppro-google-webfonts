@@ -4,7 +4,7 @@
  * Plugin URI: https://genesisdesignpro.com/
  * Description: Adds a set of popular Google Web Fonts to Design Palette Pro
  * Author: Reaktiv Studios
- * Version: 2.0.0
+ * Version: 2.0.1
  * Requires at least: 4.0
  * Author URI: https://genesisdesignpro.com
  *
