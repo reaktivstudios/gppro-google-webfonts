@@ -75,7 +75,7 @@ function gppro_google_webfonts_sections( $sections ) {
 
 	if ( ! empty( $logging_enabled ) ) {
 		$sections['gppro_google_webfonts_log'] = array(
-			'title'    => '',
+			'title'    => __( 'Google Fonts Log', 'gppro' ),
 			'callback' => 'gppro_google_webfonts_section_log',
 		);
 	}
@@ -90,21 +90,28 @@ function gppro_google_webfonts_section_log() {
 	$gppro_google_webfonts_log = get_option( 'gppro_google_webfonts_log', array() );
 
 	if ( ! empty( $gppro_google_webfonts_log ) ) {
-		echo '<ul>';
-		foreach ( $gppro_google_webfonts_log as $log_item ) {
-			echo '<li>' . esc_html( $log_item ) . '</li>';
-		}
-		echo '</ul>';
-
 		$clear_log_url = admin_url( 'admin.php?page=genesis-palette-pro&current-tab=genesis-palette-pro-gppro_google_webfonts_log&dpp-clear-font-log=1' );
+		?>
+		<table class="wp-list-table widefat fixed striped">
+			<thead>
+				<tr>
+					<th class="manage-column column-date"><?php esc_html_e( 'Date', 'gppro' ); ?></th>
+					<th class="manage-column"><?php esc_html_e( 'Message', 'gppro' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $gppro_google_webfonts_log as $log_item ) : ?>
+				<tr>
+					<td><?php echo esc_html( $log_item['date'] ); ?></td>
+					<td><?php echo esc_html( $log_item['message'] ); ?></td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
 
-		printf(
-			'<a href="%1$s">%2$s</a>',
-			esc_url( $clear_log_url ),
-			esc_html__( 'Clear font log.', 'gppro' )
-		);
+		<p><a href="<?php echo esc_url( $clear_log_url ); ?>"><?php esc_html_e( 'Clear font log.', 'gppro' ); ?></a>
+		<?php
 	} else {
 		echo '<p>' . esc_html__( 'The log is empty.', 'gppro' ) . '</p>';
 	}
-
 }
