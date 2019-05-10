@@ -240,7 +240,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 		$logging_enabled = get_option( 'gppro_google_webfonts_logging', false );
 
 		// Only log errors if logging is enabled.
-		if ( emtpy( $logging_enabled ) ) {
+		if ( empty( $logging_enabled ) ) {
 			return;
 		}
 
@@ -253,9 +253,10 @@ class Google extends \DPP\Admin\Fonts\Source {
 			array_shift( $error_log );
 		}
 
-		$error_message = date( 'Y-m-d H:i:s' ) . ' - ' . $api_error;
-
-		$error_log[] = $error_message;
+		$error_log[] = array(
+			'date'    => date( 'Y-m-d H:i:s' ),
+			'message' => $api_error,
+		);
 
 		update_option( $log_key, $error_log );
 	}
