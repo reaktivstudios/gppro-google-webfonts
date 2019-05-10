@@ -180,6 +180,11 @@ class Google extends \DPP\Admin\Fonts\Source {
 
 		$response = wp_remote_get( esc_url( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key ) );
 
+		if ( is_wp_error( $response ) ) {
+			$this->log_api_error( $response->get_error_message() );
+			return array();
+		}
+
 		if ( is_array( $response ) ) {
 			if ( isset( $response['response']['code'] ) && 200 === $response['response']['code'] ) {
 				$response_fonts = json_decode( $response['body'] )->items;
@@ -216,10 +221,43 @@ class Google extends \DPP\Admin\Fonts\Source {
 				$this->cache_fonts( $fonts );
 
 				return $fonts;
+			} else {
+				$this->log_api_error( $response['body'] );
 			}
+		} else {
+			$this->log_api_error( $response['body'] );
 		}
 
 		return array();
+	}
+
+	/**
+	 * Log Google API errors.
+	 *
+	 * @param mixed $api_error The API error to log.
+	 */
+	protected function log_api_error( $api_error ) {
+		$logging_enabled = get_option( 'gppro_google_webfonts_logging', false );
+
+		// Only log errors if logging is enabled.
+		if ( emtpy( $logging_enabled ) ) {
+			return;
+		}
+
+		$log_key         = 'gppro_google_webfonts_log';
+		$error_log       = get_option( $log_key, array() );
+		$error_log_count = count( $error_log );
+		$max_error_count = 100;
+
+		if ( $error_log_count >= $max_error_count ) {
+			array_shift( $error_log );
+		}
+
+		$error_message = date( 'Y-m-d H:i:s' ) . ' - ' . $api_error;
+
+		$error_log[] = $error_message;
+
+		update_option( $log_key, $error_log );
 	}
 
 	/**
