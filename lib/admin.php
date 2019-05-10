@@ -37,9 +37,16 @@ function gppro_google_webfonts_settings( $settings ) {
 		'section'     => 'settings',
 	);
 
+	// Add link to clear font cache under utilities.
+	$settings['gppro_google_webfonts_clear_cache'] = array(
+		'label'    => __( 'Clear Google Font cache', 'gppro-google-webfonts' ),
+		'section'  => 'utilities',
+		'callback' => 'gppro_google_webfonts_clear_cache_link',
+	);
+
 	return $settings;
 }
-add_filter( 'dpp_settings', 'gppro_google_webfonts_settings', 110 );
+add_filter( 'dpp_settings', 'gppro_google_webfonts_settings', 3000 );
 
 /**
  * Maybe add tabs to the DPP admin.
@@ -53,7 +60,7 @@ function gppro_google_webfonts_tabs( $tabs ) {
 
 	if ( ! empty( $logging_enabled ) ) {
 		$tabs['gppro_google_webfonts_log'] = array(
-			'label'  => __( 'Google Fonts Log', 'gppro' ),
+			'label'  => __( 'Google Fonts Log', 'gppro-google-webfonts' ),
 			'single' => true,
 			'form'   => false,
 		);
@@ -61,7 +68,7 @@ function gppro_google_webfonts_tabs( $tabs ) {
 
 	return $tabs;
 }
-add_filter( 'dpp_settings_tabs', 'gppro_google_webfonts_tabs', 2100 );
+add_filter( 'dpp_settings_tabs', 'gppro_google_webfonts_tabs', 3000 );
 
 /**
  * Maybe add sections to the DPP admin.
@@ -75,13 +82,13 @@ function gppro_google_webfonts_sections( $sections ) {
 
 	if ( ! empty( $logging_enabled ) ) {
 		$sections['gppro_google_webfonts_log'] = array(
-			'title'    => __( 'Google Fonts Log', 'gppro' ),
+			'title'    => __( 'Google Fonts Log', 'gppro-google-webfonts' ),
 			'callback' => 'gppro_google_webfonts_section_log',
 		);
 	}
 	return $sections;
 }
-add_filter( 'dpp_settings_sections', 'gppro_google_webfonts_sections', 2100 );
+add_filter( 'dpp_settings_sections', 'gppro_google_webfonts_sections', 3000 );
 
 /**
  * Callback for the Google Fonts log section.
@@ -95,8 +102,8 @@ function gppro_google_webfonts_section_log() {
 		<table class="wp-list-table widefat fixed striped">
 			<thead>
 				<tr>
-					<th class="manage-column column-date"><?php esc_html_e( 'Date', 'gppro' ); ?></th>
-					<th class="manage-column"><?php esc_html_e( 'Message', 'gppro' ); ?></th>
+					<th class="manage-column column-date"><?php esc_html_e( 'Date', 'gppro-google-webfonts' ); ?></th>
+					<th class="manage-column"><?php esc_html_e( 'Message', 'gppro-google-webfonts' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -109,9 +116,21 @@ function gppro_google_webfonts_section_log() {
 			</tbody>
 		</table>
 
-		<p><a href="<?php echo esc_url( $clear_log_url ); ?>"><?php esc_html_e( 'Clear font log.', 'gppro' ); ?></a>
+		<p><a href="<?php echo esc_url( $clear_log_url ); ?>"><?php esc_html_e( 'Clear font log.', 'gppro-google-webfonts' ); ?></a>
 		<?php
 	} else {
-		echo '<p>' . esc_html__( 'The log is empty.', 'gppro' ) . '</p>';
+		echo '<p>' . esc_html__( 'The log is empty.', 'gppro-google-webfonts' ) . '</p>';
 	}
+}
+
+/**
+ * Display a link to clear the font cache.
+ */
+function gppro_google_webfonts_clear_cache_link() {
+	$clear_cache_url = admin_url( 'admin.php?page=genesis-palette-pro&current-tab=genesis-palette-pro-utilities&dpp-delete-font-cache=1' );
+	?>
+	<p>
+		<a href="<?php echo esc_url( $clear_cache_url ); ?>"><?php esc_html_e( 'Clear font cache', 'gppro-google-webfonts' ); ?></a>
+	</p>
+	<?php
 }
