@@ -37,6 +37,13 @@ function gppro_google_webfonts_settings( $settings ) {
 		'section'     => 'settings',
 	);
 
+	// Add a tool to import fonts.
+	$settings['gppro_google_webfonts_import_fonts'] = array(
+		'label'    => __( 'Import Google Fonts from file', 'gppro-google-webfonts' ),
+		'section'  => 'utilities',
+		'callback' => 'gppro_google_webfonts_import_fonts',
+	);
+
 	// Add link to clear font cache under utilities.
 	$settings['gppro_google_webfonts_clear_cache'] = array(
 		'label'    => __( 'Clear Google Font cache', 'gppro-google-webfonts' ),
@@ -121,6 +128,37 @@ function gppro_google_webfonts_section_log() {
 	} else {
 		echo '<p>' . esc_html__( 'The log is empty.', 'gppro-google-webfonts' ) . '</p>';
 	}
+}
+
+/**
+ * Display field to import fonts.
+ */
+function gppro_google_webfonts_import_fonts() {
+	$import_id = 'gppro-google-webfonts-import-fonts';
+
+	// build the import URL.
+	$import = add_query_arg( array( 'gppro-import' => 'go' ), menu_page_url( 'genesis-palette-pro', 0 ) );
+	?>
+	<div class="gppro-input gppro-import-input gppro-setting-input">
+		<form enctype="multipart/form-data" method="post" action="<?php echo esc_url( $import ); ?>">
+			<?php wp_nonce_field( 'gppro_webfonts_import', 'gppro_webfonts_import_nonce' ); ?>
+
+			<div class="gppro-input-item gppro-input-wrap gppro-upload-wrap">
+				<input type="file" name="<?php echo esc_attr( $import_id ); ?>" id="<?php echo esc_attr( $import_id ); ?>" size="25" />
+			</div>
+
+			<div class="gppro-input-item gppro-input-label choice-label">
+				<span class="gppro-settings-button">
+					<?php submit_button( __( 'Import', 'gppro-google-webfonts' ), 'primary', 'gppro-import-submit', false, false ); ?>
+				</span>
+			</div>
+		</form>
+	</div>
+
+	<p class="description">
+		<?php esc_html_e( 'If your site is unable to connect to the Google Fonts API, you can import Google Fonts as a JSON file. Please contact support for assistance.', 'gppro' ); ?>
+	</p>
+	<?php
 }
 
 /**

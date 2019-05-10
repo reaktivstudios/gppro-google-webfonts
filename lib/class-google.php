@@ -94,6 +94,8 @@ class Google extends \DPP\Admin\Fonts\Source {
 
 		add_action( 'updated_option', array( $this, 'updated_option' ), 10, 3 );
 
+		add_action( 'admin_init', array( $this, 'maybe_import_fonts' ) );
+
 		$this->maybe_delete_font_cache();
 	}
 
@@ -515,6 +517,70 @@ class Google extends \DPP\Admin\Fonts\Source {
 	<link href="<?php echo esc_url( $google_url ); ?>" rel="stylesheet" /> 
 			<?php
 		}
+	}
+
+	/**
+	 * Maybe import fonts.
+	 */
+	public function maybe_import_fonts() {
+		// check nonce and bail if missing.
+		if ( empty( $_POST['gppro_webfonts_import_nonce'] ) || ! wp_verify_nonce( $_POST['gppro_webfonts_import_nonce'], 'gppro_webfonts_import' ) ) {
+			return;
+		}
+
+		// bail if no page reference.
+		if ( empty( $_GET['gppro-import'] ) || ! empty( $_GET['gppro-import'] ) && 'go' !== $_GET['gppro-import'] ) {
+			return;
+		}
+
+		// bail if no file present.
+		if ( ! isset( $_FILES['gppro-google-webfonts-import-fonts'] ) ) {
+			// set my redirect URL.
+			$failure = menu_page_url( 'genesis-palette-pro', 0 ) . '&section=build_settings&uploaded=failure&reason=nofile';
+
+			// and do the redirect.
+			wp_safe_redirect( $failure );
+			exit;
+		}
+
+		// bail if no file present.
+		if ( ! empty( $_FILES['gppro-google-webfonts-import-fonts']['error'] ) && 4 === $_FILES['gppro-google-webfonts-import-fonts']['error'] ) {
+			// set my redirect URL.
+			$failure = menu_page_url( 'genesis-palette-pro', 0 ) . '&section=build_settings&uploaded=failure&reason=nofile';
+
+			// and do the redirect.
+			wp_safe_redirect( $failure );
+			exit;
+		}
+
+		// check file extension.
+		$name = explode( '.', $_FILES['gppro-google-webfonts-import-fonts']['name'] );
+		if ( end( $name ) !== 'json' ) {
+
+			// set my redirect URL.
+			$failure = menu_page_url( 'genesis-palette-pro', 0 ) . '&section=build_settings&uploaded=failure&reason=notjson';
+
+			// and do the redirect.
+			wp_safe_redirect( $failure );
+			exit;
+		}
+
+		// passed our initial checks, now decode the file and check the contents.
+		$upload  = file_get_contents( $_FILES['gppro-google-webfonts-import-fonts']['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.WP.AlternativeFunctions.file_system_read_file_get_contents
+		$options = json_decode( $upload, true );
+
+		// check for valid JSON.
+		if ( null === $options ) {
+
+			// set my redirect URL.
+			$failure = menu_page_url( 'genesis-palette-pro', 0 ) . '&section=build_settings&uploaded=failure&reason=badjson';
+
+			// and do the redirect.
+			wp_safe_redirect( $failure );
+			exit;
+		}
+
+		update_option( $this->option_key, $options );
 	}
 
 }
