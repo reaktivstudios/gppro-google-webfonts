@@ -62,6 +62,13 @@ class Google extends \DPP\Admin\Fonts\Source {
 	protected $option_key = 'gppro-google-webfonts--option';
 
 	/**
+	 * Logging key.
+	 *
+	 * @var string
+	 */
+	protected $logging_enabled_key = 'gppro_google_webfonts_logging';
+
+	/**
 	 * Handle our checks then call our hooks.
 	 *
 	 * @return void
@@ -84,6 +91,8 @@ class Google extends \DPP\Admin\Fonts\Source {
 		add_action( 'wp_enqueue_scripts', array( $this, 'font_scripts' ) );
 
 		add_action( 'dpp_preview_head_before_styles', array( $this, 'preview_head' ) );
+
+		add_action( 'updated_option', array( $this, 'updated_option' ), 10, 3 );
 
 		$this->maybe_delete_font_cache();
 	}
@@ -237,7 +246,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 	 * @param mixed $api_error The API error to log.
 	 */
 	protected function log_api_error( $api_error ) {
-		$logging_enabled = get_option( 'gppro_google_webfonts_logging', false );
+		$logging_enabled = get_option( $this->logging_enabled_key, false );
 
 		// Only log errors if logging is enabled.
 		if ( empty( $logging_enabled ) ) {
@@ -288,6 +297,25 @@ class Google extends \DPP\Admin\Fonts\Source {
 			delete_transient( $this->transient_key );
 
 			add_action( 'admin_notices', array( $this, 'delete_cache_admin_notice' ) );
+		}
+	}
+
+	/**
+	 * Trigger when an option is updated.
+	 *
+	 * @param string $option    The updated option.
+	 * @param mixed  $old_value The old option value.
+	 * @param mixed  $value     The new option value.
+	 */
+	public function updated_option( $option, $old_value, $value ) {
+		if ( $option !== $this->logging_enabled_key ) {
+			return;
+		}
+
+		// Clear the cache when logging is enabled.
+		if ( '1' === $value ) {
+			$this->log_api_error( 'Logging enabled' );
+			delete_transient( $this->transient_key );
 		}
 	}
 
