@@ -286,7 +286,20 @@ class Google extends \DPP\Admin\Fonts\Source {
 		// Check for the dpp-delete-font-cache flag.
 		if ( isset( $_GET['dpp-delete-font-cache'] ) ) {
 			delete_transient( $this->transient_key );
+
+			add_action( 'admin_notices', array( $this, 'delete_cache_admin_notice' ) );
 		}
+	}
+
+	/**
+	 * Display an admin notice that the cache was cleared.
+	 */
+	public function delete_cache_admin_notice() {
+		?>
+	<div class="notice notice-success is-dismissible">
+		<p><?php esc_html_e( 'Font cache successfully cleared', 'gppro-google-webfonts' ); ?></p>
+	</div>
+		<?php
 	}
 
 	/**
