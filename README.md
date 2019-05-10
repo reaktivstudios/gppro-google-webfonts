@@ -38,6 +38,7 @@ As of version 2.0, [all 900+ Google Fonts](https://fonts.google.com/) are includ
 
 ### 2.0.1 ###
 * Add caching for Google Fonts API calls.
+* Add error logging for Google Fonts API calls.
 
 ### 2.0.0 ###
 * Add support for Google Fonts API.
