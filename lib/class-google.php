@@ -84,6 +84,8 @@ class Google extends \DPP\Admin\Fonts\Source {
 		add_action( 'wp_enqueue_scripts', array( $this, 'font_scripts' ) );
 
 		add_action( 'dpp_preview_head_before_styles', array( $this, 'preview_head' ) );
+
+		$this->maybe_delete_font_cache();
 	}
 
 	/**
@@ -211,7 +213,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 				}
 
 				// Cache the fonts.
-				$this->cache_fonts( $this->fonts );
+				$this->cache_fonts( $fonts );
 
 				return $fonts;
 			}
@@ -231,6 +233,21 @@ class Google extends \DPP\Admin\Fonts\Source {
 
 		set_transient( $this->transient_key, $fonts, $expiration );
 		update_option( $this->option_key, $fonts );
+	}
+
+	/**
+	 * Maybe delete the font transient.
+	 */
+	protected function maybe_delete_font_cache() {
+		// First make sure this happens in the WP admin and that the user is an administrator.
+		if ( ! is_admin() && ! current_user_can( 'administrator' ) ) {
+			return;
+		}
+
+		// Check for the dpp-delete-font-cache flag.
+		if ( isset( $_GET['dpp-delete-font-cache'] ) ) {
+			delete_transient( $this->transient_key );
+		}
 	}
 
 	/**
