@@ -3,7 +3,7 @@
 
 **Requires at least:** 4.0
 
-**Tested up to:** 5.1.1
+**Tested up to:** 5.3
 
 **Stable tag:** 2.0.1
 
@@ -39,6 +39,8 @@ As of version 2.0, [all 900+ Google Fonts](https://fonts.google.com/) are includ
 ### 2.0.1 ###
 * Add caching for Google Fonts API calls.
 * Add error logging for Google Fonts API calls.
+* Fix: Adds a link to the font page on Google Fonts.
+* Fix: Sets the correct source on the legacy fonts as "google".
 
 ### 2.0.0 ###
 * Add support for Google Fonts API.

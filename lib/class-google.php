@@ -452,6 +452,7 @@ class Google extends \DPP\Admin\Fonts\Source {
 	 */
 	protected function get_google_font_values( $active_fonts, $selected_fonts ) {
 		$google_font_values = array();
+
 		foreach ( $active_fonts as $key => $font ) {
 			if (
 				in_array( $key, $selected_fonts, true )
