@@ -41,11 +41,32 @@ class Google extends \DPP\Admin\Fonts\Source {
 	protected $api_key = '';
 
 	/**
-	 * Fon source name.
+	 * Font source name.
 	 *
 	 * @var string
 	 */
 	protected $name = 'google';
+
+	/**
+	 * Transient key.
+	 *
+	 * @var string
+	 */
+	protected $transient_key = 'gppro-google-webfonts--transient';
+
+	/**
+	 * Option key.
+	 *
+	 * @var string
+	 */
+	protected $option_key = 'gppro-google-webfonts--option';
+
+	/**
+	 * Logging key.
+	 *
+	 * @var string
+	 */
+	protected $logging_enabled_key = 'gppro_google_webfonts_logging';
 
 	/**
 	 * Handle our checks then call our hooks.
@@ -70,6 +91,12 @@ class Google extends \DPP\Admin\Fonts\Source {
 		add_action( 'wp_enqueue_scripts', array( $this, 'font_scripts' ) );
 
 		add_action( 'dpp_preview_head_before_styles', array( $this, 'preview_head' ) );
+
+		add_action( 'updated_option', array( $this, 'updated_option' ), 10, 3 );
+
+		add_action( 'admin_init', array( $this, 'maybe_import_fonts' ) );
+
+		$this->maybe_delete_font_cache();
 	}
 
 	/**
@@ -127,50 +154,208 @@ class Google extends \DPP\Admin\Fonts\Source {
 	 */
 	protected function load_fonts() {
 		if ( empty( $this->fonts ) ) {
-			$key = $this->api_key;
 
-			if ( '' === $key ) {
+			// Try to load the cached fonts.
+			$this->fonts = $this->get_cached_fonts();
+
+			// If no cached fonts or transient is expired, load from API.
+			if ( empty( $this->fonts ) ) {
+				$this->fonts = $this->fetch_api_fonts();
+			}
+
+			// If still no fonts, try to load fonts saved in options.
+			if ( empty( $this->fonts ) ) {
+				$this->fonts = $this->get_fonts_option();
+			}
+
+			// If still no fonts, there's a problem.
+			if ( empty( $this->fonts ) ) {
 				return false;
 			}
-
-			$response = wp_remote_get( esc_url( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key ) );
-
-			if ( is_array( $response ) ) {
-				if ( isset( $response['response']['code'] ) && 200 === $response['response']['code'] ) {
-					$response_fonts = json_decode( $response['body'] )->items;
-					$fonts          = array();
-
-					foreach ( $response_fonts as $font ) {
-						$font_key = sanitize_title( $font->family );
-
-						$type     = $this->get_font_type( $font->category, false );
-						$alt_font = $this->get_font_type( $font->category, true );
-
-						$variants = array_map(
-							array( $this, 'map_variants' ),
-							$font->variants
-						);
-
-						$val = str_replace( ' ', '+', $font->family ) . ':' . implode( ',', $variants );
-
-						$fonts[ $font_key ] = dpp_font(
-							array(
-								'src'    => 'web',
-								'url'    => esc_url( 'https://fonts.google.com/specimen/' . str_replace( ' ', '+', $font->family ) ),
-								'label'  => $font->family,
-								'css'    => '"' . $font->family . '", ' . $alt_font,
-								'type'   => $type,
-								'source' => $this->name,
-								'val'    => $val,
-								'link'   => '//fonts.googleapis.com/css?family=' . $val,
-							)
-						);
-					}
-
-					$this->fonts = $fonts;
-				}
-			}
 		}
+
+		return true;
+	}
+
+	/**
+	 * Fetch fonts from the API.
+	 *
+	 * @return array
+	 */
+	protected function fetch_api_fonts() {
+		$key = $this->api_key;
+
+		if ( '' === $key ) {
+			return array();
+		}
+
+		$response = wp_remote_get( esc_url( 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key ) );
+
+		if ( is_wp_error( $response ) ) {
+			$this->log_api_error( $response->get_error_message() );
+			return array();
+		}
+
+		if ( is_array( $response ) ) {
+			if ( isset( $response['response']['code'] ) && 200 === $response['response']['code'] ) {
+				$response_fonts = json_decode( $response['body'] )->items;
+				$fonts          = array();
+
+				foreach ( $response_fonts as $font ) {
+					$font_key = sanitize_title( $font->family );
+
+					$type     = $this->get_font_type( $font->category, false );
+					$alt_font = $this->get_font_type( $font->category, true );
+
+					$variants = array_map(
+						array( $this, 'map_variants' ),
+						$font->variants
+					);
+
+					$val = str_replace( ' ', '+', $font->family ) . ':' . implode( ',', $variants );
+
+					$fonts[ $font_key ] = dpp_font(
+						array(
+							'src'    => 'web',
+							'url'    => esc_url( 'https://fonts.google.com/specimen/' . str_replace( ' ', '+', $font->family ) ),
+							'label'  => $font->family,
+							'css'    => '"' . $font->family . '", ' . $alt_font,
+							'type'   => $type,
+							'source' => $this->name,
+							'val'    => $val,
+							'link'   => '//fonts.googleapis.com/css?family=' . $val,
+						)
+					);
+				}
+
+				// Cache the fonts.
+				$this->cache_fonts( $fonts );
+
+				return $fonts;
+			} else {
+				$this->log_api_error( $response['body'] );
+			}
+		} else {
+			$this->log_api_error( $response['body'] );
+		}
+
+		return array();
+	}
+
+	/**
+	 * Log Google API errors.
+	 *
+	 * @param mixed $api_error The API error to log.
+	 */
+	protected function log_api_error( $api_error ) {
+		$logging_enabled = get_option( $this->logging_enabled_key, false );
+
+		// Only log errors if logging is enabled.
+		if ( empty( $logging_enabled ) ) {
+			return;
+		}
+
+		$log_key         = 'gppro_google_webfonts_log';
+		$error_log       = get_option( $log_key, array() );
+		$error_log_count = count( $error_log );
+		$max_error_count = 100;
+
+		if ( $error_log_count >= $max_error_count ) {
+			array_shift( $error_log );
+		}
+
+		$error_log[] = array(
+			'date'    => date( 'Y-m-d H:i:s' ),
+			'message' => $api_error,
+		);
+
+		update_option( $log_key, $error_log );
+	}
+
+	/**
+	 * Cache the fonts.
+	 *
+	 * @param array $fonts The fonts to cache.
+	 */
+	protected function cache_fonts( $fonts ) {
+		// Set the expiration to 6 hours.
+		$expiration = 6 * HOUR_IN_SECONDS;
+
+		set_transient( $this->transient_key, $fonts, $expiration );
+		update_option( $this->option_key, $fonts );
+	}
+
+	/**
+	 * Maybe delete the font transient.
+	 */
+	protected function maybe_delete_font_cache() {
+		// First make sure this happens in the WP admin and that the user is an administrator.
+		if ( ! is_admin() && ! current_user_can( 'administrator' ) ) {
+			return;
+		}
+
+		// Check for the dpp-delete-font-cache flag.
+		if ( isset( $_GET['dpp-delete-font-cache'] ) ) {
+			delete_transient( $this->transient_key );
+
+			add_action( 'admin_notices', array( $this, 'delete_cache_admin_notice' ) );
+		}
+	}
+
+	/**
+	 * Trigger when an option is updated.
+	 *
+	 * @param string $option    The updated option.
+	 * @param mixed  $old_value The old option value.
+	 * @param mixed  $value     The new option value.
+	 */
+	public function updated_option( $option, $old_value, $value ) {
+		if ( $option !== $this->logging_enabled_key ) {
+			return;
+		}
+
+		// Clear the cache when logging is enabled.
+		if ( '1' === $value ) {
+			$this->log_api_error( 'Logging enabled' );
+			delete_transient( $this->transient_key );
+		}
+	}
+
+	/**
+	 * Display an admin notice that the cache was cleared.
+	 */
+	public function delete_cache_admin_notice() {
+		?>
+	<div class="notice notice-success is-dismissible">
+		<p><?php esc_html_e( 'Font cache successfully cleared', 'gppro-google-webfonts' ); ?></p>
+	</div>
+		<?php
+	}
+
+	/**
+	 * Get the cached fonts.
+	 *
+	 * @return array
+	 */
+	protected function get_cached_fonts() {
+		$fonts = get_transient( $this->transient_key );
+
+		if ( ! empty( $fonts ) ) {
+			return $fonts;
+		}
+
+		return array();
+	}
+
+	/**
+	 * Get fonts from the font option.
+	 *
+	 * @return array
+	 */
+	protected function get_fonts_option() {
+		$fonts = get_option( $this->option_key, array() );
+
+		return $fonts;
 	}
 
 	/**
@@ -333,6 +518,70 @@ class Google extends \DPP\Admin\Fonts\Source {
 	<link href="<?php echo esc_url( $google_url ); ?>" rel="stylesheet" /> 
 			<?php
 		}
+	}
+
+	/**
+	 * Maybe import fonts.
+	 */
+	public function maybe_import_fonts() {
+		// check nonce and bail if missing.
+		if ( empty( $_POST['gppro_webfonts_import_nonce'] ) || ! wp_verify_nonce( $_POST['gppro_webfonts_import_nonce'], 'gppro_webfonts_import' ) ) {
+			return;
+		}
+
+		// bail if no page reference.
+		if ( empty( $_GET['gppro-import'] ) || ! empty( $_GET['gppro-import'] ) && 'go' !== $_GET['gppro-import'] ) {
+			return;
+		}
+
+		// bail if no file present.
+		if ( ! isset( $_FILES['gppro-google-webfonts-import-fonts'] ) ) {
+			// set my redirect URL.
+			$failure = menu_page_url( 'genesis-palette-pro', 0 ) . '&section=build_settings&uploaded=failure&reason=nofile';
+
+			// and do the redirect.
+			wp_safe_redirect( $failure );
+			exit;
+		}
+
+		// bail if no file present.
+		if ( ! empty( $_FILES['gppro-google-webfonts-import-fonts']['error'] ) && 4 === $_FILES['gppro-google-webfonts-import-fonts']['error'] ) {
+			// set my redirect URL.
+			$failure = menu_page_url( 'genesis-palette-pro', 0 ) . '&section=build_settings&uploaded=failure&reason=nofile';
+
+			// and do the redirect.
+			wp_safe_redirect( $failure );
+			exit;
+		}
+
+		// check file extension.
+		$name = explode( '.', $_FILES['gppro-google-webfonts-import-fonts']['name'] );
+		if ( end( $name ) !== 'json' ) {
+
+			// set my redirect URL.
+			$failure = menu_page_url( 'genesis-palette-pro', 0 ) . '&section=build_settings&uploaded=failure&reason=notjson';
+
+			// and do the redirect.
+			wp_safe_redirect( $failure );
+			exit;
+		}
+
+		// passed our initial checks, now decode the file and check the contents.
+		$upload  = file_get_contents( $_FILES['gppro-google-webfonts-import-fonts']['tmp_name'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents, WordPress.WP.AlternativeFunctions.file_system_read_file_get_contents
+		$options = json_decode( $upload, true );
+
+		// check for valid JSON.
+		if ( null === $options ) {
+
+			// set my redirect URL.
+			$failure = menu_page_url( 'genesis-palette-pro', 0 ) . '&section=build_settings&uploaded=failure&reason=badjson';
+
+			// and do the redirect.
+			wp_safe_redirect( $failure );
+			exit;
+		}
+
+		update_option( $this->option_key, $options );
 	}
 
 }
