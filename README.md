@@ -3,7 +3,7 @@
 
 **Requires at least:** 4.0
 
-**Tested up to:** 5.3
+**Tested up to:** 5.4
 
 **Stable tag:** 2.0.1
 

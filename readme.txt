@@ -1,7 +1,7 @@
 === Genesis Design Palette Pro - Google Web Fonts ===
 Contributors: norcross, jjeaton, reaktivstudios
 Requires at least: 4.0
-Tested up to: 5.3
+Tested up to: 5.4
 Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
